@@ -1,3 +1,34 @@
-h1 {
-  color: #ff0000;
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+}
+
+.header {
+  position: fixed;
+  width: 100%;
+  height: 88px;
+}
+
+.wrapper {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0 20px;
+}
+
+.content {
+  width: 100%;
+  max-width: var(--max-width-content);
+  margin: 0 auto;
+  padding-top: 88px;
+}
+
+.footer {
+  position: relative;
+  bottom: 0;
+
+  width: 100%;
 }
