@@ -1,5 +1,28 @@
 :host {
   display: block;
 
-  background-color: lightcoral;
+  background-color: var(--app-color-neutral70);
+}
+
+.wrapper {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  padding: 0 20px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  max-width: var(--max-width-content);
+  height: 100%;
+  margin: 0 auto;
+
+  &__logo {
+    cursor: pointer;
+  }
+
+  &-button {
+    width: 200px;
+  }
 }

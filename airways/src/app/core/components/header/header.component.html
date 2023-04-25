@@ -1,1 +1,13 @@
-<p>header works!</p>
+<div class="wrapper">
+  <div class="header">
+    <img
+      class="header__logo"
+      src="./assets/logo.svg"
+      alt="Logo"
+      width="114px"
+      height="40px"
+      (click)="onClickLogo()"
+    />
+    <app-login-button [isDefMode]="false" [userName]="''"></app-login-button>
+  </div>
+</div>

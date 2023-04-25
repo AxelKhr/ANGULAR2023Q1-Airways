@@ -1,0 +1,26 @@
+.login {
+  height: 40px;
+
+  &.def {
+    color: var(--app-color-neutral10);
+  }
+
+  &.alt {
+    color: var(--app-color-neutral100);
+    border-color: var(--app-color-neutral60);
+    background-color: var(--app-color-neutral90);
+  }
+
+  mat-icon {
+    box-sizing: border-box;
+    width: 24px;
+    height: 24px;
+
+    border-radius: 50%;
+
+    &.user {
+      background-color: #f1f3f6;
+      color: var(--app-color-neutral10);
+    }
+  }
+}
