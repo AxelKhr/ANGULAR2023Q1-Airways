@@ -22,7 +22,13 @@
     cursor: pointer;
   }
 
-  &-button {
-    width: 200px;
+  &__cart {
+    &.def {
+      color: var(--app-color-neutral10);
+    }
+  
+    &.alt {
+      color: var(--app-color-neutral100);
+    }
   }
 }

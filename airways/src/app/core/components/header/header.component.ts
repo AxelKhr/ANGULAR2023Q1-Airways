@@ -9,6 +9,8 @@ import { Router } from '@angular/router';
 export class HeaderComponent {
   bookingStep = 0;
 
+  orderCount = 5;
+
   constructor(private router: Router) { }
 
   onClickLogo() {

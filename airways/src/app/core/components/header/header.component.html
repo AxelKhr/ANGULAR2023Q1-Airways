@@ -9,5 +9,14 @@
       (click)="onClickLogo()"
     />
     <app-login-button [isDefMode]="false" [userName]="''"></app-login-button>
+    <button mat-icon-button color="primary" class="header__cart" [ngClass]="'alt'">
+      <mat-icon
+        svgIcon="cart"
+        [matBadge]="orderCount"
+        matBadgeColor="warn"
+        matBadgeSize="medium"
+        [matBadgeHidden]="orderCount === 0"
+      />
+    </button>
   </div>
 </div>
