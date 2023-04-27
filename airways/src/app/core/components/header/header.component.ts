@@ -11,9 +11,15 @@ export class HeaderComponent {
 
   orderCount = 5;
 
+  dateFormat = '';
+
   constructor(private router: Router) { }
 
   onClickLogo() {
     this.router.navigate(['/']);
+  }
+
+  onChangeFormat(value: string) {
+    this.dateFormat = value;
   }
 }

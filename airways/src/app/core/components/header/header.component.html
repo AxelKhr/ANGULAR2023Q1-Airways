@@ -8,6 +8,7 @@
       height="40px"
       (click)="onClickLogo()"
     />
+    <app-date-format [isDefMode]="false" (setFormatEvent)="onChangeFormat($event)"></app-date-format>
     <app-login-button [isDefMode]="false" [userName]="''"></app-login-button>
     <button mat-icon-button color="primary" class="header__cart" [ngClass]="'alt'">
       <mat-icon
