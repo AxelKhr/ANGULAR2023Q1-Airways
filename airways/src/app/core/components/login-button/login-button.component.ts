@@ -6,7 +6,16 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./login-button.component.scss'],
 })
 export class LoginButtonComponent {
-  @Input() isDefMode = false;
+  @Input()
+  set isDefMode(value: boolean | null) {
+    this.isDefModeValue = (value === null) ? false : value;
+  }
+
+  get isDefMode(): boolean {
+    return this.isDefModeValue;
+  }
 
   @Input() userName = '';
+
+  isDefModeValue = false;
 }

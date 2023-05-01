@@ -1,4 +1,4 @@
-<div class="wrapper">
+<div class="wrapper" [ngClass]="(isDefStyle$ | async) ? 'def' : 'alt'">
   <div class="header">
     <img
       class="header__logo"
@@ -9,16 +9,19 @@
       (click)="onClickLogo()"
     />
     <app-date-format
-      [isDefMode]="false"
+      [isDefMode]="isDefStyle$ | async"
       [format]="dateFormat$ | async"
       (setFormatEvent)="onChangeFormat($event)"
     ></app-date-format>
-    <app-login-button [isDefMode]="false" [userName]="''"></app-login-button>
+    <app-login-button
+      [isDefMode]="isDefStyle$ | async"
+      [userName]="''"
+    ></app-login-button>
     <button
       mat-icon-button
       color="primary"
       class="header__cart"
-      [ngClass]="'alt'"
+      [ngClass]="(isDefStyle$ | async) ? 'def' : 'alt'"
     >
       <mat-icon
         svgIcon="cart"

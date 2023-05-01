@@ -1,5 +1,5 @@
 import {
-  Component, ViewEncapsulation, Input, OnInit, OnChanges, SimpleChanges, Output, EventEmitter,
+  Component, ViewEncapsulation, Input, OnInit, Output, EventEmitter,
 } from '@angular/core';
 import { DATE_FORMATS } from 'src/app/environment/constants/date-formats';
 
@@ -9,8 +9,16 @@ import { DATE_FORMATS } from 'src/app/environment/constants/date-formats';
   styleUrls: ['./date-format.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class DateFormatComponent implements OnInit, OnChanges {
-  @Input() isDefMode = true;
+export class DateFormatComponent implements OnInit {
+  @Input()
+  set isDefMode(value: boolean | null) {
+    this.isDefModeValue = (value === null) ? false : value;
+    this.setStyle();
+  }
+
+  get isDefMode(): boolean {
+    return this.isDefModeValue;
+  }
 
   @Input()
   set format(value: string | null) {
@@ -24,6 +32,8 @@ export class DateFormatComponent implements OnInit, OnChanges {
   }
 
   @Output() setFormatEvent = new EventEmitter<string>();
+
+  isDefModeValue = true;
 
   dateFormats = DATE_FORMATS;
 
@@ -39,14 +49,12 @@ export class DateFormatComponent implements OnInit, OnChanges {
     this.dateFormatValue = this.format;
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes['isDefMode']) {
-      this.setStyle();
-    }
-  }
-
   private setStyle() {
-    if (!this.isDefMode) {
+    if (this.isDefModeValue) {
+      this.fieldColor = '';
+      this.borderColor = '';
+      this.backgroundColor = '';
+    } else {
       const style = getComputedStyle(document.body);
       this.fieldColor = style.getPropertyValue('--app-color-neutral100');
       this.borderColor = style.getPropertyValue('--app-color-neutral60');

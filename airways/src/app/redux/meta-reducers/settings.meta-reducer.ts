@@ -1,6 +1,6 @@
 import { Action, ActionReducer } from '@ngrx/store';
 import { saveSettings } from 'src/app/core/storage/storage';
-import { SettingsActionTypes } from '../actions/settings.action';
+import { SettingsActionTypes } from '../actions/settings.actions';
 import { StateModel } from '../state.model';
 
 export function settingsMetaReducer<S, A extends Action = Action>(reducer: ActionReducer<S, A>) {

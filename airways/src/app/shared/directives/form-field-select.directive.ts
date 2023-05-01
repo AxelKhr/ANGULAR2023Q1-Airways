@@ -1,13 +1,13 @@
 /* eslint-disable no-underscore-dangle */
 import {
-  Directive, AfterViewInit, Input, ElementRef, Renderer2,
+  Directive, AfterViewInit, Input, ElementRef, Renderer2, OnChanges,
 } from '@angular/core';
 import { MatFormField } from '@angular/material/form-field';
 
 @Directive({
   selector: '[appFormFieldStyle]',
 })
-export class FormFieldSelectDirective implements AfterViewInit {
+export class FormFieldSelectDirective implements OnChanges, AfterViewInit {
   @Input('appFormFieldStyle') fieldRef!: MatFormField;
 
   @Input() borderColor = '';
@@ -18,7 +18,19 @@ export class FormFieldSelectDirective implements AfterViewInit {
 
   constructor(private element: ElementRef, private renderer: Renderer2) { }
 
+  ngOnChanges() {
+    this.setStyle();
+  }
+
   ngAfterViewInit() {
+    this.setStyle();
+  }
+
+  getElement(selector: string) {
+    return this.fieldRef._elementRef.nativeElement.querySelector(selector) as HTMLElement;
+  }
+
+  setStyle() {
     const fieldInfix = this.getElement('.mat-mdc-form-field-infix');
     this.renderer.setStyle(fieldInfix, 'min-height', '40px');
     this.renderer.setStyle(fieldInfix, 'padding-top', '8px');
@@ -42,9 +54,5 @@ export class FormFieldSelectDirective implements AfterViewInit {
         this.renderer.setStyle(item, 'border-color', this.borderColor);
       });
     }
-  }
-
-  getElement(selector: string) {
-    return this.fieldRef._elementRef.nativeElement.querySelector(selector) as HTMLElement;
   }
 }

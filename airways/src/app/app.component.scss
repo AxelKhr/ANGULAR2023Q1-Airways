@@ -1,5 +1,10 @@
 $header-height: 88px;
 
+app-header{
+  position: relative;
+  z-index: 1;
+}
+
 .container {
   position: relative;
 

@@ -15,6 +15,9 @@ export class HeaderComponent {
 
   orderCount = 5;
 
+  isDefStyle$: Observable<boolean> = this.store
+    .select((Selectors.general.selectIsMainStyleInverse));
+
   dateFormat$: Observable<string> = this.store.select((Selectors.settings.selectDateFormat));
 
   constructor(private router: Router, private store: Store) { }

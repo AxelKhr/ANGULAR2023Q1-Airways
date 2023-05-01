@@ -1,7 +1,5 @@
 :host {
   display: block;
-
-  background-color: var(--app-color-neutral70);
 }
 
 .wrapper {
@@ -9,6 +7,14 @@
   width: 100%;
   height: 100%;
   padding: 0 var(--app-wrapper-padding);
+
+  &.def {
+    background-color: var(--app-background-color-components);
+  }
+
+  &.alt {
+    background-color: var(--app-color-neutral70);
+  }
 }
 
 .header {
