@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import * as Actions from 'src/app/redux/actions';
+import * as Selectors from 'src/app/redux/selectors';
 
 @Component({
   selector: 'app-header',
@@ -11,15 +15,15 @@ export class HeaderComponent {
 
   orderCount = 5;
 
-  dateFormat = '';
+  dateFormat$: Observable<string> = this.store.select((Selectors.settings.selectDateFormat));
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private store: Store) { }
 
   onClickLogo() {
     this.router.navigate(['/']);
   }
 
   onChangeFormat(value: string) {
-    this.dateFormat = value;
+    this.store.dispatch(Actions.settings.setDateFormat({ dateFormat: value }));
   }
 }

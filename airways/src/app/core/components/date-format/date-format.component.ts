@@ -1,7 +1,7 @@
 import {
   Component, ViewEncapsulation, Input, OnInit, OnChanges, SimpleChanges, Output, EventEmitter,
 } from '@angular/core';
-import { DATE_FORMATS } from 'src/app/shared/constants/date-formats';
+import { DATE_FORMATS } from 'src/app/environment/constants/date-formats';
 
 @Component({
   selector: 'app-date-format',
@@ -12,7 +12,16 @@ import { DATE_FORMATS } from 'src/app/shared/constants/date-formats';
 export class DateFormatComponent implements OnInit, OnChanges {
   @Input() isDefMode = true;
 
-  @Input() format = DATE_FORMATS[0];
+  @Input()
+  set format(value: string | null) {
+    if (value) {
+      this.dateFormatValue = value;
+    }
+  }
+
+  get format(): string {
+    return this.dateFormatValue;
+  }
 
   @Output() setFormatEvent = new EventEmitter<string>();
 
