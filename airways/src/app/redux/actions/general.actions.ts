@@ -1,7 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 
 export enum GeneralActionTypes {
-  setIsMainStyle = '[General] SET_IS_MAIN_STYLE',
+  setIsMainStyle = '[General] set main style flag',
 }
 
 export const setIsMainStyle = createAction(

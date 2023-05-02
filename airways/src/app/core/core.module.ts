@@ -4,8 +4,10 @@ import { HeaderComponent } from './components/header/header.component';
 import { NotfoundPageComponent } from './pages/notfound-page/notfound-page.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { LoginButtonComponent } from './components/login-button/login-button.component';
-import { MaterialModule } from '../shared/material.module';
 import { DateFormatComponent } from './components/date-format/date-format.component';
+import { CurrencySelectorComponent } from './components/currency-selector/currency-selector.component';
+import { MatMenuClassDirective } from './directives/mat-menu-class.directive';
+import { FormFieldSelectDirective } from './directives/form-field-select.directive';
 
 @NgModule({
   declarations: [
@@ -14,10 +16,12 @@ import { DateFormatComponent } from './components/date-format/date-format.compon
     NotfoundPageComponent,
     LoginButtonComponent,
     DateFormatComponent,
+    CurrencySelectorComponent,
+    FormFieldSelectDirective,
+    MatMenuClassDirective,
   ],
   imports: [
     SharedModule,
-    MaterialModule,
   ],
   exports: [
     HeaderComponent,

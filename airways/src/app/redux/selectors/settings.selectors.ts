@@ -7,3 +7,8 @@ export const selectDateFormat = createSelector(
   selectSettingsState,
   (state) => state.dateFormat,
 );
+
+export const selectCurrency = createSelector(
+  selectSettingsState,
+  (state) => state.currency,
+);

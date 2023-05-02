@@ -1,19 +1,16 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { FormFieldSelectDirective } from './directives/form-field-select.directive';
+import { MaterialModule } from './material.module';
 
 @NgModule({
-  declarations: [
-    FormFieldSelectDirective,
-  ],
+  declarations: [],
   imports: [
     CommonModule,
+    MaterialModule,
   ],
   exports: [
     CommonModule,
-    FormsModule,
-    FormFieldSelectDirective,
+    MaterialModule,
   ],
 })
 export class SharedModule { }

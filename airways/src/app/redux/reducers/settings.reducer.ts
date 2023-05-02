@@ -11,4 +11,8 @@ export const settingsReducer = createReducer(
     ...state,
     dateFormat,
   })),
+  on(SettingsActions.setCurrency, (state, { currency }): IAppSettingsModel => ({
+    ...state,
+    currency,
+  })),
 );

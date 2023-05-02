@@ -8,28 +8,40 @@
       height="40px"
       (click)="onClickLogo()"
     />
+    <div class="header__center">
+      <p *ngIf="(isDefStyle$ | async) === false" class="header__title">
+        Book flights
+      </p>
+    </div>
     <app-date-format
       [isDefMode]="isDefStyle$ | async"
       [format]="dateFormat$ | async"
       (setFormatEvent)="onChangeFormat($event)"
     ></app-date-format>
-    <app-login-button
+    <app-currency-selector
       [isDefMode]="isDefStyle$ | async"
-      [userName]="''"
-    ></app-login-button>
-    <button
-      mat-icon-button
-      color="primary"
-      class="header__cart"
-      [ngClass]="(isDefStyle$ | async) ? 'def' : 'alt'"
-    >
-      <mat-icon
-        svgIcon="cart"
-        [matBadge]="orderCount"
-        matBadgeColor="warn"
-        matBadgeSize="medium"
-        [matBadgeHidden]="orderCount === 0"
-      />
-    </button>
+      [currency]="currency$ | async"
+      (setCurrencyEvent)="onChangeCurrency($event)"
+    ></app-currency-selector>
+    <div class="header__right">
+      <app-login-button
+        [isDefMode]="isDefStyle$ | async"
+        [userName]="''"
+      ></app-login-button>
+      <button
+        mat-icon-button
+        color="primary"
+        class="header__cart"
+        [ngClass]="(isDefStyle$ | async) ? 'def' : 'alt'"
+      >
+        <mat-icon
+          svgIcon="cart"
+          [matBadge]="orderCount"
+          matBadgeColor="warn"
+          matBadgeSize="medium"
+          [matBadgeHidden]="orderCount === 0"
+        />
+      </button>
+    </div>
   </div>
 </div>

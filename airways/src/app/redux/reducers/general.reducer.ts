@@ -15,6 +15,6 @@ export const generalReducer = createReducer(
   })),
   on(routerNavigatedAction, (state, { payload }): IGeneralStateModel => ({
     ...state,
-    isMainStyle: payload.event.url.includes('main'),
+    isMainStyle: payload.event.urlAfterRedirects.includes('main'),
   })),
 );

@@ -20,6 +20,8 @@ export class HeaderComponent {
 
   dateFormat$: Observable<string> = this.store.select((Selectors.settings.selectDateFormat));
 
+  currency$: Observable<string> = this.store.select((Selectors.settings.selectCurrency));
+
   constructor(private router: Router, private store: Store) { }
 
   onClickLogo() {
@@ -28,5 +30,9 @@ export class HeaderComponent {
 
   onChangeFormat(value: string) {
     this.store.dispatch(Actions.settings.setDateFormat({ dateFormat: value }));
+  }
+
+  onChangeCurrency(value: string) {
+    this.store.dispatch(Actions.settings.setCurrency({ currency: value }));
   }
 }
