@@ -1,0 +1,14 @@
+.trigger {
+  width: 64px;
+  height: 40px;
+
+  &.def {
+    color: var(--app-color-neutral10);
+  }
+
+  &.alt {
+    color: var(--app-color-neutral100);
+    border-color: var(--app-color-neutral60);
+    background-color: var(--app-color-neutral90);
+  }
+}

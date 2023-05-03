@@ -1,0 +1,18 @@
+<button
+  mat-stroked-button
+  [matMenuTriggerFor]="currencyMenu"
+  class="trigger"
+  [ngClass]="isDefModeValue ? 'def' : 'alt'"
+>
+  {{ currencySelected }}
+</button>
+<mat-menu #currencyMenu="matMenu" appMatMenuClass="menu--currency">
+  <button
+    mat-menu-item
+    class="list__item"
+    *ngFor="let currencyItem of currencyList"
+    (click)="onClick(currencyItem)"
+  >
+    {{ currencyItem }}
+  </button>
+</mat-menu>

@@ -2,6 +2,7 @@
 // For more information: https://material.angular.io/guide/theming
 @use '@angular/material' as mat;
 // Plus imports for other components in your app.
+@import './styles/typography.scss';
 
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
@@ -27,7 +28,8 @@ $airways-theme: mat.define-light-theme((
     primary: $airways-primary,
     accent: $airways-accent,
     warn: $airways-warn,
-  )
+  ),
+  typography: mat.define-typography-config()
 ));
 
 // Include theme styles for core and each component used in your app.
@@ -35,9 +37,13 @@ $airways-theme: mat.define-light-theme((
 // that you are using.
 @include mat.all-component-themes($airways-theme);
 
+@include mat.button-typography($button-typography-config);
+
 /* You can add global styles to this file, and also import other style files */
 
 @import './styles/vars.scss';
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+@import './styles/matMenu.scss';
