@@ -6,12 +6,14 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
+import { EffectsModule } from '@ngrx/effects';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { reducers } from './redux/reducers';
 import { metaReducers } from './redux/meta-reducers';
 import { IconsModule } from './shared/icons.module';
+import { effects } from './redux/effects';
 
 @NgModule({
   declarations: [
@@ -27,6 +29,7 @@ import { IconsModule } from './shared/icons.module';
     IconsModule,
     HttpClientModule,
     StoreRouterConnectingModule.forRoot(),
+    EffectsModule.forRoot(effects),
   ],
   providers: [],
   bootstrap: [AppComponent],

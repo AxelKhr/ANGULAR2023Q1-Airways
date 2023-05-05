@@ -29,7 +29,7 @@ export class SearchPageComponent implements OnInit {
       child: new FormControl(0),
       infant: new FormControl(0),
     },
-    { validators: validatePassengers as ValidatorFn }
+    { validators: validatePassengers as ValidatorFn },
   );
 
   searchForm: FormGroup = new FormGroup({
@@ -158,7 +158,8 @@ export class SearchPageComponent implements OnInit {
 
     return this.options.filter((airport) => Object.values(airport).some(
       (el) => el.toLowerCase().includes(filterValue)
-      || `${airport.city} ${airport.code}`.toLowerCase().includes(filterValue)));
+      || `${airport.city} ${airport.code}`.toLowerCase().includes(filterValue),
+    ));
   }
 
   protected reverseDestinations() {

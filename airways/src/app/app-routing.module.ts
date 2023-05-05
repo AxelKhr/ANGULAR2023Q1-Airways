@@ -11,6 +11,10 @@ const routes: Routes = [
     path: 'listing',
     loadChildren: () => import('./listing/listing.module').then((m) => m.ListingModule),
   },
+  {
+    path: 'test',
+    loadChildren: () => import('./test/test.module').then((m) => m.TestModule),
+  },
   { path: '', redirectTo: 'main', pathMatch: 'full' },
   { path: '**', component: NotfoundPageComponent },
 ];
