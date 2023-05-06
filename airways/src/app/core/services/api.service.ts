@@ -15,6 +15,10 @@ export class ApiService {
     return `${API_DEF.API_URL_BASE}/${path}`;
   }
 
+  private handlerError(error: HttpErrorResponse) {
+    return throwError(() => error.message);
+  }
+
   getCountryCodes() {
     return this.http.get<ICountryCodeModel[]>(
       this.getApiUrl(API_DEF.API_URL_COUNTRY_CODES),
@@ -31,9 +35,5 @@ export class ApiService {
       retry(API_DEF.API_NUMBER_OF_REPEATS),
       catchError(this.handlerError),
     );
-  }
-
-  private handlerError(error: HttpErrorResponse) {
-    return throwError(() => new Error(error.message));
   }
 }

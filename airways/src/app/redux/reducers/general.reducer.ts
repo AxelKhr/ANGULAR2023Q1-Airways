@@ -24,5 +24,5 @@ export const generalReducer = createReducer(
     countryCodes: [...data.countryCodes],
     airports: [...data.airports],
   })),
-  on(GeneralActions.loadStaticDataFailed, (state): IGeneralStateModel => ({ ...state })),
+  on(GeneralActions.loadStaticDataFailed, (state): IGeneralStateModel => state),
 );
