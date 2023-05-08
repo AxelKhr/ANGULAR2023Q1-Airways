@@ -1,5 +1,5 @@
 <div class="container">
-  <div class="background">
+  <div *ngIf="isBackgroundVisible$ | async" class="background">
     <div></div>
   </div>
   <div class="header">
