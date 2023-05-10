@@ -1,10 +1,5 @@
 <div class="search">
-  <form
-    action=""
-    class="search__form"
-    [formGroup]="searchForm"
-    (ngSubmit)="temp()"
-  >
+  <form class="search__form" [formGroup]="searchForm" (ngSubmit)="temp()">
     <mat-radio-group formControlName="isRound">
       <mat-radio-button value="true">Round trip</mat-radio-button>
       <mat-radio-button value="false">One way</mat-radio-button>
@@ -135,7 +130,7 @@
         [formGroup]="passengersForm"
         [ngClass]="{ error: passengersForm.invalid }"
       >
-        <label [ngClass]="{ error: passengersForm.invalid }">Passangers</label>
+        <label [ngClass]="{ error: passengersForm.invalid }">Passengers</label>
         <span>
           {{ passengerMessage }}
         </span>

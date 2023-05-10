@@ -1,4 +1,4 @@
-export interface IAirportInterface {
+export interface IAirport {
   code: string;
   name: string;
   city: string;
@@ -6,7 +6,7 @@ export interface IAirportInterface {
 }
 
 export interface IPassengersQty {
-  adults: number;
+  adult: number;
   child: number;
   infant: number;
 }
