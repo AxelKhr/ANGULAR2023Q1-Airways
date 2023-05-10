@@ -10,7 +10,11 @@
       <mat-radio-button value="false">One way</mat-radio-button>
     </mat-radio-group>
 
-    <mat-form-field style="margin-bottom: -15px" appearance="outline">
+    <mat-form-field
+      style="margin-bottom: -15px"
+      appearance="outline"
+      floatLabel="always"
+    >
       <mat-label>From</mat-label>
       <input
         type="text"
@@ -42,7 +46,7 @@
       </mat-autocomplete>
     </mat-form-field>
 
-    <mat-form-field appearance="outline">
+    <mat-form-field appearance="outline" floatLabel="always">
       <mat-label>Destination</mat-label>
       <input
         type="text"
@@ -87,6 +91,7 @@
           else oneWayDatePicker
         "
         appearance="outline"
+        floatLabel="always"
       >
         <mat-label>Dates</mat-label>
         <mat-date-range-input [rangePicker]="picker" [min]="currentDate">
@@ -106,13 +111,14 @@
       </mat-form-field>
 
       <ng-template #oneWayDatePicker>
-        <mat-form-field appearance="outline">
+        <mat-form-field appearance="outline" floatLabel="always">
           <mat-label>Date</mat-label>
           <input
             matInput
             [min]="currentDate"
             [matDatepicker]="picker"
             formControlName="dateStart"
+            placeholder="Departure"
           />
           <mat-hint>MM/DD/YYYY</mat-hint>
           <mat-datepicker-toggle

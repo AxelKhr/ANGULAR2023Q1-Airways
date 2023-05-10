@@ -1,0 +1,46 @@
+<div class="contacts" formGroupName="contacts">
+  <mat-form-field floatLabel="always">
+    <mat-label>Country code</mat-label>
+    <mat-select formControlName="countryCode">
+      <mat-option
+        *ngFor="let code of countryCodes"
+        [value]="code"
+        class="contacts__code-option"
+      >
+        {{ code.country + " " + code.code }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field floatLabel="always" class="contacts__phone">
+    <mat-label>Mobile phone number</mat-label>
+    <input matInput placeholder="e.g. 11111111" formControlName="phoneNumber" />
+    <mat-error
+      *ngIf="
+        phoneNumber?.hasError('pattern') && !phoneNumber?.hasError('required')
+      "
+      >Invalid character
+    </mat-error>
+
+    <mat-error *ngIf="phoneNumber?.hasError('required')">
+      Phone number is required
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="contacts__email" floatLabel="always">
+    <mat-label>Email</mat-label>
+    <input
+      matInput
+      placeholder="e.g. example@email.com"
+      formControlName="email"
+    />
+    <mat-error
+      *ngIf="email?.hasError('pattern') && !email?.hasError('required')"
+    >
+      Invalid email
+    </mat-error>
+    <mat-error *ngIf="email?.hasError('required')">
+      Email is required
+    </mat-error>
+  </mat-form-field>
+</div>

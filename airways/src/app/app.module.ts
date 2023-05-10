@@ -11,12 +11,9 @@ import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { reducers } from './redux/reducers';
 import { metaReducers } from './redux/meta-reducers';
-import { IconsModule } from './shared/icons.module';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -24,11 +21,10 @@ import { IconsModule } from './shared/icons.module';
     BrowserAnimationsModule,
     StoreModule.forRoot(reducers, { metaReducers }),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
-    IconsModule,
     HttpClientModule,
     StoreRouterConnectingModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
