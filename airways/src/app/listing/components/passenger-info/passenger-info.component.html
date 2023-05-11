@@ -76,7 +76,8 @@
       <input
         matInput
         [matDatepicker]="picker"
-        formControlName="birthDate"
+        formControlName="dateBirth"
+        [max]='currentDate'
         [placeholder]="(dateFormat | async) || 'DD/MM/YYYY'"
       />
       <mat-datepicker-toggle
@@ -94,7 +95,7 @@
   <div class="passenger__footer" *ngIf="passengerType !== 'infant'">
     <div class="checkbox-slide">
       <label class="switch">
-        <input type="checkbox" formControlName="needAssistant" />
+        <input type="checkbox" formControlName="needAssistance" />
         <div class="slider round"></div>
       </label>
       <div class="checkbox-slide__info">
@@ -105,7 +106,7 @@
 
     <div class="checkbox-slide">
       <label class="switch">
-        <input type="checkbox" formControlName="luggage" />
+        <input type="checkbox" formControlName="baggage" />
         <div class="slider round"></div>
       </label>
       <div class="checkbox-slide__info">

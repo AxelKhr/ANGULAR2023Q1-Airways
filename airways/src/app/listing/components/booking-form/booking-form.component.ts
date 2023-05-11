@@ -7,7 +7,7 @@ import { FormGroup } from '@angular/forms';
   styleUrls: ['./booking-form.component.scss'],
 })
 export class BookingFormComponent {
-  passengers = { adult: 1, child: 0, infant: 0 };
+  passengers = { adult: 1, child: 1, infant: 1 };
 
   passengersArray: string[] = [];
 

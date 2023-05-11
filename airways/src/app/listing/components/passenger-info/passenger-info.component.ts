@@ -32,6 +32,8 @@ export class PassengerInfoComponent implements OnInit {
 
   dateFormat: Observable<string>;
 
+  currentDate = new Date();
+
   constructor(
     private parent: FormGroupDirective,
     formBuilder: FormBuilder,
@@ -48,9 +50,9 @@ export class PassengerInfoComponent implements OnInit {
         [Validators.required, Validators.pattern(/^[A-Za-z\s]*$/)],
       ],
       sex: ['male'],
-      birthDate: [null, [Validators.required]],
-      needAssistant: [false],
-      luggage: [false],
+      dateBirth: [null, [Validators.required]],
+      needAssistance: [false],
+      baggage: [false],
     });
 
     this.dateFormat = store.select(selectDateFormat);
