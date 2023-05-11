@@ -17,6 +17,7 @@
       </ng-template>
       <ng-template #headerStepper>
         <app-booking-stepper
+          *ngIf="bookingStep$ | async"
           [steps]="bookingStepsList"
           [current]="bookingStep$ | async"
         />

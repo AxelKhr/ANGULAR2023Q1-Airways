@@ -12,7 +12,7 @@
           <div class="icon__text">{{ i + 1 }}</div>
         </ng-template>
       </div>
-      <span class="step__label">{{ step }}</span>
+      <span class="step__label">{{ step.label }}</span>
     </div>
     <div *ngIf="i < steps.length - 1" class="stepper__spacer"></div>
   </ng-template>

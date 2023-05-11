@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { IBookingStepModel } from 'src/app/booking/models/booking-step.model';
 import { BOOKING_STEPS } from 'src/app/environment/constants/booking';
 import * as Actions from 'src/app/redux/actions';
 import * as Selectors from 'src/app/redux/selectors';
@@ -12,7 +13,8 @@ import * as Selectors from 'src/app/redux/selectors';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent {
-  bookingStep$: Observable<string> = this.store.select((Selectors.general.selectBookingStep));
+  bookingStep$:
+  Observable<IBookingStepModel | null> = this.store.select((Selectors.booking.selectStep));
 
   bookingStepsList = BOOKING_STEPS;
 

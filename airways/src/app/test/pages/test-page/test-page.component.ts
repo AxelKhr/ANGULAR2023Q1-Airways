@@ -13,7 +13,7 @@ import { BOOKING_STEPS } from 'src/app/environment/constants/booking';
 export class TestPageComponent {
   countryCodes: ICountryCodeModel[] = [];
 
-  private step = -1;
+  private stepNum = -1;
 
   constructor(private store: Store, private messageBarService: MessageBarService) {}
 
@@ -22,8 +22,8 @@ export class TestPageComponent {
   }
 
   onClick2() {
-    this.step = (this.step < 2) ? this.step + 1 : -1;
-    const bookingStep = (this.step === -1) ? '' : BOOKING_STEPS[this.step];
-    this.store.dispatch(AppActions.general.setBookingStep({ step: bookingStep }));
+    this.stepNum = (this.stepNum < 2) ? this.stepNum + 1 : -1;
+    const bookingStep = (this.stepNum < 0) ? null : BOOKING_STEPS[this.stepNum];
+    this.store.dispatch(AppActions.booking.setStep({ step: bookingStep }));
   }
 }
