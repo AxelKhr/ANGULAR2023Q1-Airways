@@ -8,6 +8,7 @@ import { DateFormatComponent } from './components/date-format/date-format.compon
 import { CurrencySelectorComponent } from './components/currency-selector/currency-selector.component';
 import { MatMenuClassDirective } from './directives/mat-menu-class.directive';
 import { FormFieldSelectDirective } from './directives/form-field-select.directive';
+import { BookingStepperComponent } from './components/booking-stepper/booking-stepper.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { FormFieldSelectDirective } from './directives/form-field-select.directi
     CurrencySelectorComponent,
     FormFieldSelectDirective,
     MatMenuClassDirective,
+    BookingStepperComponent,
   ],
   imports: [
     SharedModule,

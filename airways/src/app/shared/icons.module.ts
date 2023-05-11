@@ -16,6 +16,8 @@ export class IconsModule {
   ) {
     this.matIconRegistry.addSvgIcon('account', this.setPath('./assets/account.svg'));
     this.matIconRegistry.addSvgIcon('cart', this.setPath('./assets/basket.svg'));
+    this.matIconRegistry.addSvgIcon('step-complete', this.setPath('./assets/step-complete.svg'));
+    this.matIconRegistry.addSvgIcon('step-edit', this.setPath('./assets/step-edit.svg'));
   }
 
   private setPath(url: string): SafeResourceUrl {

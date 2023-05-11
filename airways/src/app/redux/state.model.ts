@@ -4,6 +4,7 @@ import { ICountryCodeModel } from '../shared/models/country-code.model';
 
 export interface IGeneralStateModel {
   isMainStyle: boolean;
+  bookingStep: string;
   countryCodes: ICountryCodeModel[];
   airports: IAirportModel[];
 }

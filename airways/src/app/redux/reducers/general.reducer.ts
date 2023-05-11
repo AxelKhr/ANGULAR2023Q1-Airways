@@ -5,6 +5,7 @@ import { IGeneralStateModel } from '../state.model';
 
 export const initialState: IGeneralStateModel = {
   isMainStyle: true,
+  bookingStep: '',
   countryCodes: [],
   airports: [],
 };
@@ -25,4 +26,8 @@ export const generalReducer = createReducer(
     airports: [...data.airports],
   })),
   on(GeneralActions.loadStaticDataFailed, (state): IGeneralStateModel => state),
+  on(GeneralActions.setBookingStep, (state, { step }): IGeneralStateModel => ({
+    ...state,
+    bookingStep: step,
+  })),
 );

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { BOOKING_STEPS } from 'src/app/environment/constants/booking';
 import * as Actions from 'src/app/redux/actions';
 import * as Selectors from 'src/app/redux/selectors';
 
@@ -11,7 +12,9 @@ import * as Selectors from 'src/app/redux/selectors';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent {
-  bookingStep = 0;
+  bookingStep$: Observable<string> = this.store.select((Selectors.general.selectBookingStep));
+
+  bookingStepsList = BOOKING_STEPS;
 
   orderCount = 5;
 

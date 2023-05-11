@@ -1,0 +1,19 @@
+<div class="stepper">
+  <ng-template ngFor let-step [ngForOf]="steps" let-i="index">
+    <div class="stepper__step">
+      <div class="step__icon">
+        <ng-container
+          *ngIf="getIconType(step); then svgIcon; else numberIcon"
+        ></ng-container>
+        <ng-template #svgIcon>
+          <mat-icon [svgIcon]="getIconType(step)" />
+        </ng-template>
+        <ng-template #numberIcon>
+          <div class="icon__text">{{ i + 1 }}</div>
+        </ng-template>
+      </div>
+      <span class="step__label">{{ step }}</span>
+    </div>
+    <div *ngIf="i < steps.length - 1" class="stepper__spacer"></div>
+  </ng-template>
+</div>

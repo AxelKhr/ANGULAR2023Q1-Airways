@@ -6,6 +6,7 @@ export enum GeneralActionTypes {
   loadStaticData = '[General] load static data',
   loadStaticDataSuccess = '[General] load static data success',
   loadStaticDataFailed = '[General] fetch API failed',
+  setBookingStep = '[General] set booking step',
 }
 
 export const setIsMainStyle = createAction(
@@ -25,4 +26,9 @@ export const loadStaticDataSuccess = createAction(
 export const loadStaticDataFailed = createAction(
   GeneralActionTypes.loadStaticDataFailed,
   props<{ message: string }>(),
+);
+
+export const setBookingStep = createAction(
+  GeneralActionTypes.setBookingStep,
+  props<{ step: string }>(),
 );
