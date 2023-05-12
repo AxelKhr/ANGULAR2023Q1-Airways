@@ -71,13 +71,13 @@
       </mat-button-toggle-group>
     </section>
 
-    <mat-form-field appearance="outline" floatLabel="always">
+    <mat-form-field floatLabel="always">
       <mat-label>Date</mat-label>
       <input
         matInput
         [matDatepicker]="picker"
         formControlName="dateBirth"
-        [max]='currentDate'
+        [max]="currentDate"
         [placeholder]="(dateFormat | async) || 'DD/MM/YYYY'"
       />
       <mat-datepicker-toggle

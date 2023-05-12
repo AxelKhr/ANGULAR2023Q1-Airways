@@ -5,11 +5,7 @@
       <mat-radio-button value="false">One way</mat-radio-button>
     </mat-radio-group>
 
-    <mat-form-field
-      style="margin-bottom: -15px"
-      appearance="outline"
-      floatLabel="always"
-    >
+    <mat-form-field style="margin-bottom: -15px" floatLabel="always">
       <mat-label>From</mat-label>
       <input
         type="text"
@@ -41,7 +37,7 @@
       </mat-autocomplete>
     </mat-form-field>
 
-    <mat-form-field appearance="outline" floatLabel="always">
+    <mat-form-field floatLabel="always">
       <mat-label>Destination</mat-label>
       <input
         type="text"
@@ -85,7 +81,6 @@
           searchForm.controls['isRound'].value === 'true';
           else oneWayDatePicker
         "
-        appearance="outline"
         floatLabel="always"
       >
         <mat-label>Dates</mat-label>
@@ -106,7 +101,7 @@
       </mat-form-field>
 
       <ng-template #oneWayDatePicker>
-        <mat-form-field appearance="outline" floatLabel="always">
+        <mat-form-field floatLabel="always">
           <mat-label>Date</mat-label>
           <input
             matInput
