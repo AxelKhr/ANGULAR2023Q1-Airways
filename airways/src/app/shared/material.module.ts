@@ -14,6 +14,9 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { CdkMenuModule } from '@angular/cdk/menu';
 
 @NgModule({
   exports: [
@@ -29,6 +32,9 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     MatNativeDateModule,
     MatTooltipModule,
     MatSlideToggleModule,
+    MatRadioModule,
+    MatAutocompleteModule,
+    CdkMenuModule,
   ],
   providers: [
     MatIconRegistry,

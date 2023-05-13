@@ -9,6 +9,7 @@ import {
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { passengerNameTip } from 'src/app/environment/constants/name-tip';
+import { passengersAge } from 'src/app/environment/constants/passengers-age';
 import { selectDateFormat } from 'src/app/redux/selectors/settings.selectors';
 
 @Component({
@@ -33,6 +34,10 @@ export class PassengerInfoComponent implements OnInit {
   dateFormat: Observable<string>;
 
   currentDate = new Date();
+
+  maxDateValue!: Date | null;
+
+  minDateValue!: Date | null;
 
   constructor(
     private parent: FormGroupDirective,
@@ -62,6 +67,13 @@ export class PassengerInfoComponent implements OnInit {
     this.parentForm = this.parent.form;
     this.parentForm.addControl(`passenger${this.index}`, this.passengerForm);
     this.passengerForm.controls['passengerType'].setValue(this.passengerType);
+    this.limitDatepicker();
+  }
+
+  limitDatepicker() {
+    const type = this.passengerType as 'child' | 'adult' | 'infant';
+    this.maxDateValue = passengersAge[type].max;
+    this.minDateValue = passengersAge[type].min;
   }
 
   get firstName() {

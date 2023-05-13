@@ -2,9 +2,15 @@
   padding: 24px 0 8px 0 !important;
 }
 
-:host ::ng-deep .mdc-notched-outline__notch {
-  padding-top: 13px !important;
-  border-top: 1.111px solid rgba(0, 0, 0, 0.38);
+:host ::ng-deep {
+  & .mdc-notched-outline__notch {
+    padding-top: 13px !important;
+    border-top: 1.2px solid transparent;
+  }
+  & .mdc-text-field--focused .mdc-notched-outline__notch {
+    padding-top: 12px !important;
+    border-top-width: 2px;
+  }
 }
 
 .search {
@@ -64,6 +70,7 @@ mat-form-field:not(.mat-focused) mat-hint {
   line-height: 20px;
   background-color: var(--app-background-color-components);
   color: var(--app-color-neutral30);
+
   &__option {
     display: flex;
     justify-content: space-between;
@@ -128,6 +135,7 @@ mat-form-field:not(.mat-focused) mat-hint {
 }
 
 .passengers__btn {
+  box-sizing: border-box;
   position: relative;
   max-height: 56px;
   max-width: 34.5%;
@@ -141,6 +149,12 @@ mat-form-field:not(.mat-focused) mat-hint {
   border-color: var(--app-color-neutral30);
   border-style: solid;
   background-color: transparent;
+  border-width: 1.2px;
+  & .ico {
+    position: absolute;
+    width: 13px;
+    right: 24px;
+  }
   &.error {
     border-color: rgb(182, 55, 55);
   }
@@ -160,6 +174,20 @@ mat-form-field:not(.mat-focused) mat-hint {
     color: var(--app-color-neutral30);
     &.error {
       color: rgb(182, 55, 55);
+    }
+  }
+  &[aria-expanded="true"] {
+    border: 2px solid rgb(17, 57, 126);
+    & label {
+      color: rgb(17, 57, 126);
+      top: 5px;
+      left: 13px;
+    }
+    & span {
+      margin-left: 13px;
+    }
+    & .ico {
+      right: 23px;
     }
   }
 }

@@ -1,6 +1,6 @@
 <div class="search">
   <form class="search__form" [formGroup]="searchForm" (ngSubmit)="temp()">
-    <mat-radio-group formControlName="isRound">
+    <mat-radio-group formControlName="isRound" color="primary">
       <mat-radio-button value="true">Round trip</mat-radio-button>
       <mat-radio-button value="false">One way</mat-radio-button>
     </mat-radio-group>
@@ -97,7 +97,14 @@
           matIconSuffix
           [for]="picker"
         ></mat-datepicker-toggle>
-        <mat-date-range-picker #picker></mat-date-range-picker>
+        <mat-date-range-picker #picker
+          ><mat-datepicker-actions>
+            <button mat-button matDatepickerCancel color="primary">
+              Cancel
+            </button>
+            <button mat-button matDatepickerApply color="primary">OK</button>
+          </mat-datepicker-actions></mat-date-range-picker
+        >
       </mat-form-field>
 
       <ng-template #oneWayDatePicker>
@@ -115,7 +122,14 @@
             matIconSuffix
             [for]="picker"
           ></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
+          <mat-datepicker #picker
+            ><mat-datepicker-actions>
+              <button mat-button matDatepickerCancel color="primary">
+                Cancel
+              </button>
+              <button mat-button matDatepickerApply color="primary">OK</button>
+            </mat-datepicker-actions></mat-datepicker
+          >
         </mat-form-field>
       </ng-template>
 
@@ -129,6 +143,7 @@
         <span>
           {{ passengerMessage }}
         </span>
+        <mat-icon class="ico" svgIcon="arrow-down"></mat-icon>
       </button>
 
       <ng-template #menu>
