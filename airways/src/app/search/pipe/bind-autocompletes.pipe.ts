@@ -1,14 +1,15 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { IAirportInterface } from '../models/search.models';
+import { IAirport } from '../models/search.models';
 
 @Pipe({
   name: 'bindAutocompletes',
 })
 export class BindAutocompletesPipe implements PipeTransform {
+  // eslint-disable-next-line class-methods-use-this
   transform(
-    items: IAirportInterface[] | null,
-    selectedAirport: IAirportInterface,
-  ): IAirportInterface[] | null {
+    items: IAirport[] | null,
+    selectedAirport: IAirport,
+  ): IAirport[] | null {
     if (items) {
       return items.filter((el) => el.code !== selectedAirport.code);
     }

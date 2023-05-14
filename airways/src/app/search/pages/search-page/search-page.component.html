@@ -1,16 +1,11 @@
 <div class="search">
-  <form
-    action=""
-    class="search__form"
-    [formGroup]="searchForm"
-    (ngSubmit)="temp()"
-  >
-    <mat-radio-group formControlName="isRound">
+  <form class="search__form" [formGroup]="searchForm" (ngSubmit)="temp()">
+    <mat-radio-group formControlName="isRound" color="primary">
       <mat-radio-button value="true">Round trip</mat-radio-button>
       <mat-radio-button value="false">One way</mat-radio-button>
     </mat-radio-group>
 
-    <mat-form-field style="margin-bottom: -15px" appearance="outline">
+    <mat-form-field style="margin-bottom: -15px" floatLabel="always">
       <mat-label>From</mat-label>
       <input
         type="text"
@@ -42,7 +37,7 @@
       </mat-autocomplete>
     </mat-form-field>
 
-    <mat-form-field appearance="outline">
+    <mat-form-field floatLabel="always">
       <mat-label>Destination</mat-label>
       <input
         type="text"
@@ -86,7 +81,7 @@
           searchForm.controls['isRound'].value === 'true';
           else oneWayDatePicker
         "
-        appearance="outline"
+        floatLabel="always"
       >
         <mat-label>Dates</mat-label>
         <mat-date-range-input [rangePicker]="picker" [min]="currentDate">
@@ -102,24 +97,39 @@
           matIconSuffix
           [for]="picker"
         ></mat-datepicker-toggle>
-        <mat-date-range-picker #picker></mat-date-range-picker>
+        <mat-date-range-picker #picker
+          ><mat-datepicker-actions>
+            <button mat-button matDatepickerCancel color="primary">
+              Cancel
+            </button>
+            <button mat-button matDatepickerApply color="primary">OK</button>
+          </mat-datepicker-actions></mat-date-range-picker
+        >
       </mat-form-field>
 
       <ng-template #oneWayDatePicker>
-        <mat-form-field appearance="outline">
+        <mat-form-field floatLabel="always">
           <mat-label>Date</mat-label>
           <input
             matInput
             [min]="currentDate"
             [matDatepicker]="picker"
             formControlName="dateStart"
+            placeholder="Departure"
           />
           <mat-hint>MM/DD/YYYY</mat-hint>
           <mat-datepicker-toggle
             matIconSuffix
             [for]="picker"
           ></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
+          <mat-datepicker #picker
+            ><mat-datepicker-actions>
+              <button mat-button matDatepickerCancel color="primary">
+                Cancel
+              </button>
+              <button mat-button matDatepickerApply color="primary">OK</button>
+            </mat-datepicker-actions></mat-datepicker
+          >
         </mat-form-field>
       </ng-template>
 
@@ -129,10 +139,11 @@
         [formGroup]="passengersForm"
         [ngClass]="{ error: passengersForm.invalid }"
       >
-        <label [ngClass]="{ error: passengersForm.invalid }">Passangers</label>
+        <label [ngClass]="{ error: passengersForm.invalid }">Passengers</label>
         <span>
           {{ passengerMessage }}
         </span>
+        <mat-icon class="ico" svgIcon="arrow-down"></mat-icon>
       </button>
 
       <ng-template #menu>

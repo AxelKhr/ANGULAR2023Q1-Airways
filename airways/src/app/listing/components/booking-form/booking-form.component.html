@@ -1,0 +1,33 @@
+<form class="booking" (ngSubmit)="onSubmit()" [formGroup]="bookingForm">
+  <div class="booking__title">
+    <mat-icon svgIcon="passenger-ico"></mat-icon>
+    <span>Pasengers</span>
+  </div>
+  <p class="booking__subtitle">
+    Enter the passenger's names as they appear on document (passport or ID).
+  </p>
+
+  <div class="booking__passengers" [formGroup]="passengersForm">
+    <app-passenger-info
+      *ngFor="let passenger of passengersArray; let ind = index"
+      [passengerType]="passenger"
+      [index]="ind"
+    ></app-passenger-info>
+  </div>
+
+  <div class="booking__title">
+    <mat-icon svgIcon="contact-ico"></mat-icon>
+    <span>Contact details</span>
+  </div>
+  <p class="booking__subtitle">
+    We need contact details to be able to deliver the latest information
+    regarding your flight.
+  </p>
+
+  <app-contact-details></app-contact-details>
+
+  <div class="booking__footer">
+    <button mat-flat-button color="secondary" type="button">Back</button>
+    <button mat-flat-button color="primary" type="submit">Continue</button>
+  </div>
+</form>

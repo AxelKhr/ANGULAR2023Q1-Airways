@@ -20,10 +20,7 @@ export function validatePassengers(group: FormGroup): ValidationErrors | null {
   const isChild = group.controls['child'].value === 0;
   const isInfant = group.controls['infant'].value === 0;
 
-  if (!isInfant && isAdult) {
-    return { aloneInfant: true };
-  }
-  if (isAdult && isChild) {
+  if (isAdult && isChild && isInfant) {
     return { noPassangers: true };
   }
   return null;
