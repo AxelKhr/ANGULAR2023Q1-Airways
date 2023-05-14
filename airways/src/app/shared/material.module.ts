@@ -6,6 +6,8 @@ import { MatFormFieldModule, MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/mat
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
   exports: [
@@ -16,6 +18,8 @@ import { MatMenuModule } from '@angular/material/menu';
     MatInputModule,
     MatSelectModule,
     MatMenuModule,
+    MatGridListModule,
+    MatCardModule,
   ],
   providers: [
     MatIconRegistry,

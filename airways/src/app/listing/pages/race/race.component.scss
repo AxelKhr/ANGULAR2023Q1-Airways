@@ -1,0 +1,345 @@
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-center-vertical {
+  display: flex;
+  align-items: center;
+}
+
+@mixin flex-space-between {
+  display: flex;
+  justify-content: space-between;
+}
+
+.one-way {
+  max-width: 1128px;
+  background-color: rgb(210, 237, 237);
+  margin-top: 24px;
+  &__title {
+    @include flex-center-vertical;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 28px;
+    color: #11397e;
+    height: 44px;
+    margin-bottom: 8px;
+    &__name-race {
+      display: inline-block;
+      margin-left: 12px;
+    }
+  }
+
+  &__calendar {
+    height: 84px;
+    margin-bottom: 10px;
+    position: relative;
+  }
+}
+
+.container-race {
+  display: flex;
+  background-color: var(--app-color-neutral100);
+  &__left-side {
+    display: flex;
+    flex-direction: column;
+    &__container {
+      @include flex-center-vertical;
+      justify-content: space-between;
+      height: max-content;
+    }
+    & .fly-param {
+      display: flex;
+      height: 76px;
+      margin: 27px 0;
+    }
+  }
+  &__right-side {
+    display: flex;
+    width: 100%;
+    & .line {
+      height: 100%;
+      border-left: 2px dashed #d0d9df;
+    }
+  }
+}
+
+mat-grid-list {
+  @include flex-space-between;
+  align-items: flex-end;
+  mat-card {
+    @include flex-center;
+    width: 100%;
+    margin-top: auto;
+    padding: 4px 0px;
+    border-radius: 0;
+    background: var(--app-color-neutral100);
+    border-left: 1px solid var(--app-color-neutral60);
+    & .card-row {
+      @include flex-center-vertical;
+      flex-direction: column;
+    }
+  }
+}
+
+.date-content {
+  padding-top: 0;
+  &__race-date {
+    margin-top: 3px;
+    letter-spacing: 0.1px;
+    color: #0090bd;
+    font-weight: 500;
+    font-size: 14px;
+    transition: all 0.3s ease;
+  }
+
+  &__race-day {
+    font-size: 12px;
+    line-height: 12px;
+    text-transform: capitalize;
+    color: #74767a;
+    transition: all 0.3s ease;
+  }
+
+  &__race-price {
+    margin-top: 6px;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 20px;
+    color: #11397e;
+    transition: all 0.3s ease;
+  }
+}
+
+.active-card {
+  & .date-content {
+    &__race-date {
+      padding-top: 0;
+      font-weight: 700;
+      font-size: 20px;
+      line-height: 20px;
+      color: #11397e;
+    }
+
+    &__race-day {
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 20px;
+      letter-spacing: 0.25px;
+    }
+
+    &__race-price {
+      margin-top: 0px;
+      font-size: 30px;
+      line-height: 36px;
+    }
+    & .race-row {
+      width: 100%;
+      height: 4px;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      transition: all 0.5s ease;
+    }
+  }
+}
+
+
+
+.fly-info {
+  max-width: 593px;
+  height: 100%;
+  margin-left: 40px;
+  background-color: var(--app-color-neutral100);
+  @include flex-space-between;
+  &__left-text,
+  &__right-text {
+    @include flex-space-between;
+    flex-direction: column;
+    width: 129px;
+    height: 100%;
+    &__date {
+      width: max-content;
+      font-size: 16px;
+      line-height: 16px;
+      letter-spacing: 0.5px;
+      color: #74767a;
+    }
+    &__time-fly {
+      @include flex-center-vertical;
+      &__time {
+        font-weight: 700;
+        font-size: 30px;
+        line-height: 36px;
+        text-align: right;
+        color: #000000;
+      }
+      &__timezone {
+        font-weight: 400;
+        font-size: 8px;
+        line-height: 20px;
+        margin: 0 auto;
+        color: #74767a;
+      }
+    }
+    &__name-airport {
+      font-size: 12px;
+      line-height: 16px;
+      letter-spacing: 0.4px;
+      color: #74767a;
+    }
+  }
+
+  &__right-text {
+    &__name-airport,
+    &__date {
+      text-align: right;
+      margin-left: auto;
+    }
+  }
+
+  &__center-content {
+    @include flex-center-vertical;
+    justify-content: space-between;
+    width: 280px;
+    margin: 0 25px;
+    &__air-line {
+      width: 100%;
+      height: 2px;
+      background-color: #d0d9df;
+    }
+    &__content {
+      @include flex-space-between;
+      height: 100%;
+      flex-direction: column;
+      text-align: center;
+      &__time,
+      &__direct {
+        font-size: 12px;
+        line-height: 16px;
+        letter-spacing: 0.4px;
+        margin: 0 auto;
+      }
+      &__time {
+        width: max-content;
+      }
+    }
+  }
+}
+
+.fly-number {
+  @include flex-center;
+  width: 152px;
+  margin-right: 25px;
+  & span {
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.25px;
+    margin-left: 12px;
+    color: #74767a;
+    &:nth-child(2) {
+      font-size: 14px;
+      line-height: 20px;
+      letter-spacing: 0.25px;
+      color: #000000;
+    }
+  }
+}
+
+.price-param {
+  width: 283px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: auto;
+  &__price-warning {
+    width: 133px;
+    text-align: end;
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 16px;
+    color: #454a53;
+    &__seats {
+      height: 40px;
+      & span {
+        @include flex-center-vertical;
+        display: block;
+        width: 85px;
+        height: 100%;
+        margin-left: auto;
+      }
+    }
+    &__price {
+      color: #74767a;
+      & .cost {
+        display: block;
+        font-weight: 700;
+        font-size: 30px;
+        line-height: 36px;
+        color: #11397e;
+      }
+    }
+  }
+
+  &__button {
+    @include flex-center;
+    width: 100%;
+    & button.mat-stroked-button {
+      width: 78px;
+      height: 36px;
+      background: linear-gradient(108.75deg, #0090bd 59.91%, #073590 95.36%);
+      border: 1px solid #11397e;
+      border-radius: 4px;
+      color: white;
+      font-size: 14px;
+    }
+    & button.mat-stroked-button-edit {
+      width: 44px;
+      height: 28px;
+      background: #f4f6f9;
+      border-radius: 4px;
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 20px;
+      letter-spacing: 0.1px;
+      color: #11397e;
+    }
+  }
+}
+
+:host ::ng-deep .p-carousel-prev,
+:host ::ng-deep .p-carousel-next {
+  position: absolute;
+  z-index: 1;
+  top: 40px;
+  width: 24px;
+  height: 24px;
+  background-color: #e9edf1;
+  border: none;
+  border-radius: 100px;
+  padding-top: 3px;
+  padding-left: 5px;
+  cursor: pointer;
+  &:hover {
+    background-color: #dbe0e6;
+  }
+}
+
+:host ::ng-deep .p-carousel-prev {
+  left: 0;
+}
+
+:host ::ng-deep .p-carousel-next {
+  right: 0;
+}
+
+.date-card {
+  height: 75px;
+  transition: height 0.3s ease;
+}
+
+.text-muted {
+  color: #d0d9df;
+}
