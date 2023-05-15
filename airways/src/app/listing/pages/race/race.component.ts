@@ -1,10 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 
+interface IResponsiveOption {
+  breakpoint: string,
+    numVisible: number,
+    numScroll: number,
+}
+
 @Component({
   selector: 'app-race',
   templateUrl: './race.component.html',
   styleUrls: ['./race.component.scss'],
 })
+
 
 export class RaceComponent implements OnInit {
   jsonData = `{
@@ -1090,11 +1097,12 @@ export class RaceComponent implements OnInit {
   db = JSON.parse(this.jsonData);
   data: any = { ...this.db };
 
-  hideCalendar = false;
-  buttonText = 'Select';
-  activeRoute = 2;
+  hideCalendar: boolean = false;
+  buttonText: string = 'Select';
+  activeRoute: number = 2;
 
-  responsiveOptions = [
+
+  responsiveOptions: IResponsiveOption[] = [
     {
       breakpoint: '768px',
       numVisible: 3,
@@ -1108,20 +1116,32 @@ export class RaceComponent implements OnInit {
   ];
 
   ngOnInit() {
+    const windowWidth = window.innerWidth;
+    this.setActiveRoute(windowWidth);
     this.setInitialActive();
   }
 
-  setInitialActive() {
-    this.data.routes[2].isActive = true;
+  setInitialActive(): void {
+    this.data.routes[this.activeRoute].isActive = true;
   }
 
-  setActive(route: any) {
+  setActiveRoute(windowWidth: number): void {
+    if (windowWidth < 440) {
+      this.activeRoute = 0;
+    } else if (windowWidth < 768) {
+      this.activeRoute = 1;
+    } else {
+      this.activeRoute = 2;
+    }
+  }
+
+  setActive(route: any): void {
     this.activeRoute = this.data.routes.findIndex((r: any) => r === route);
     this.data.routes.forEach((r: any) => r.isActive = false);
     route.isActive = true;
   }
 
-  getColor(freeSeats: number, opacity = 1) {
+  getColor(freeSeats: number, opacity = 1): string {
     if (freeSeats < 10) {
       return `rgba(179, 38, 30, ${opacity})`;
     } if (freeSeats < 50) {
@@ -1130,7 +1150,7 @@ export class RaceComponent implements OnInit {
     return `rgba(46, 125, 50, ${opacity})`;
   }
 
-  getAirportName(code: string) {
+  getAirportName(code: string): string {
     const airport = this.airports.find((a) => a.code === code);
     if (!airport) {
       return code;
@@ -1139,7 +1159,7 @@ export class RaceComponent implements OnInit {
     return airportName;
   }
 
-  getAirportTimezone(code: string) {
+  getAirportTimezone(code: string): string {
     const airport = this.airports.find((a) => a.code === code);
     if (!airport) {
       return '';
@@ -1150,7 +1170,7 @@ export class RaceComponent implements OnInit {
     return timeZoneSign + timeZoneValue;
   }
 
-  buttonClick() {
+  buttonClick(): void {
     this.hideCalendar = !this.hideCalendar;
     this.buttonText = this.hideCalendar ? 'Edit' : 'Select';
   }

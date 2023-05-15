@@ -14,9 +14,8 @@
   justify-content: space-between;
 }
 
-.one-way {
+.race {
   max-width: 1128px;
-  background-color: rgb(210, 237, 237);
   margin-top: 24px;
   &__title {
     @include flex-center-vertical;
@@ -26,6 +25,10 @@
     color: #11397e;
     height: 44px;
     margin-bottom: 8px;
+    @media (max-width: 550px) {
+      font-weight: 600;
+      font-size: 20px;
+    }
     &__name-race {
       display: inline-block;
       margin-left: 12px;
@@ -42,26 +45,44 @@
 .container-race {
   display: flex;
   background-color: var(--app-color-neutral100);
+  @media (max-width: 550px) {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
   &__left-side {
     display: flex;
+    flex-grow: 1;
     flex-direction: column;
+    width: max-content;
+    max-width: 814px;
     &__container {
       @include flex-center-vertical;
       justify-content: space-between;
       height: max-content;
+      @media (max-width: 768px) {
+        border-bottom: 2px dashed var(--app-color-secondary40);
+      }
     }
     & .fly-param {
-      display: flex;
-      height: 76px;
+      @include flex-space-between;
+      flex-grow: 1;
+      min-height: 76px;
       margin: 27px 0;
+      max-width: 814px;
     }
   }
   &__right-side {
     display: flex;
-    width: 100%;
+    max-width: 312px;
+    flex-grow: 1;
+    min-height: max-content;
+
     & .line {
       height: 100%;
-      border-left: 2px dashed #d0d9df;
+      border-left: 2px dashed var(--app-color-secondary40);
+      @media (max-width: 550px) {
+        display: none;
+      }
     }
   }
 }
@@ -146,14 +167,19 @@ mat-grid-list {
   }
 }
 
-
-
 .fly-info {
+  @include flex-space-between;
+  flex-grow: 1;
   max-width: 593px;
   height: 100%;
   margin-left: 40px;
   background-color: var(--app-color-neutral100);
-  @include flex-space-between;
+  @media (max-width: 768px) {
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    position: relative;
+  }
   &__left-text,
   &__right-text {
     @include flex-space-between;
@@ -203,12 +229,13 @@ mat-grid-list {
   &__center-content {
     @include flex-center-vertical;
     justify-content: space-between;
-    width: 280px;
+    width: calc(100% - 260px);
+    min-width: min-content;
     margin: 0 25px;
     &__air-line {
       width: 100%;
       height: 2px;
-      background-color: #d0d9df;
+      background-color: var(--app-color-secondary40);
     }
     &__content {
       @include flex-space-between;
@@ -230,9 +257,15 @@ mat-grid-list {
 }
 
 .fly-number {
-  @include flex-center;
-  width: 152px;
+  @include flex-center-vertical;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  max-width: 152px;
+  min-width: 75px;
   margin-right: 25px;
+  @media (max-width: 550px) {
+    border-left: 2px dashed var(--app-color-secondary40);
+  }
   & span {
     font-size: 14px;
     line-height: 20px;
@@ -249,9 +282,10 @@ mat-grid-list {
 }
 
 .price-param {
-  width: 283px;
+  max-width: 283px;
   display: flex;
-  justify-content: center;
+  flex-grow: 1;
+  justify-content: flex-end;
   align-items: center;
   margin-left: auto;
   &__price-warning {
@@ -285,7 +319,8 @@ mat-grid-list {
 
   &__button {
     @include flex-center;
-    width: 100%;
+    flex-grow: 1;
+    max-width: 150px;
     & button.mat-stroked-button {
       width: 78px;
       height: 36px;
@@ -341,5 +376,5 @@ mat-grid-list {
 }
 
 .text-muted {
-  color: #d0d9df;
+  color: var(--app-color-secondary40);
 }
