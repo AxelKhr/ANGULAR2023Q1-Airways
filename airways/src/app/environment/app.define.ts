@@ -12,4 +12,5 @@ export const API_DEF = {
   API_URL_BASE: 'https://airway-backend.onrender.com',
   API_URL_COUNTRY_CODES: 'country-codes',
   API_URL_AIRPORTS: 'airports',
+  API_URL_FLIGHTS: 'races',
 };

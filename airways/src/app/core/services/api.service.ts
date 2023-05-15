@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { API_DEF } from 'src/app/environment/app.define';
 import { catchError, throwError, retry } from 'rxjs';
 import { ICountryCodeModel } from 'src/app/shared/models/country-code.model';
 import { IAirportModel } from 'src/app/shared/models/airport.model';
+import { IFlightsRequestModel } from 'src/app/shared/models/flights-request.model';
+import { IFlightsResponseModel } from 'src/app/shared/models/flights-response.model';
 
 @Injectable({
   providedIn: 'root',
@@ -31,6 +33,18 @@ export class ApiService {
   getAirports() {
     return this.http.get<IAirportModel[]>(
       this.getApiUrl(API_DEF.API_URL_AIRPORTS),
+    ).pipe(
+      retry(API_DEF.API_NUMBER_OF_REPEATS),
+      catchError(this.handlerError),
+    );
+  }
+
+  getFlights(request: IFlightsRequestModel) {
+    return this.http.get<IFlightsResponseModel>(
+      this.getApiUrl(API_DEF.API_URL_FLIGHTS),
+      {
+        params: new HttpParams().appendAll({ ...request }),
+      },
     ).pipe(
       retry(API_DEF.API_NUMBER_OF_REPEATS),
       catchError(this.handlerError),

@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { ICountryCodeModel } from 'src/app/shared/models/country-code.model';
 import * as AppActions from 'src/app/redux/actions';
 import { MessageBarService } from 'src/app/core/services/message-bar.service';
-import { BOOKING_STEPS } from 'src/app/environment/constants/booking';
+import { IFlightsRequestModel } from 'src/app/shared/models/flights-request.model';
 
 @Component({
   selector: 'app-test-page',
@@ -22,8 +22,17 @@ export class TestPageComponent {
   }
 
   onClick2() {
-    this.stepNum = (this.stepNum < 2) ? this.stepNum + 1 : -1;
-    const bookingStep = (this.stepNum < 0) ? null : BOOKING_STEPS[this.stepNum];
-    this.store.dispatch(AppActions.booking.setStep({ step: bookingStep }));
+    const request: IFlightsRequestModel = {
+      departureAirportCode: 'WAW',
+      arrivalAirportCode: 'DUB',
+      departureDate: '2023-04-27',
+      returnDate: '2023-04-28',
+      roundTrip: 1,
+      countAdult: 1,
+      countChildren: 0,
+      countInfant: 0,
+      amountFlights: 5,
+    };
+    this.store.dispatch(AppActions.booking.getFlights({ request }));
   }
 }
