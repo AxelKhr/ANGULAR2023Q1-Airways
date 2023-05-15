@@ -6,7 +6,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Observable, map, startWith } from 'rxjs';
-import { IAirportInterface, IPassengersQty } from '../../models/search.models';
+import { IAirport, IPassengersQty } from '../../models/search.models';
 import {
   endDateRequired,
   validateDestination,
@@ -29,7 +29,7 @@ export class SearchPageComponent implements OnInit {
       child: new FormControl(0),
       infant: new FormControl(0),
     },
-    { validators: validatePassengers as ValidatorFn }
+    { validators: validatePassengers as ValidatorFn },
   );
 
   searchForm: FormGroup = new FormGroup({
@@ -52,7 +52,7 @@ export class SearchPageComponent implements OnInit {
     { type: 'infant', age: '0-2 years' },
   ];
 
-  options: IAirportInterface[] = [
+  options: IAirport[] = [
     {
       code: 'AMS',
       name: 'Amsterdam Airport Schiphol',
@@ -121,16 +121,16 @@ export class SearchPageComponent implements OnInit {
     },
   ];
 
-  filteredFromOptions!: Observable<IAirportInterface[]>;
+  filteredFromOptions!: Observable<IAirport[]>;
 
-  filteredToOptions!: Observable<IAirportInterface[]>;
+  filteredToOptions!: Observable<IAirport[]>;
 
   ngOnInit(): void {
     this.filteredFromOptions = this.searchForm.get('from')!.valueChanges.pipe(
       startWith(''),
       map((value) => {
         const name = typeof value === 'string' ? value : Object.values(value).join(' ');
-        return name ? this.filter(name as string) : this.options.slice();
+        return name ? this.filterAirportsAutocomplete(name as string) : this.options.slice();
       }),
     );
 
@@ -140,7 +140,7 @@ export class SearchPageComponent implements OnInit {
         startWith(''),
         map((value) => {
           const name = typeof value === 'string' ? value : Object.values(value).join(' ');
-          return name ? this.filter(name as string) : this.options.slice();
+          return name ? this.filterAirportsAutocomplete(name as string) : this.options.slice();
         }),
       );
 
@@ -153,12 +153,12 @@ export class SearchPageComponent implements OnInit {
     });
   }
 
-  private filter(value: string): IAirportInterface[] {
+  private filterAirportsAutocomplete(value: string): IAirport[] {
     const filterValue = value.toLowerCase();
 
     return this.options.filter((airport) => Object.values(airport).some(
-      (el) => el.toLowerCase().includes(filterValue)
-      || `${airport.city} ${airport.code}`.toLowerCase().includes(filterValue)));
+      (el) => el.toLowerCase().includes(filterValue) || `${airport.city} ${airport.code}`.toLowerCase().includes(filterValue),
+    ));
   }
 
   protected reverseDestinations() {
@@ -186,6 +186,7 @@ export class SearchPageComponent implements OnInit {
     }
   }
 
+  // eslint-disable-next-line class-methods-use-this
   createPassengerMessage(info: IPassengersQty): string {
     const res: string[] = [];
     Object.entries(info).forEach((el) => {
@@ -207,7 +208,8 @@ export class SearchPageComponent implements OnInit {
     return this.passengersForm.value[type] === 0 ? '0.5' : '1';
   }
 
-  dispalyShortAirport(airport: IAirportInterface) {
+  // eslint-disable-next-line class-methods-use-this
+  dispalyShortAirport(airport: IAirport) {
     if (airport && airport.city) {
       return `${airport.city} ${airport.code}`;
     }
