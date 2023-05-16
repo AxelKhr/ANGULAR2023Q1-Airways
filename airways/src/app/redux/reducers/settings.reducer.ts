@@ -5,7 +5,7 @@ import * as SettingsActions from '../actions/settings.actions';
 
 export const initialState: IAppSettingsModel = loadSettings();
 
-export const settingsReducer = createReducer(
+export const settingsReducers = createReducer(
   initialState,
   on(SettingsActions.setDateFormat, (state, { dateFormat }): IAppSettingsModel => ({
     ...state,

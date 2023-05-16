@@ -15,7 +15,7 @@ function getStep(url: string) {
   return (ind < 0) ? null : BOOKING_STEPS[ind];
 }
 
-export const bookingReducer = createReducer(
+export const bookingReducers = createReducer(
   initialState,
   on(routerNavigatedAction, (state, { payload }): IBookingStateModel => ({
     ...state,

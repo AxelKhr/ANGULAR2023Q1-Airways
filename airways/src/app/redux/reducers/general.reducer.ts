@@ -9,7 +9,7 @@ export const initialState: IGeneralStateModel = {
   airports: [],
 };
 
-export const generalReducer = createReducer(
+export const generalReducers = createReducer(
   initialState,
   on(GeneralActions.setIsMainStyle, (state, { isMainStyle }): IGeneralStateModel => ({
     ...state,
