@@ -20,7 +20,9 @@
         <div
           class="border-1 surface-border border-round m-2 text-center py-5 px-3"
           [class.active-card]="route.isActive"
-          [style.pointer-events]="route.flights.length === 0 ? 'none' : 'auto'"
+          [style.pointer-events]="
+            compareDates(route.departureDate) ? 'none' : 'auto'
+          "
           (click)="setActive(route)"
         >
           <mat-grid-list cols="1" rowHeight="90px" gutterSize="1px">
@@ -61,7 +63,25 @@
                     *ngIf="route.flights.length > 0"
                     class="race-row"
                     [ngStyle]="{
-                      'background-color': getColor(route.flights[0].freeSeats)
+                      'background-color': getColor(
+                        1,
+                        route.flights[1]?.seats.freeSeats
+                          ? route.flights[
+                              getMin(
+                                route.flights[0].seats.freeSeats,
+                                route.flights[1]?.seats.freeSeats
+                              )
+                            ].seats.freeSeats
+                          : route.flights[0].seats.freeSeats,
+                        route.flights[1]?.seats.freeSeats
+                          ? route.flights[
+                              getMin(
+                                route.flights[0].seats.freeSeats,
+                                route.flights[1]?.seats.freeSeats
+                              )
+                            ].seats.totalSeats
+                          : route.flights[0].seats.totalSeats
+                      )
                     }"
                   ></div>
                 </mat-card-content>
@@ -73,7 +93,10 @@
     </p-carousel>
   </div>
   <div class="container-race">
-    <div class="container-race__left-side">
+    <div
+      class="container-race__left-side"
+      *ngIf="data.routes[activeRoute].flights.length > 0"
+    >
       <div
         class="container-race__left-side__container"
         *ngFor="let flight of data.routes[activeRoute].flights; let i = index"
@@ -150,7 +173,10 @@
       </div>
     </div>
 
-    <div class="container-race__right-side">
+    <div
+      class="container-race__right-side"
+      *ngIf="data.routes[activeRoute].flights.length > 0"
+    >
       <div class="line"></div>
       <div class="price-param">
         <div class="price-param__price-warning">
@@ -159,35 +185,44 @@
             *ngIf="!hideCalendar"
             [ngStyle]="{
               'background-color': getColor(
-                data.routes[activeRoute].flights[0].freeSeats,
-                0.3
+                0.3,
+                data.routes[activeRoute].flights[1]?.seats.freeSeats
+                  ? data.routes[activeRoute].flights[
+                      getMin(
+                        data.routes[activeRoute].flights[0].seats.freeSeats,
+                        data.routes[activeRoute].flights[1]?.seats.freeSeats
+                      )
+                    ].seats.freeSeats
+                  : data.routes[activeRoute].flights[0].seats.freeSeats,
+                data.routes[activeRoute].flights[1]?.seats.freeSeats
+                  ? data.routes[activeRoute].flights[
+                      getMin(
+                        data.routes[activeRoute].flights[0].seats.freeSeats,
+                        data.routes[activeRoute].flights[1]?.seats.freeSeats
+                      )
+                    ].seats.totalSeats
+                  : data.routes[activeRoute].flights[0].seats.totalSeats
               )
             }"
           >
             <span
-              >{{ data.routes[activeRoute].flights[0].freeSeats }} seats
-              available</span
+              >{{
+                data.routes[activeRoute].flights[1] !== undefined
+                  ? data.routes[activeRoute].flights[
+                      getMin(
+                        data.routes[activeRoute].flights[0].seats.freeSeats,
+                        data.routes[activeRoute].flights[1].seats.freeSeats
+                      )
+                    ].seats.freeSeats
+                  : data.routes[activeRoute].flights[0].seats.freeSeats
+              }}
+              seats available</span
             >
           </div>
           <div class="price-param__price-warning__price">
             <span *ngIf="!hideCalendar">Price</span>
             <span class="cost"
               >${{ data.routes[activeRoute].ticketsCost.adult.totalCost }}</span
-            >
-          </div>
-          <div
-            class="price-param__price-warning__seats"
-            *ngIf="data.routes[activeRoute].flights.length > 1 && !hideCalendar"
-            [ngStyle]="{
-              'background-color': getColor(
-                data.routes[activeRoute].flights[1].freeSeats,
-                0.3
-              )
-            }"
-          >
-            <span
-              >{{ data.routes[activeRoute].flights[1].freeSeats }} seats
-              available</span
             >
           </div>
         </div>
@@ -204,6 +239,12 @@
           </button>
         </div>
       </div>
+    </div>
+    <div
+      class="no-flights"
+      *ngIf="data.routes[activeRoute].flights.length === 0"
+    >
+      <span>No flights found for this date</span>
     </div>
   </div>
 </div>

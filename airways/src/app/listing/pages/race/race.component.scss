@@ -17,6 +17,7 @@
 .race {
   max-width: 1128px;
   margin-top: 24px;
+  cursor: default;
   &__title {
     @include flex-center-vertical;
     font-weight: 700;
@@ -164,6 +165,9 @@ mat-grid-list {
       left: 0;
       transition: all 0.5s ease;
     }
+    & .text-muted {
+      color: var(--app-color-secondary40);
+    }
   }
 }
 
@@ -184,7 +188,8 @@ mat-grid-list {
   &__right-text {
     @include flex-space-between;
     flex-direction: column;
-    width: 129px;
+    max-width: 140px;
+    width: max-content;
     height: 100%;
     &__date {
       width: max-content;
@@ -299,7 +304,6 @@ mat-grid-list {
       height: 40px;
       & span {
         @include flex-center-vertical;
-        display: block;
         width: 85px;
         height: 100%;
         margin-left: auto;
@@ -377,4 +381,14 @@ mat-grid-list {
 
 .text-muted {
   color: var(--app-color-secondary40);
+}
+
+
+.no-flights {
+  @include flex-center;
+  flex-grow: 1;
+  font-size: 22px;
+  height: 90px;
+  max-width:  1128px;
+  color: var(--app-color-neutral30);
 }
