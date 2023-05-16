@@ -69,11 +69,11 @@
       </mat-autocomplete>
     </mat-form-field>
 
-        <button
-          class="search__switch-btn"
-          type="button"
-          (click)="reverseDestinations()"
-        ></button>
+    <button
+      class="search__switch-btn"
+      type="button"
+      (click)="reverseDestinations()"
+    ></button>
 
     <div class="search__bottom-block">
       <mat-form-field
@@ -146,73 +146,63 @@
         <mat-icon class="ico" svgIcon="arrow-down"></mat-icon>
       </button>
 
-          <ng-template #menu>
-            <div class="passenger" cdkMenu [formGroup]="passengersForm">
-              <div
-                *ngFor="let passengerCategory of passengersType"
-                cdkMenuItem
-                class="passenger__option example-menu-item"
-              >
-                <div class="passenger__option example-menu-item">
-                  <div class="passenger__description">
-                    <span
-                      class="passenger__title"
-                      [ngStyle]="{
-                        color: updatePassengerColor(passengerCategory.type)
-                      }"
-                      >{{ passengerCategory.type | titlecase }}</span
-                    >
-                    <span>{{ passengerCategory.age }}</span>
-                  </div>
-                  <div class="passenger__control">
-                    <button
-                      class="button-minus"
-                      (click)="
-                        changePassengerNumber(
-                          $event,
-                          passengerCategory.type,
-                          '-'
-                        )
-                      "
-                    >
-                      -
-                    </button>
-                    <input
-                      type="text"
-                      [formControlName]="passengerCategory.type"
-                      [ngStyle]="{
-                        opacity: updatePassengerOpacity(passengerCategory.type)
-                      }"
-                      readonly
-                    />
-                    <button
-                      (click)="
-                        changePassengerNumber(
-                          $event,
-                          passengerCategory.type,
-                          '+'
-                        )
-                      "
-                    >
-                      +
-                    </button>
-                  </div>
-                </div>
+      <ng-template #menu>
+        <div class="passenger" cdkMenu [formGroup]="passengersForm">
+          <div
+            *ngFor="let passengerCategory of passengersType"
+            cdkMenuItem
+            class="passenger__option example-menu-item"
+          >
+            <div class="passenger__option example-menu-item">
+              <div class="passenger__description">
+                <span
+                  class="passenger__title"
+                  [ngStyle]="{
+                    color: updatePassengerColor(passengerCategory.type)
+                  }"
+                  >{{ passengerCategory.type | titlecase }}</span
+                >
+                <span>{{ passengerCategory.age }}</span>
+              </div>
+              <div class="passenger__control">
+                <button
+                  class="button-minus"
+                  (click)="
+                    changePassengerNumber($event, passengerCategory.type, '-')
+                  "
+                >
+                  -
+                </button>
+                <input
+                  type="text"
+                  [formControlName]="passengerCategory.type"
+                  [ngStyle]="{
+                    opacity: updatePassengerOpacity(passengerCategory.type)
+                  }"
+                  readonly
+                />
+                <button
+                  (click)="
+                    changePassengerNumber($event, passengerCategory.type, '+')
+                  "
+                >
+                  +
+                </button>
               </div>
             </div>
-          </ng-template>
+          </div>
         </div>
-
-        <button
-          class="search__btn"
-          mat-flat-button
-          color="primary"
-          type="submit"
-          [disabled]="!searchForm.valid"
-        >
-          Search
-        </button>
-      </form>
+      </ng-template>
     </div>
-  </div>
+
+    <button
+      class="search__btn"
+      mat-flat-button
+      color="primary"
+      type="submit"
+      [disabled]="!searchForm.valid"
+    >
+      Search
+    </button>
+  </form>
 </div>
