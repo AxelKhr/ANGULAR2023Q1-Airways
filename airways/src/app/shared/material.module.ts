@@ -9,6 +9,8 @@ import {
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatCardModule } from '@angular/material/card';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
@@ -27,6 +29,8 @@ import { CdkMenuModule } from '@angular/cdk/menu';
     MatInputModule,
     MatSelectModule,
     MatMenuModule,
+    MatGridListModule,
+    MatCardModule,
     MatButtonToggleModule,
     MatDatepickerModule,
     MatNativeDateModule,

@@ -1,0 +1,250 @@
+<div class="race">
+  <div class="race__title">
+    <img class="race__title__logo" src="./assets/plane.svg" alt="plane" />
+    <p class="race__title__name-race">
+      {{ getAirportName(data.departureAirportCode) }} to
+      {{ getAirportName(data.arrivalAirportCode) }}
+    </p>
+  </div>
+
+  <div class="race__calendar" *ngIf="!hideCalendar">
+    <p-carousel
+      [value]="data.routes"
+      [numVisible]="5"
+      [numScroll]="1"
+      [circular]="false"
+      [showIndicators]="false"
+      [responsiveOptions]="responsiveOptions"
+    >
+      <ng-template let-route pTemplate="item">
+        <div
+          class="border-1 surface-border border-round m-2 text-center py-5 px-3"
+          [class.active-card]="route.isActive"
+          [style.pointer-events]="
+            compareDates(route.departureDate) ? 'none' : 'auto'
+          "
+          (click)="setActive(route)"
+        >
+          <mat-grid-list cols="1" rowHeight="90px" gutterSize="1px">
+            <mat-grid-tile colspan="1" rowspan="1">
+              <mat-card
+                [style.height.px]="route.isActive ? 83 : 75"
+                class="date-card"
+              >
+                <mat-card-content class="date-content">
+                  <div
+                    class="date-content__race-date card-row"
+                    [ngClass]="{ 'text-muted': route.flights.length === 0 }"
+                  >
+                    {{ route.departureDate | date : "dd MMM" }}
+                  </div>
+                  <div
+                    class="date-content__race-day card-row"
+                    [ngClass]="{ 'text-muted': route.flights.length === 0 }"
+                  >
+                    {{ route.departureDate | date : "EEEE" }}
+                  </div>
+
+                  <div class="date-content__race-price card-row">
+                    <span
+                      class="date-content__race-price__price"
+                      *ngIf="route.flights.length > 0"
+                    >
+                      ${{ route.ticketsCost.adult.totalCost }}
+                    </span>
+                    <img
+                      src="../../../../assets/no-race.svg"
+                      alt="No flights"
+                      *ngIf="route.flights.length === 0"
+                    />
+                  </div>
+
+                  <div
+                    *ngIf="route.flights.length > 0"
+                    class="race-row"
+                    [ngStyle]="{
+                      'background-color': getColor(
+                        1,
+                        route.flights[1]?.seats.freeSeats
+                          ? route.flights[
+                              getMin(
+                                route.flights[0].seats.freeSeats,
+                                route.flights[1]?.seats.freeSeats
+                              )
+                            ].seats.freeSeats
+                          : route.flights[0].seats.freeSeats,
+                        route.flights[1]?.seats.freeSeats
+                          ? route.flights[
+                              getMin(
+                                route.flights[0].seats.freeSeats,
+                                route.flights[1]?.seats.freeSeats
+                              )
+                            ].seats.totalSeats
+                          : route.flights[0].seats.totalSeats
+                      )
+                    }"
+                  ></div>
+                </mat-card-content>
+              </mat-card>
+            </mat-grid-tile>
+          </mat-grid-list>
+        </div>
+      </ng-template>
+    </p-carousel>
+  </div>
+  <div class="container-race">
+    <div
+      class="container-race__left-side"
+      *ngIf="data.routes[activeRoute].flights.length > 0"
+    >
+      <div
+        class="container-race__left-side__container"
+        *ngFor="let flight of data.routes[activeRoute].flights; let i = index"
+      >
+        <div class="fly-param">
+          <div class="fly-info">
+            <div class="fly-info__left-text">
+              <div class="fly-info__left-text__date">
+                {{ flight.departureDateTime | date : "EEE, d MMM y" }}
+              </div>
+              <div class="fly-info__left-text__time-fly">
+                <div class="fly-info__left-text__time-fly__time">
+                  {{ flight.departureDateTime | date : "HH:mm" }}
+                </div>
+                <div class="fly-info__left-text__time-fly__timezone">
+                  UTC
+                  {{ getAirportTimezone(flight.departureAirportCode) }}
+                </div>
+              </div>
+              <div class="fly-info__left-text__name-airport">
+                {{ getAirportName(flight.departureAirportCode) }}
+              </div>
+            </div>
+            <div class="fly-info__center-content">
+              <div class="fly-info__center-content__air-line"></div>
+              <div class="fly-info__center-content__content">
+                <div class="fly-info__center-content__content__time">
+                  {{ flight.flightTime | timeFormat }}
+                </div>
+                <div class="fly-info__center-content__content__plane">
+                  <img
+                    src="{{
+                      data.routes[activeRoute].departureAirportCode ===
+                      data.departureAirportCode
+                        ? '../../../../assets/airplane_takeoff.svg'
+                        : '../../../../assets/airplane_takeon.svg'
+                    }}"
+                    alt="airplane"
+                  />
+                </div>
+                <div class="fly-info__center-content__content__direct">
+                  {{
+                    data.routes[activeRoute].flights.length === 1
+                      ? "Direct"
+                      : "Connecting"
+                  }}
+                </div>
+              </div>
+              <div class="fly-info__center-content__air-line"></div>
+            </div>
+            <div class="fly-info__right-text">
+              <div class="fly-info__right-text__date">
+                {{ flight.arrivalDateTime | date : "EEE, d MMM y" }}
+              </div>
+              <div class="fly-info__right-text__time-fly">
+                <div class="fly-info__right-text__time-fly__timezone">
+                  UTC
+                  {{ getAirportTimezone(flight.arrivalAirportCode) }}
+                </div>
+                <div class="fly-info__right-text__time-fly__time">
+                  {{ flight.arrivalDateTime | date : "HH:mm" }}
+                </div>
+              </div>
+              <div class="fly-info__right-text__name-airport">
+                {{ getAirportName(flight.arrivalAirportCode) }}
+              </div>
+            </div>
+          </div>
+          <div class="fly-number">
+            <span>Flight no.</span>
+            <span>{{ flight.numberRace }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="container-race__right-side"
+      *ngIf="data.routes[activeRoute].flights.length > 0"
+    >
+      <div class="line"></div>
+      <div class="price-param">
+        <div class="price-param__price-warning">
+          <div
+            class="price-param__price-warning__seats"
+            *ngIf="!hideCalendar"
+            [ngStyle]="{
+              'background-color': getColor(
+                0.3,
+                data.routes[activeRoute].flights[1]?.seats.freeSeats
+                  ? data.routes[activeRoute].flights[
+                      getMin(
+                        data.routes[activeRoute].flights[0].seats.freeSeats,
+                        data.routes[activeRoute].flights[1]?.seats.freeSeats
+                      )
+                    ].seats.freeSeats
+                  : data.routes[activeRoute].flights[0].seats.freeSeats,
+                data.routes[activeRoute].flights[1]?.seats.freeSeats
+                  ? data.routes[activeRoute].flights[
+                      getMin(
+                        data.routes[activeRoute].flights[0].seats.freeSeats,
+                        data.routes[activeRoute].flights[1]?.seats.freeSeats
+                      )
+                    ].seats.totalSeats
+                  : data.routes[activeRoute].flights[0].seats.totalSeats
+              )
+            }"
+          >
+            <span
+              >{{
+                data.routes[activeRoute].flights[1] !== undefined
+                  ? data.routes[activeRoute].flights[
+                      getMin(
+                        data.routes[activeRoute].flights[0].seats.freeSeats,
+                        data.routes[activeRoute].flights[1].seats.freeSeats
+                      )
+                    ].seats.freeSeats
+                  : data.routes[activeRoute].flights[0].seats.freeSeats
+              }}
+              seats available</span
+            >
+          </div>
+          <div class="price-param__price-warning__price">
+            <span *ngIf="!hideCalendar">Price</span>
+            <span class="cost"
+              >${{ data.routes[activeRoute].ticketsCost.adult.totalCost }}</span
+            >
+          </div>
+        </div>
+        <div class="price-param__button">
+          <button
+            mat-stroked-button
+            [ngClass]="{
+              'mat-stroked-button': !hideCalendar,
+              'mat-stroked-button-edit': hideCalendar
+            }"
+            (click)="buttonClick()"
+          >
+            {{ buttonText }}
+          </button>
+        </div>
+      </div>
+    </div>
+    <div
+      class="no-flights"
+      *ngIf="data.routes[activeRoute].flights.length === 0"
+    >
+      <span>No flights found for this date</span>
+    </div>
+  </div>
+</div>
