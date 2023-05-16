@@ -1,9 +1,15 @@
-.wrapper {
-  padding: 0 var(--app-wrapper-padding);
+:host ::ng-deep .mat-mdc-form-field-infix {
+  padding: 24px 0 8px 0 !important;
+}
 
-  &>.container {
-    max-width: var(--max-width-content);
-    margin: 0 auto;
+:host ::ng-deep {
+  & .mdc-notched-outline__notch {
+    padding-top: 13px !important;
+    border-top: 1.2px solid transparent;
+  }
+  & .mdc-text-field--focused .mdc-notched-outline__notch {
+    padding-top: 12px !important;
+    border-top-width: 2px;
   }
 }
 
@@ -62,8 +68,9 @@ mat-form-field:not(.mat-focused) mat-hint {
   padding: 14px 20px 14px 16px;
   font-size: 14px;
   line-height: 20px;
-  background-color: rgba(255, 255, 255);
-  color: rgb(116, 118, 122);
+  background-color: var(--app-background-color-components);
+  color: var(--app-color-neutral30);
+
   &__option {
     display: flex;
     justify-content: space-between;
@@ -111,7 +118,7 @@ mat-form-field:not(.mat-focused) mat-hint {
   &__bottom {
     font-size: 14px;
     line-height: 20px;
-    color: rgb(116, 118, 122);
+    color: var(--app-color-neutral30);
   }
 }
 ::ng-deep .mat-mdc-autocomplete-panel::-webkit-scrollbar {
@@ -119,7 +126,7 @@ mat-form-field:not(.mat-focused) mat-hint {
 }
 
 ::ng-deep .mat-mdc-autocomplete-panel::-webkit-scrollbar-thumb {
-  border: 4px solid rgb(255, 255, 255);
+  border: 4px solid var(--app-background-color-components);
   border-radius: 100px;
   background-color: rgb(17, 57, 126);
   &:hover {
@@ -128,6 +135,7 @@ mat-form-field:not(.mat-focused) mat-hint {
 }
 
 .passengers__btn {
+  box-sizing: border-box;
   position: relative;
   max-height: 56px;
   max-width: 34.5%;
@@ -138,9 +146,15 @@ mat-form-field:not(.mat-focused) mat-hint {
   font-size: 16px;
   line-height: 24px;
   border-radius: 4px;
-  border-color: rgb(116, 118, 122);
+  border-color: var(--app-color-neutral30);
   border-style: solid;
   background-color: transparent;
+  border-width: 1.2px;
+  & .ico {
+    position: absolute;
+    width: 13px;
+    right: 24px;
+  }
   &.error {
     border-color: rgb(182, 55, 55);
   }
@@ -157,9 +171,23 @@ mat-form-field:not(.mat-focused) mat-hint {
     left: 14px;
     font-size: 12px;
     line-height: 16px;
-    color: rgb(116, 118, 122);
+    color: var(--app-color-neutral30);
     &.error {
       color: rgb(182, 55, 55);
+    }
+  }
+  &[aria-expanded="true"] {
+    border: 2px solid rgb(17, 57, 126);
+    & label {
+      color: rgb(17, 57, 126);
+      top: 5px;
+      left: 13px;
+    }
+    & span {
+      margin-left: 13px;
+    }
+    & .ico {
+      right: 23px;
     }
   }
 }

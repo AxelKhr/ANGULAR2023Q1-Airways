@@ -17,9 +17,7 @@ import { IconsModule } from './shared/icons.module';
 import { effects } from './redux/effects';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-  ],
+  declarations: [AppComponent],
   imports: [
     CommonModule,
     BrowserModule,
@@ -28,7 +26,6 @@ import { effects } from './redux/effects';
     BrowserAnimationsModule,
     StoreModule.forRoot(reducers, { metaReducers }),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
-    IconsModule,
     HttpClientModule,
     StoreRouterConnectingModule.forRoot(),
     EffectsModule.forRoot(effects),
@@ -36,4 +33,4 @@ import { effects } from './redux/effects';
   providers: [],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
