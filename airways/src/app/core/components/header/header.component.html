@@ -9,9 +9,19 @@
       (click)="onClickLogo()"
     />
     <div class="header__center">
-      <p *ngIf="(isDefStyle$ | async) === false" class="header__title">
-        Book flights
-      </p>
+      <ng-container
+        *ngIf="isDefStyle$ | async; then headerStepper; else headerTitle"
+      ></ng-container>
+      <ng-template #headerTitle>
+        <p class="header__title">Book flights</p>
+      </ng-template>
+      <ng-template #headerStepper>
+        <app-booking-stepper
+          *ngIf="bookingStep$ | async"
+          [steps]="bookingStepsList"
+          [current]="bookingStep$ | async"
+        />
+      </ng-template>
     </div>
     <app-date-format
       [isDefMode]="isDefStyle$ | async"

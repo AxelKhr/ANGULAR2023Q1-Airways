@@ -75,7 +75,7 @@ app-header {
   }
 }
 
-.content {
+.wrapper {
   position: relative;
   top: $header-height;
 
@@ -87,18 +87,8 @@ app-header {
   justify-content: space-between;
 }
 
-.wrapper {
-  position: relative;
+.content {
   top: 0;
-
-  box-sizing: border-box;
-  width: 100%;
-  padding: 0 var(--app-wrapper-padding);
-
-  div {
-    max-width: var(--max-width-content);
-    margin: 0 auto;
-  }
 }
 
 .footer {

@@ -1,0 +1,11 @@
+<span matSnackBarLabel>{{ data.message }}</span>
+<span matSnackBarActions>
+  <button
+    mat-icon-button
+    [color]="data.isError ? 'warn' : 'primary'"
+    matSnackBarAction
+    (click)="snackBarRef.dismissWithAction()"
+  >
+    <mat-icon>cancel</mat-icon>
+  </button>
+</span>

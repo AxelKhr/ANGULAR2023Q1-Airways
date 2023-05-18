@@ -1,0 +1,10 @@
+.message-bar {
+  --mdc-snackbar-container-color: var(--app-color-neutral80);
+
+  &:not(.message-bar--error) {
+    --mdc-snackbar-supporting-text-color: black;
+  }
+  &.message-bar--error {
+    --mdc-snackbar-supporting-text-color: red;
+  }
+}

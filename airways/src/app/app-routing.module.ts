@@ -8,8 +8,16 @@ const routes: Routes = [
     loadChildren: () => import('./search/search.module').then((m) => m.SearchModule),
   },
   {
+    path: 'booking',
+    loadChildren: () => import('./booking/booking.module').then((m) => m.BookingModule),
+  },
+  {
     path: 'listing',
     loadChildren: () => import('./listing/listing.module').then((m) => m.ListingModule),
+  },
+  {
+    path: 'test',
+    loadChildren: () => import('./test/test.module').then((m) => m.TestModule),
   },
   { path: '', redirectTo: 'main', pathMatch: 'full' },
   { path: '**', component: NotfoundPageComponent },

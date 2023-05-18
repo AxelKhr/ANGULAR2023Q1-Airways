@@ -19,6 +19,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { CdkMenuModule } from '@angular/cdk/menu';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   exports: [
@@ -39,6 +40,7 @@ import { CdkMenuModule } from '@angular/cdk/menu';
     MatRadioModule,
     MatAutocompleteModule,
     CdkMenuModule,
+    MatSnackBarModule,
   ],
   providers: [
     MatIconRegistry,

@@ -1,9 +1,13 @@
 import { ActionReducerMap } from '@ngrx/store';
 import { StateModel } from '../state.model';
-import { generalReducer } from './general.reducer';
-import { settingsReducer } from './settings.reducer';
+import { authReducers } from './auth.reducers';
+import { bookingReducers } from './booking.reducer';
+import { generalReducers } from './general.reducer';
+import { settingsReducers } from './settings.reducer';
 
 export const reducers: ActionReducerMap<StateModel> = {
-  settings: settingsReducer,
-  general: generalReducer,
+  settings: settingsReducers,
+  general: generalReducers,
+  booking: bookingReducers,
+  auth: authReducers,
 };
