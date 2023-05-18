@@ -14,11 +14,14 @@ interface IResponsiveOption {
 })
 export class RaceComponent implements OnInit {
   db = JSON.parse(jsonData);
+
   data: any = { ...this.db };
 
-  hideCalendar: boolean = false;
-  buttonText: string = 'Select';
-  activeRoute: number = 2; //активная карточка
+  hideCalendar = false;
+
+  buttonText = 'Select';
+
+  activeRoute = 2; // активная карточка
 
   currentDate = new Date();
 
@@ -47,14 +50,14 @@ export class RaceComponent implements OnInit {
     const firstItem = data[0];
     const firstItemDate = new Date(firstItem.departureDate);
     const hasTodayDate = firstItemDate.getDate() === today;
-  
+
     if (hasTodayDate) {
       const additionalItems = [];
-      for (let i = 2; i >= 1; i--) {
+      for (let i = 2; i >= 1; i -= 1) {
         const previousDate = new Date(
           this.currentDate.getFullYear(),
           this.currentDate.getMonth(),
-          today - i
+          today - i,
         ).toISOString();
         const newItem = {
           ...firstItem,
@@ -63,18 +66,18 @@ export class RaceComponent implements OnInit {
         };
         additionalItems.push(newItem);
       }
-  
+
       data.splice(0, 0, ...additionalItems);
     }
   }
-  
+
   compareDates(departureDate: string): boolean {
     const currentDate = new Date();
     const formattedDepartureDate = new Date(departureDate);
     return formattedDepartureDate < new Date(
       currentDate.getFullYear(),
       currentDate.getMonth(),
-      currentDate.getDate()
+      currentDate.getDate(),
     );
   }
 

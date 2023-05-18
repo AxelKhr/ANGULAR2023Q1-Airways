@@ -186,7 +186,6 @@ export class SearchPageComponent implements OnInit {
     }
   }
 
-  // eslint-disable-next-line class-methods-use-this
   createPassengerMessage(info: IPassengersQty): string {
     const res: string[] = [];
     Object.entries(info).forEach((el) => {
@@ -208,7 +207,6 @@ export class SearchPageComponent implements OnInit {
     return this.passengersForm.value[type] === 0 ? '0.5' : '1';
   }
 
-  // eslint-disable-next-line class-methods-use-this
   dispalyShortAirport(airport: IAirport) {
     if (airport && airport.city) {
       return `${airport.city} ${airport.code}`;

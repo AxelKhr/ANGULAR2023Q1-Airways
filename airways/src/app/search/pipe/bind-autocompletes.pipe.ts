@@ -5,7 +5,6 @@ import { IAirport } from '../models/search.models';
   name: 'bindAutocompletes',
 })
 export class BindAutocompletesPipe implements PipeTransform {
-  // eslint-disable-next-line class-methods-use-this
   transform(
     items: IAirport[] | null,
     selectedAirport: IAirport,
