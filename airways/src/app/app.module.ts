@@ -14,6 +14,7 @@ import { CoreModule } from './core/core.module';
 import { reducers } from './redux/reducers';
 import { metaReducers } from './redux/meta-reducers';
 import { effects } from './redux/effects';
+import { AuthModule } from './auth/auth.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -28,6 +29,7 @@ import { effects } from './redux/effects';
     HttpClientModule,
     StoreRouterConnectingModule.forRoot(),
     EffectsModule.forRoot(effects),
+    AuthModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

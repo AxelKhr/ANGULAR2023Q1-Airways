@@ -11,8 +11,8 @@ export interface IGeneralStateModel {
 }
 
 export interface IAuthStateModel {
-  token: string;
-  userId: string;
+  isLoggedIn: boolean;
+  isAuthorization: boolean;
   userProfile: IUserProfileModel | null;
 }
 

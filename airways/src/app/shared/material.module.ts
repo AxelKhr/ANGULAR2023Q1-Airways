@@ -20,6 +20,8 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { CdkMenuModule } from '@angular/cdk/menu';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   exports: [
@@ -41,6 +43,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatAutocompleteModule,
     CdkMenuModule,
     MatSnackBarModule,
+    MatDialogModule,
+    MatProgressSpinnerModule,
   ],
   providers: [
     MatIconRegistry,
