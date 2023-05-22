@@ -1,9 +1,11 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import {
   HttpClient, HttpErrorResponse, HttpHeaders, HttpParams,
 } from '@angular/common/http';
 import { API_DEF } from 'src/app/environment/app.define';
-import { catchError, tap, EMPTY } from 'rxjs';
+import {
+  catchError, tap, EMPTY, Subscription,
+} from 'rxjs';
 import { IUserProfileModel } from 'src/app/shared/models/user-profile.model';
 import { IUserLoginModel } from 'src/app/shared/models/user-login.model';
 import { IUserDataModel } from 'src/app/shared/models/user-data.model';
@@ -15,12 +17,22 @@ import { AppActions } from 'src/app/redux/actions';
 @Injectable({
   providedIn: 'root',
 })
-export class AuthService {
+export class AuthService implements OnDestroy {
+  private checkUserSubscr!: Subscription;
+
   constructor(
     private http: HttpClient,
     private store: Store,
     private messageService: MessageBarService,
-  ) { }
+  ) {
+    this.checkUser();
+  }
+
+  ngOnDestroy(): void {
+    if (this.checkUserSubscr) {
+      this.checkUserSubscr.unsubscribe();
+    }
+  }
 
   private getApiUrl(path: string) {
     return `${API_DEF.API_URL_BASE}/${path}`;
@@ -68,7 +80,7 @@ export class AuthService {
     this.store.dispatch(AppActions.auth.userLogout());
   }
 
-  checkUser() {
+  checkUserRequest() {
     const userData = Storage.loadUser();
     if (userData) {
       this.store.dispatch(AppActions.auth.authorizationStart());
@@ -89,5 +101,9 @@ export class AuthService {
       );
     }
     return EMPTY;
+  }
+
+  checkUser() {
+    this.checkUserSubscr = this.checkUserRequest().subscribe();
   }
 }

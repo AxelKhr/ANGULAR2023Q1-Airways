@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { ICountryCodeModel } from 'src/app/shared/models/country-code.model';
 import { AppActions } from 'src/app/redux/actions';
@@ -7,19 +7,16 @@ import { IAirportModel } from 'src/app/shared/models/airport.model';
 import { Router } from '@angular/router';
 import { AuthDialogService } from 'src/app/auth/services/auth-dialog.service';
 import { AuthService } from 'src/app/auth/services/auth.service';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-test-page',
   templateUrl: './test-page.component.html',
   styleUrls: ['./test-page.component.scss'],
 })
-export class TestPageComponent implements OnDestroy {
+export class TestPageComponent {
   countryCodes: ICountryCodeModel[] = [];
 
   data: IAirportModel[] = [];
-
-  checkUserSubscription!: Subscription;
 
   constructor(
     private store: Store,
@@ -27,12 +24,6 @@ export class TestPageComponent implements OnDestroy {
     private authDialogService: AuthDialogService,
     private authService: AuthService,
   ) {}
-
-  ngOnDestroy(): void {
-    if (this.checkUserSubscription) {
-      this.checkUserSubscription.unsubscribe();
-    }
-  }
 
   onClick1() {
     this.store.dispatch(AppActions.general.loadStaticData());
@@ -54,7 +45,7 @@ export class TestPageComponent implements OnDestroy {
   }
 
   onClick5() {
-    this.checkUserSubscription = this.authService.checkUser().subscribe();
+    this.authService.checkUser();
   }
 
   onClick6() {

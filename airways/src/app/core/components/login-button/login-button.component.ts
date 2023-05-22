@@ -1,4 +1,6 @@
-import { Component, Input } from '@angular/core';
+import {
+  Component, EventEmitter, Input, Output,
+} from '@angular/core';
 
 @Component({
   selector: 'app-login-button',
@@ -7,15 +9,43 @@ import { Component, Input } from '@angular/core';
 })
 export class LoginButtonComponent {
   @Input()
-  set isDefMode(value: boolean | null) {
-    this.isDefModeValue = (value === null) ? false : value;
+  set isDefMode(value: boolean) {
+    this.isDefModeValue = value;
   }
 
   get isDefMode(): boolean {
     return this.isDefModeValue;
   }
 
-  @Input() userName = '';
+  @Input()
+  set isLoggedIn(value: boolean) {
+    this.isLoggedInValue = value;
+  }
+
+  get isLoggedIn(): boolean {
+    return this.isLoggedInValue;
+  }
+
+  @Input()
+  set userName(value: string) {
+    this.userNameValue = value;
+  }
+
+  get userName() {
+    return this.userNameValue;
+  }
+
+  @Output() signIn = new EventEmitter();
 
   isDefModeValue = false;
+
+  isLoggedInValue = false;
+
+  userNameValue = '';
+
+  onClick() {
+    if (!this.isLoggedInValue) {
+      this.signIn.emit();
+    }
+  }
 }
