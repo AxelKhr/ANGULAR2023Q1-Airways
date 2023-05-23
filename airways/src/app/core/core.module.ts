@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
 import { HeaderComponent } from './components/header/header.component';
 import { NotfoundPageComponent } from './pages/notfound-page/notfound-page.component';
@@ -8,6 +9,10 @@ import { DateFormatComponent } from './components/date-format/date-format.compon
 import { CurrencySelectorComponent } from './components/currency-selector/currency-selector.component';
 import { MatMenuClassDirective } from './directives/mat-menu-class.directive';
 import { FormFieldSelectDirective } from './directives/form-field-select.directive';
+import { AuthorizationComponent } from './components/authorization/authorization.component';
+import { SocialMediaComponent } from './components/authorization/social-media/social-media.component';
+import { SignUpComponent } from './components/authorization/sign-up/sign-up.component';
+import { SignInComponent } from './components/authorization/sign-in/sign-in.component';
 
 @NgModule({
   declarations: [
@@ -19,13 +24,12 @@ import { FormFieldSelectDirective } from './directives/form-field-select.directi
     CurrencySelectorComponent,
     FormFieldSelectDirective,
     MatMenuClassDirective,
+    AuthorizationComponent,
+    SocialMediaComponent,
+    SignUpComponent,
+    SignInComponent,
   ],
-  imports: [
-    SharedModule,
-  ],
-  exports: [
-    HeaderComponent,
-    FooterComponent,
-  ],
+  imports: [SharedModule, FormsModule, ReactiveFormsModule],
+  exports: [HeaderComponent, FooterComponent],
 })
-export class CoreModule { }
+export class CoreModule {}

@@ -8,7 +8,7 @@ import {
 } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { passengerNameTip } from 'src/app/environment/constants/name-tip';
+import { passengerNameTip } from 'src/app/environment/constants/mat-tooltips';
 import { passengersAge } from 'src/app/environment/constants/passengers-age';
 import { selectDateFormat } from 'src/app/redux/selectors/settings.selectors';
 
@@ -42,7 +42,7 @@ export class PassengerInfoComponent implements OnInit {
   constructor(
     private parent: FormGroupDirective,
     formBuilder: FormBuilder,
-    private store: Store,
+    private store: Store
   ) {
     this.passengerForm = formBuilder.group({
       passengerType: [''],

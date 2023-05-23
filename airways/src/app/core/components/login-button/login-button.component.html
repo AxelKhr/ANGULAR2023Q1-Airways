@@ -3,6 +3,7 @@
   color="primary"
   class="login"
   [ngClass]="isDefModeValue ? 'def' : 'alt'"
+  (click)="openDialog()"
 >
   <mat-icon svgIcon="account" [ngClass]="userName.length > 0 ? 'user' : ''" />
   <span>{{ userName.length > 0 ? userName : "Sign in" }}</span>
