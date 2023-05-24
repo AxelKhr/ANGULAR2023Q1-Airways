@@ -9,6 +9,7 @@ import { DateFormatComponent } from './components/date-format/date-format.compon
 import { CurrencySelectorComponent } from './components/currency-selector/currency-selector.component';
 import { MatMenuClassDirective } from './directives/mat-menu-class.directive';
 import { FormFieldSelectDirective } from './directives/form-field-select.directive';
+import { BookingStepperComponent } from './components/booking-stepper/booking-stepper.component';
 import { AuthorizationComponent } from './components/authorization/authorization.component';
 import { SocialMediaComponent } from './components/authorization/social-media/social-media.component';
 import { SignUpComponent } from './components/authorization/sign-up/sign-up.component';
@@ -24,6 +25,7 @@ import { SignInComponent } from './components/authorization/sign-in/sign-in.comp
     CurrencySelectorComponent,
     FormFieldSelectDirective,
     MatMenuClassDirective,
+    BookingStepperComponent,
     AuthorizationComponent,
     SocialMediaComponent,
     SignUpComponent,

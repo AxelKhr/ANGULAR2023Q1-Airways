@@ -22,6 +22,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { CdkMenuModule } from '@angular/cdk/menu';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   exports: [
@@ -45,6 +46,7 @@ import { CdkMenuModule } from '@angular/cdk/menu';
     MatDialogModule,
     MatCheckboxModule,
     CdkMenuModule,
+    MatSnackBarModule,
   ],
   providers: [
     MatIconRegistry,

@@ -1,0 +1,22 @@
+@use '@angular/material' as mat;
+@include mat.core();
+
+@import "./palettes";
+@import './typography.scss';
+
+$airways-primary: mat.define-palette($palette-primary);
+$airways-accent: mat.define-palette($palette-secondary);
+$airways-warn: mat.define-palette($palette-error);
+
+$airways-theme: mat.define-light-theme((
+  color: (
+    primary: $airways-primary,
+    accent: $airways-accent,
+    warn: $airways-warn,
+  ),
+  typography: mat.define-typography-config()
+));
+
+@include mat.all-component-themes($airways-theme);
+
+@include mat.button-typography($button-typography-config);

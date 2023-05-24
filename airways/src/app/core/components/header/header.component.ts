@@ -2,8 +2,10 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import * as Actions from 'src/app/redux/actions';
-import * as Selectors from 'src/app/redux/selectors';
+import { IBookingStepModel } from 'src/app/booking/models/booking-step.model';
+import { BOOKING_STEPS } from 'src/app/environment/constants/booking';
+import { AppActions } from 'src/app/redux/actions';
+import { AppSelectors } from 'src/app/redux/selectors';
 
 @Component({
   selector: 'app-header',
@@ -11,16 +13,19 @@ import * as Selectors from 'src/app/redux/selectors';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent {
-  bookingStep = 0;
+  bookingStep$:
+  Observable<IBookingStepModel | null> = this.store.select((AppSelectors.booking.selectStep));
+
+  bookingStepsList = BOOKING_STEPS;
 
   orderCount = 5;
 
   isDefStyle$: Observable<boolean> = this.store
-    .select((Selectors.general.selectIsMainStyleInverse));
+    .select((AppSelectors.general.selectIsMainStyleInverse));
 
-  dateFormat$: Observable<string> = this.store.select((Selectors.settings.selectDateFormat));
+  dateFormat$: Observable<string> = this.store.select((AppSelectors.settings.selectDateFormat));
 
-  currency$: Observable<string> = this.store.select((Selectors.settings.selectCurrency));
+  currency$: Observable<string> = this.store.select((AppSelectors.settings.selectCurrency));
 
   constructor(private router: Router, private store: Store) { }
 
@@ -29,10 +34,10 @@ export class HeaderComponent {
   }
 
   onChangeFormat(value: string) {
-    this.store.dispatch(Actions.settings.setDateFormat({ dateFormat: value }));
+    this.store.dispatch(AppActions.settings.setDateFormat({ dateFormat: value }));
   }
 
   onChangeCurrency(value: string) {
-    this.store.dispatch(Actions.settings.setCurrency({ currency: value }));
+    this.store.dispatch(AppActions.settings.setCurrency({ currency: value }));
   }
 }

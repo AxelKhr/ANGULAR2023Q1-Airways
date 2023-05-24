@@ -5,9 +5,11 @@ import { IGeneralStateModel } from '../state.model';
 
 export const initialState: IGeneralStateModel = {
   isMainStyle: true,
+  countryCodes: [],
+  airports: [],
 };
 
-export const generalReducer = createReducer(
+export const generalReducers = createReducer(
   initialState,
   on(GeneralActions.setIsMainStyle, (state, { isMainStyle }): IGeneralStateModel => ({
     ...state,
@@ -17,4 +19,10 @@ export const generalReducer = createReducer(
     ...state,
     isMainStyle: payload.event.urlAfterRedirects.includes('main'),
   })),
+  on(GeneralActions.loadStaticDataSuccess, (state, { data }): IGeneralStateModel => ({
+    ...state,
+    countryCodes: [...data.countryCodes],
+    airports: [...data.airports],
+  })),
+  on(GeneralActions.loadStaticDataFailed, (state): IGeneralStateModel => state),
 );

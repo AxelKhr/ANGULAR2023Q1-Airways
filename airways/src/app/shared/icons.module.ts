@@ -22,6 +22,8 @@ export class IconsModule {
     this.matIconRegistry.addSvgIcon('passenger-ico', this.setPath('./assets/passenger-ico.svg'));
     this.matIconRegistry.addSvgIcon('contact-ico', this.setPath('./assets/contact-ico.svg'));
     this.matIconRegistry.addSvgIcon('arrow-down', this.setPath('./assets/arrow-down.svg'));
+    this.matIconRegistry.addSvgIcon('step-complete', this.setPath('./assets/step-complete.svg'));
+    this.matIconRegistry.addSvgIcon('step-edit', this.setPath('./assets/step-edit.svg'));
   }
 
   private setPath(url: string): SafeResourceUrl {
