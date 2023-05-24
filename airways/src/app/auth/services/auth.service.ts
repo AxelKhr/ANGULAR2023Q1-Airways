@@ -84,15 +84,21 @@ export class AuthService implements OnDestroy {
     const userData = Storage.loadUser();
     if (userData) {
       this.store.dispatch(AppActions.auth.authorizationStart());
-      return this.http.get<IUserProfileModel>(
+      return this.http.get<IUserProfileModel | boolean>(
         this.getApiUrl(API_DEF.API_URL_USER_CHECK),
         {
           headers: new HttpHeaders().append('Authorization', `Bearer ${userData.token}`),
           params: new HttpParams().append('id', userData.userId),
         },
       ).pipe(
-        tap((userProfile) => {
-          this.store.dispatch(AppActions.auth.authorizationSuccess({ userProfile }));
+        tap((response) => {
+          if ((typeof response === 'boolean') && (response === false)) {
+            this.store.dispatch(AppActions.auth.authorizationStop());
+          } else {
+            this.store.dispatch(AppActions.auth.authorizationSuccess({
+              userProfile: response as IUserProfileModel,
+            }));
+          }
         }),
         catchError(() => {
           this.store.dispatch(AppActions.auth.authorizationStop());
