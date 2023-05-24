@@ -5,8 +5,7 @@
   background-color: var(--app-color-neutral100);
   border-radius: 8px;
 }
-// .sign-in-form {
-//   width: 100%;
+
 :host ::ng-deep {
   .mat-mdc-tab.mdc-tab {
     @include media-mobile {
@@ -27,7 +26,6 @@
     overflow: hidden;
   }
 }
-// }
 
 .action {
   width: 14px;
