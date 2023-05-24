@@ -99,6 +99,9 @@
       [max]="maxDateBirth"
       [placeholder]="(dateFormat | async) || 'DD/MM/YYYY'"
     />
+    <mat-error *ngIf="dateBirth?.hasError('required')">
+      Birth date is required
+    </mat-error>
     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker #picker>
       <mat-datepicker-actions>
@@ -133,6 +136,9 @@
           {{ code.country + " " + code.code }}
         </mat-option>
       </mat-select>
+      <mat-error *ngIf="countryCode?.hasError('required')">
+        Country code is required
+      </mat-error>
     </mat-form-field>
 
     <mat-form-field
@@ -159,13 +165,20 @@
     </mat-form-field>
   </div>
 
-  <mat-form-field floatLabel="always" subscriptSizing="dynamic">
+  <mat-form-field
+    floatLabel="always"
+    subscriptSizing="dynamic"
+    class="citizenship"
+  >
     <mat-label>Citizenship</mat-label>
     <mat-select formControlName="citizenship">
       <mat-option *ngFor="let info of countryCodes" [value]="info.country">
         {{ info.country }}
       </mat-option>
     </mat-select>
+    <mat-error *ngIf="citizenship?.hasError('required')">
+      Citizenship is required
+    </mat-error>
   </mat-form-field>
 
   <section class="agreement">

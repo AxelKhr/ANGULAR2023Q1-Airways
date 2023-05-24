@@ -1,26 +1,33 @@
+@import "../../../../styles/responsive.scss";
+
 .auth {
   width: 494px;
   background-color: var(--app-color-neutral100);
   border-radius: 8px;
 }
-.sign-in-form {
-  width: 100%;
-  ::ng-deep {
-    .mat-mdc-tab-labels {
-      border: 0.5px solid var(--app-color-neutral60) !important;
-      border-radius: 6px;
-    }
-    .mdc-tab--active {
-      border: 1px solid var(--app-color-neutral60);
-      border-bottom: none;
-      border-radius: 6px;
-      background-color: var(--app-color-secondary90);
-    }
-    .mat-mdc-tab-body-content.ng-trigger-translateTab {
-      overflow: hidden;
+// .sign-in-form {
+//   width: 100%;
+:host ::ng-deep {
+  .mat-mdc-tab.mdc-tab {
+    @include media-mobile {
+      height: 30px;
     }
   }
+  .mat-mdc-tab-labels {
+    border: 0.5px solid var(--app-color-neutral60) !important;
+    border-radius: 6px;
+  }
+  .mdc-tab--active {
+    border: 1px solid var(--app-color-neutral60);
+    border-bottom: none;
+    border-radius: 6px;
+    background-color: var(--app-color-secondary90);
+  }
+  .mat-mdc-tab-body-content.ng-trigger-translateTab {
+    overflow: hidden;
+  }
 }
+// }
 
 .action {
   width: 14px;
@@ -28,6 +35,10 @@
   position: absolute;
   top: -35px;
   right: -10px;
+  @include media-mobile {
+    top: -49px;
+    right: 56px;
+  }
   &__close {
     background-color: transparent;
     border: none;
@@ -35,6 +46,9 @@
     cursor: pointer;
     font-size: 20px;
     pointer-events: all;
+    @include media-mobile {
+      border: 1px solid black;
+    }
     &:hover {
       background-color: transparent;
     }

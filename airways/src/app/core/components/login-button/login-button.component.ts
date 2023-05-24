@@ -13,30 +13,18 @@ export class LoginButtonComponent {
     this.isDefModeValue = value === null ? false : value;
   }
 
-  constructor(public dialog: MatDialog) {
-    this.openDialog();
-  }
+  constructor(public dialog: MatDialog) {}
 
   openDialog() {
     this.dialog.open(AuthorizationComponent, {
       disableClose: true,
       position: {
-        top: '40px',
+        top: '45px',
       },
       width: 'auto',
+      maxWidth: '90vw',
     });
   }
-  // openDialog() {
-  //   const dialogRef = this.dialog.open(DialogContentExampleDialog);
-
-  //   dialogRef.afterClosed().subscribe((result) => {
-  //     console.log(`Dialog result: ${result}`);
-  //   });
-  // }
-
-  // get isDefMode(): boolean {
-  //   return this.isDefModeValue;
-  // }
 
   @Input() userName = '';
 

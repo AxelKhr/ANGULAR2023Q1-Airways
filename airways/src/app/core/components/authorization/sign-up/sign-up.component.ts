@@ -33,8 +33,8 @@ export class SignUpComponent {
 
   signUpForm: FormGroup = new FormGroup({
     email: new FormControl('', [
-      // Validators.required,
-      // Validators.pattern(/^\S+@\S+\.\S+$/),
+      Validators.required,
+      Validators.pattern(/^\S+@\S+\.\S+$/),
     ]),
     password: new FormControl('', [
       Validators.required,
@@ -42,19 +42,19 @@ export class SignUpComponent {
       Validators.pattern(/^(?=.*[a-zA-Z])(?=.*\d)/),
     ]),
     firstName: new FormControl('', [
-      // Validators.required,
+      Validators.required,
       Validators.pattern(/^[A-Za-z\s]*$/),
     ]),
     lastName: new FormControl('', [
-      // Validators.required,
-      // Validators.pattern(/^[A-Za-z\s]*$/),
+      Validators.required,
+      Validators.pattern(/^[A-Za-z\s]*$/),
     ]),
     dateBirth: new FormControl('', Validators.required),
     sex: new FormControl('male', Validators.required),
     countryCode: new FormControl('', Validators.required),
     phoneNumber: new FormControl('', [
-      // Validators.required,
-      // Validators.pattern(/^[0-9]*$/),
+      Validators.required,
+      Validators.pattern(/^[0-9]*$/),
       // Validators.minLength(8),
       // Validators.maxLength(8),
     ]),
@@ -94,8 +94,12 @@ export class SignUpComponent {
     return this.signUpForm.get('phoneNumber');
   }
 
-  get citizensip() {
+  get citizenship() {
     return this.signUpForm.get('citizenship');
+  }
+
+  get countryCode() {
+    return this.signUpForm.get('countryCode');
   }
 
   onSubmit() {

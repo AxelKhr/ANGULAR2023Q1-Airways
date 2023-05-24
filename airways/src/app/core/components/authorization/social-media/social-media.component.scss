@@ -1,3 +1,5 @@
+@import "../../../../../styles/responsive.scss";
+
 .social {
   display: flex;
   flex-direction: column;
@@ -8,6 +10,10 @@
   font-size: 16px;
   line-height: 20px;
   font-weight: 500;
+  @include media-mobile {
+    margin: 15px 0;
+    font-size: 15px;
+  }
 
   &__button {
     width: 100%;
@@ -19,6 +25,9 @@
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    @include media-mobile {
+      height: 35px;
+    }
     &:hover {
       color: rgb(17, 57, 126);
     }
