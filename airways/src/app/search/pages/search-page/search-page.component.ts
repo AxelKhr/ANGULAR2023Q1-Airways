@@ -1,12 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
+  FormBuilder,
   FormControl,
   FormGroup,
   ValidatorFn,
   Validators,
 } from '@angular/forms';
-import { Observable, map, startWith } from 'rxjs';
-import { IAirport, IPassengersQty } from '../../models/search.models';
+import { Store } from '@ngrx/store';
+import {
+  Observable, map, startWith, Subscription, EMPTY,
+} from 'rxjs';
+import { AppActions } from 'src/app/redux/actions';
+import { AppSelectors } from 'src/app/redux/selectors';
+import { IAirportModel } from 'src/app/shared/models/airport.model';
+import { IFlightsRequestModel } from 'src/app/shared/models/flights-request.model';
+import { IPassengersQty, ISearchRequest } from '../../models/search.models';
 import {
   endDateRequired,
   validateDestination,
@@ -18,7 +26,7 @@ import {
   templateUrl: './search-page.component.html',
   styleUrls: ['./search-page.component.scss'],
 })
-export class SearchPageComponent implements OnInit {
+export class SearchPageComponent implements OnInit, OnDestroy {
   currentDate = new Date();
 
   passengerMessage = '1 Adult';
@@ -33,7 +41,7 @@ export class SearchPageComponent implements OnInit {
   );
 
   searchForm: FormGroup = new FormGroup({
-    isRound: new FormControl('true'),
+    isRound: new FormControl('1'),
     from: new FormControl('', [Validators.required, validateDestination]),
     destination: new FormControl('', [
       Validators.required,
@@ -43,7 +51,7 @@ export class SearchPageComponent implements OnInit {
     dateEnd: new FormControl<Date | null>(null, {
       validators: endDateRequired as ValidatorFn,
     }),
-    passangers: this.passengersForm,
+    passengers: this.passengersForm,
   });
 
   passengersType = [
@@ -52,112 +60,70 @@ export class SearchPageComponent implements OnInit {
     { type: 'infant', age: '0-2 years' },
   ];
 
-  options: IAirport[] = [
-    {
-      code: 'AMS',
-      name: 'Amsterdam Airport Schiphol',
-      city: 'Amsterdam',
-      country: 'Netherlands',
-    },
-    {
-      code: 'CDG',
-      name: 'Paris-Charles de Gaulle Airport',
-      city: 'Paris',
-      country: 'France',
-    },
-    {
-      code: 'DUB',
-      name: 'Dublin Airport',
-      city: 'Dublin',
-      country: 'Ireland',
-    },
-    {
-      code: 'JFK',
-      name: 'John F. Kennedy International Airport',
-      city: 'New York',
-      country: 'United States',
-    },
-    {
-      code: 'LHR',
-      name: 'London Heathrow Airport',
-      city: 'London',
-      country: 'United Kingdom',
-    },
-    {
-      code: 'MEL',
-      name: 'Melbourne Airport',
-      city: 'Melbourne',
-      country: 'Australia',
-    },
-    {
-      code: 'MUC',
-      name: 'Munich Airport',
-      city: 'Munich',
-      country: 'Germany',
-    },
-    {
-      code: 'NRT',
-      name: 'Narita International Airport',
-      city: 'Tokyo',
-      country: 'Japan',
-    },
-    {
-      code: 'PEK',
-      name: 'Beijing Capital International Airport',
-      city: 'Beijing',
-      country: 'China',
-    },
-    {
-      code: 'PRG',
-      name: 'Vaclav Havel Airport Prague',
-      city: 'Prague',
-      country: 'Czech Republic',
-    },
-    {
-      code: 'ROM',
-      name: 'Leonardo da Vinci International Airport',
-      city: 'Rome',
-      country: 'Italy',
-    },
-  ];
+  airportsSubscr!: Subscription;
 
-  filteredFromOptions!: Observable<IAirport[]>;
+  options: IAirportModel[] = [];
 
-  filteredToOptions!: Observable<IAirport[]>;
+  filteredFromOptions!: Observable<IAirportModel[]>;
+
+  filteredToOptions!: Observable<IAirportModel[]>;
+
+  passengersFormChangesSubscr!: Subscription;
+
+  searchFormIsRoundChangesSubscr!: Subscription | undefined;
+
+  constructor(private fb: FormBuilder, private store: Store) {}
 
   ngOnInit(): void {
-    this.filteredFromOptions = this.searchForm.get('from')!.valueChanges.pipe(
-      startWith(''),
-      map((value) => {
-        const name = typeof value === 'string' ? value : Object.values(value).join(' ');
-        return name ? this.filterAirportsAutocomplete(name as string) : this.options.slice();
-      }),
+    // eslint-disable-next-line @ngrx/no-store-subscription
+    this.airportsSubscr = this.store.select(AppSelectors.general.selectAirports).subscribe(
+      (airports) => { this.options = [...airports]; },
     );
 
-    this.filteredToOptions = this.searchForm
-      .get('destination')!
-      .valueChanges.pipe(
+    this.filteredFromOptions = this.searchForm.get('from')?.valueChanges
+      .pipe(
         startWith(''),
         map((value) => {
           const name = typeof value === 'string' ? value : Object.values(value).join(' ');
           return name ? this.filterAirportsAutocomplete(name as string) : this.options.slice();
         }),
-      );
+      ) ?? EMPTY;
 
-    this.passengersForm.valueChanges.subscribe((el) => {
+    this.filteredToOptions = this.searchForm.get('destination')?.valueChanges
+      .pipe(
+        startWith(''),
+        map((value) => {
+          const name = typeof value === 'string' ? value : Object.values(value).join(' ');
+          return name ? this.filterAirportsAutocomplete(name as string) : this.options.slice();
+        }),
+      ) ?? EMPTY;
+
+    this.passengersFormChangesSubscr = this.passengersForm.valueChanges.subscribe((el) => {
       this.passengerMessage = this.createPassengerMessage(el);
     });
 
-    this.searchForm.get('isRound')?.valueChanges.subscribe(() => {
+    this.searchFormIsRoundChangesSubscr = this.searchForm.get('isRound')?.valueChanges.subscribe(() => {
       this.searchForm.get('dateEnd')?.updateValueAndValidity();
     });
   }
 
-  private filterAirportsAutocomplete(value: string): IAirport[] {
-    const filterValue = value.toLowerCase();
+  ngOnDestroy(): void {
+    if (this.airportsSubscr) {
+      this.airportsSubscr.unsubscribe();
+    }
+    if (this.passengersFormChangesSubscr) {
+      this.passengersFormChangesSubscr.unsubscribe();
+    }
+    if (this.searchFormIsRoundChangesSubscr) {
+      this.searchFormIsRoundChangesSubscr.unsubscribe();
+    }
+  }
 
+  private filterAirportsAutocomplete(value: string): IAirportModel[] {
+    const filterValue = value.toLowerCase();
     return this.options.filter((airport) => Object.values(airport).some(
-      (el) => el.toLowerCase().includes(filterValue) || `${airport.city} ${airport.code}`.toLowerCase().includes(filterValue),
+      (el) => el.toString().toLowerCase().includes(filterValue)
+        || `${airport.city} ${airport.code}`.toLowerCase().includes(filterValue),
     ));
   }
 
@@ -207,7 +173,7 @@ export class SearchPageComponent implements OnInit {
     return this.passengersForm.value[type] === 0 ? '0.5' : '1';
   }
 
-  dispalyShortAirport(airport: IAirport) {
+  dispalyShortAirport(airport: IAirportModel) {
     if (airport && airport.city) {
       return `${airport.city} ${airport.code}`;
     }
@@ -217,7 +183,19 @@ export class SearchPageComponent implements OnInit {
     return '';
   }
 
-  temp() {
-    console.log(this.searchForm.value);
+  submit() {
+    const request = this.searchForm.value as ISearchRequest;
+    const flightsRequest: IFlightsRequestModel = {
+      departureAirportCode: (request.from) ? request.from.code : '',
+      arrivalAirportCode: (request.destination) ? request.destination.code : '',
+      departureDate: (request.dateStart) ? request.dateStart.toDateString() : '',
+      returnDate: (request.dateEnd) ? request.dateEnd.toDateString() : '',
+      roundTrip: (request.isRound) ? +request.isRound : 0,
+      countAdult: request.passengers.adult,
+      countChildren: request.passengers.child,
+      countInfant: request.passengers.infant,
+      amountFlights: 5,
+    };
+    this.store.dispatch(AppActions.booking.getFlights({ request: flightsRequest }));
   }
 }
