@@ -9,6 +9,7 @@ export const initialState: IBookingStateModel = {
   flightsRequest: null,
   isFlightsNewData: false,
   routes: [],
+  order: null,
 };
 
 function getStep(url: string) {
