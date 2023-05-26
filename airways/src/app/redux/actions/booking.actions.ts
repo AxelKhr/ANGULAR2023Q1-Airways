@@ -1,6 +1,9 @@
 import { createAction, props } from '@ngrx/store';
 import { IBookingStepModel } from 'src/app/booking/models/booking-step.model';
-import { IFlightsRequestModel } from 'src/app/shared/models/flights-request.model';
+import {
+  IFlightsRequestModel,
+  IFlightsRequestOptionsModel,
+} from 'src/app/shared/models/flights-request.model';
 import { IFlightsResponseModel } from 'src/app/shared/models/flights-response.model';
 
 export enum BookingActionTypes {
@@ -23,7 +26,12 @@ export const setFlightsRequest = createAction(
 
 export const getFlights = createAction(
   BookingActionTypes.getFlights,
-  props<{ request: IFlightsRequestModel }>(),
+  (request: IFlightsRequestModel, options: IFlightsRequestOptionsModel = {
+    isNewData: false, isGoToBooking: false,
+  }) => ({
+    request,
+    options,
+  }),
 );
 
 export const getFlightsSuccess = createAction(

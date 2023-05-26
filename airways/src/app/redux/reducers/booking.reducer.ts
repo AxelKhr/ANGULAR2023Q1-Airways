@@ -7,6 +7,7 @@ import * as BookingActions from '../actions/booking.actions';
 export const initialState: IBookingStateModel = {
   step: null,
   flightsRequest: null,
+  isFlightsNewData: false,
   routes: [],
 };
 
@@ -29,9 +30,10 @@ export const bookingReducers = createReducer(
     ...state,
     flightsRequest: { ...flightsRequest },
   })),
-  on(BookingActions.getFlights, (state, { request }): IBookingStateModel => ({
+  on(BookingActions.getFlights, (state, { request, options }): IBookingStateModel => ({
     ...state,
     flightsRequest: { ...request },
+    isFlightsNewData: options.isNewData,
     routes: [],
   })),
   on(BookingActions.getFlightsSuccess, (state, { response }): IBookingStateModel => ({

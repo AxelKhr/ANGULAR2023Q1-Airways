@@ -41,7 +41,7 @@ export class TestPageComponent {
       countInfant: 0,
       amountFlights: 5,
     };
-    this.store.dispatch(AppActions.booking.getFlights({ request }));
+    this.store.dispatch(AppActions.booking.getFlights(request));
   }
 
   onClick5() {

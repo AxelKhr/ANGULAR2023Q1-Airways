@@ -5,5 +5,6 @@ import { IBookingStepModel } from './booking-step.model';
 export interface IBookingStateModel {
   step: IBookingStepModel | null;
   flightsRequest: IFlightsRequestModel | null;
+  isFlightsNewData: boolean;
   routes: IRouteModel[];
 }

@@ -196,6 +196,9 @@ export class SearchPageComponent implements OnInit, OnDestroy {
       countInfant: request.passengers.infant,
       amountFlights: 5,
     };
-    this.store.dispatch(AppActions.booking.getFlights({ request: flightsRequest }));
+    this.store.dispatch(AppActions.booking.getFlights(
+      flightsRequest,
+      { isNewData: true, isGoToBooking: true },
+    ));
   }
 }

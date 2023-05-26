@@ -7,3 +7,13 @@ export const selectStep = createSelector(
   selectBookingState,
   (state) => state.step,
 );
+
+export const selectRoutes = createSelector(
+  selectBookingState,
+  (state) => state.routes,
+);
+
+export const selectFlightsRequest = createSelector(
+  selectBookingState,
+  (state) => state.flightsRequest,
+);

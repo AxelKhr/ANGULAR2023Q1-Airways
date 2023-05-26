@@ -3,4 +3,5 @@ export interface IAirportModel {
   name: string;
   city: string;
   country: string;
+  timezone: number;
 }

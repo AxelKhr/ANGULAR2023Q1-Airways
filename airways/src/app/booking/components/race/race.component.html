@@ -2,14 +2,23 @@
   <div class="race__title">
     <img class="race__title__logo" src="./assets/plane.svg" alt="plane" />
     <p class="race__title__name-race">
-      {{ getAirportName(data.departureAirportCode) }} to
-      {{ getAirportName(data.arrivalAirportCode) }}
+      {{
+        getAirportName(
+          isReturned ? request.arrivalAirportCode : request.departureAirportCode
+        ) | async
+      }}
+      to
+      {{
+        getAirportName(
+          isReturned ? request.departureAirportCode : request.arrivalAirportCode
+        ) | async
+      }}
     </p>
   </div>
 
   <div class="race__calendar" *ngIf="!hideCalendar">
     <p-carousel
-      [value]="data.routes"
+      [value]="routes"
       [numVisible]="5"
       [numScroll]="1"
       [circular]="false"
@@ -63,25 +72,7 @@
                     *ngIf="route.flights.length > 0"
                     class="race-row"
                     [ngStyle]="{
-                      'background-color': getColor(
-                        1,
-                        route.flights[1]?.seats.freeSeats
-                          ? route.flights[
-                              getMin(
-                                route.flights[0].seats.freeSeats,
-                                route.flights[1]?.seats.freeSeats
-                              )
-                            ].seats.freeSeats
-                          : route.flights[0].seats.freeSeats,
-                        route.flights[1]?.seats.freeSeats
-                          ? route.flights[
-                              getMin(
-                                route.flights[0].seats.freeSeats,
-                                route.flights[1]?.seats.freeSeats
-                              )
-                            ].seats.totalSeats
-                          : route.flights[0].seats.totalSeats
-                      )
+                      'background-color': getColor(1, getMinSeats(route))
                     }"
                   ></div>
                 </mat-card-content>
@@ -95,11 +86,11 @@
   <div class="container-race">
     <div
       class="container-race__left-side"
-      *ngIf="data.routes[activeRoute].flights.length > 0"
+      *ngIf="routes[activeRouteInd].flights.length > 0"
     >
       <div
         class="container-race__left-side__container"
-        *ngFor="let flight of data.routes[activeRoute].flights; let i = index"
+        *ngFor="let flight of routes[activeRouteInd].flights; let i = index"
       >
         <div class="fly-param">
           <div class="fly-info">
@@ -113,11 +104,11 @@
                 </div>
                 <div class="fly-info__left-text__time-fly__timezone">
                   UTC
-                  {{ getAirportTimezone(flight.departureAirportCode) }}
+                  {{ getAirportTimezone(flight.departureAirportCode) | async }}
                 </div>
               </div>
               <div class="fly-info__left-text__name-airport">
-                {{ getAirportName(flight.departureAirportCode) }}
+                {{ getAirportName(flight.departureAirportCode) | async }}
               </div>
             </div>
             <div class="fly-info__center-content">
@@ -129,8 +120,8 @@
                 <div class="fly-info__center-content__content__plane">
                   <img
                     src="{{
-                      data.routes[activeRoute].departureAirportCode ===
-                      data.departureAirportCode
+                      routes[activeRouteInd].departureAirportCode ===
+                      request.departureAirportCode
                         ? '../../../../assets/airplane_takeoff.svg'
                         : '../../../../assets/airplane_takeon.svg'
                     }}"
@@ -139,7 +130,7 @@
                 </div>
                 <div class="fly-info__center-content__content__direct">
                   {{
-                    data.routes[activeRoute].flights.length === 1
+                    routes[activeRouteInd].flights.length === 1
                       ? "Direct"
                       : "Connecting"
                   }}
@@ -154,14 +145,14 @@
               <div class="fly-info__right-text__time-fly">
                 <div class="fly-info__right-text__time-fly__timezone">
                   UTC
-                  {{ getAirportTimezone(flight.arrivalAirportCode) }}
+                  {{ getAirportTimezone(flight.arrivalAirportCode) | async }}
                 </div>
                 <div class="fly-info__right-text__time-fly__time">
                   {{ flight.arrivalDateTime | date : "HH:mm" }}
                 </div>
               </div>
               <div class="fly-info__right-text__name-airport">
-                {{ getAirportName(flight.arrivalAirportCode) }}
+                {{ getAirportName(flight.arrivalAirportCode) | async }}
               </div>
             </div>
           </div>
@@ -175,7 +166,7 @@
 
     <div
       class="container-race__right-side"
-      *ngIf="data.routes[activeRoute].flights.length > 0"
+      *ngIf="routes[activeRouteInd].flights.length > 0"
     >
       <div class="line"></div>
       <div class="price-param">
@@ -186,43 +177,19 @@
             [ngStyle]="{
               'background-color': getColor(
                 0.3,
-                data.routes[activeRoute].flights[1]?.seats.freeSeats
-                  ? data.routes[activeRoute].flights[
-                      getMin(
-                        data.routes[activeRoute].flights[0].seats.freeSeats,
-                        data.routes[activeRoute].flights[1]?.seats.freeSeats
-                      )
-                    ].seats.freeSeats
-                  : data.routes[activeRoute].flights[0].seats.freeSeats,
-                data.routes[activeRoute].flights[1]?.seats.freeSeats
-                  ? data.routes[activeRoute].flights[
-                      getMin(
-                        data.routes[activeRoute].flights[0].seats.freeSeats,
-                        data.routes[activeRoute].flights[1]?.seats.freeSeats
-                      )
-                    ].seats.totalSeats
-                  : data.routes[activeRoute].flights[0].seats.totalSeats
+                getMinSeats(routes[activeRouteInd])
               )
             }"
           >
             <span
-              >{{
-                data.routes[activeRoute].flights[1] !== undefined
-                  ? data.routes[activeRoute].flights[
-                      getMin(
-                        data.routes[activeRoute].flights[0].seats.freeSeats,
-                        data.routes[activeRoute].flights[1].seats.freeSeats
-                      )
-                    ].seats.freeSeats
-                  : data.routes[activeRoute].flights[0].seats.freeSeats
-              }}
-              seats available</span
+              >{{ getMinSeats(routes[activeRouteInd]).freeSeats }} seats
+              available</span
             >
           </div>
           <div class="price-param__price-warning__price">
             <span *ngIf="!hideCalendar">Price</span>
             <span class="cost"
-              >${{ data.routes[activeRoute].ticketsCost.adult.totalCost }}</span
+              >${{ routes[activeRouteInd].ticketsCost.adult.totalCost }}</span
             >
           </div>
         </div>
@@ -240,10 +207,7 @@
         </div>
       </div>
     </div>
-    <div
-      class="no-flights"
-      *ngIf="data.routes[activeRoute].flights.length === 0"
-    >
+    <div class="no-flights" *ngIf="routes[activeRouteInd].flights.length === 0">
       <span>No flights found for this date</span>
     </div>
   </div>

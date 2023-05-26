@@ -1,4 +1,18 @@
-<p>select-page works!</p>
+<div *ngIf="isEnable" class="data">
+  <app-race
+    class="data__routes"
+    [airports$]="airports$"
+    [request$]="flightRequest$"
+    [routes$]="routesTo$"
+  ></app-race>
+  <app-race
+    class="data__routes"
+    [airports$]="airports$"
+    [request$]="flightRequest$"
+    [routes$]="routesFrom$"
+    [isReturned]="true"
+  ></app-race>
+</div>
 <div class="control">
   <button
     mat-button
