@@ -23,9 +23,13 @@ export class StaticDataEffects {
         .pipe(
           exhaustMap((countryCodes) => this.apiService.getAirports()
             .pipe(
-              map((airports) => GeneralActions.loadStaticDataSuccess({
-                data: { countryCodes, airports },
-              })),
+              exhaustMap((airports) => this.apiService.getCitizenships()
+                .pipe(
+                  map((citizenships) => GeneralActions.loadStaticDataSuccess({
+                    data: { countryCodes, airports, citizenships },
+                  })),
+                  catchError((message) => of(GeneralActions.loadStaticDataFailed({ message }))),
+                )),
               catchError((message) => of(GeneralActions.loadStaticDataFailed({ message }))),
             )),
           catchError((message) => of(GeneralActions.loadStaticDataFailed({ message }))),

@@ -4,4 +4,5 @@ import { ICountryCodeModel } from './country-code.model';
 export interface IAirwaysStaticDataModel {
   countryCodes: ICountryCodeModel[];
   airports: IAirportModel[];
+  citizenships: string[];
 }

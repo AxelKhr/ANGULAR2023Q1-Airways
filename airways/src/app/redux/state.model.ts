@@ -8,6 +8,7 @@ export interface IGeneralStateModel {
   isMainStyle: boolean;
   countryCodes: ICountryCodeModel[];
   airports: IAirportModel[];
+  citizenships: string[];
 }
 
 export interface IAuthStateModel {

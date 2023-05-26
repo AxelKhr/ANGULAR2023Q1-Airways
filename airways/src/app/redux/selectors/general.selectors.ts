@@ -17,3 +17,8 @@ export const selectAirports = createSelector(
   selectGeneralState,
   (state) => state.airports,
 );
+
+export const selectCitizenships = createSelector(
+  selectGeneralState,
+  (state) => state.citizenships,
+);

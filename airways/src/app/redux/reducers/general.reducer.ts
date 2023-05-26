@@ -7,6 +7,7 @@ export const initialState: IGeneralStateModel = {
   isMainStyle: true,
   countryCodes: [],
   airports: [],
+  citizenships: [],
 };
 
 export const generalReducers = createReducer(
@@ -23,6 +24,7 @@ export const generalReducers = createReducer(
     ...state,
     countryCodes: [...data.countryCodes],
     airports: [...data.airports],
+    citizenships: [...data.citizenships],
   })),
   on(GeneralActions.loadStaticDataFailed, (state): IGeneralStateModel => state),
 );
