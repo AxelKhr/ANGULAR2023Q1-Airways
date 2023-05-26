@@ -1,4 +1,6 @@
 import { Component, Input } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { AuthorizationComponent } from '../authorization/authorization.component';
 
 @Component({
   selector: 'app-login-button',
@@ -8,11 +10,20 @@ import { Component, Input } from '@angular/core';
 export class LoginButtonComponent {
   @Input()
   set isDefMode(value: boolean | null) {
-    this.isDefModeValue = (value === null) ? false : value;
+    this.isDefModeValue = value === null ? false : value;
   }
 
-  get isDefMode(): boolean {
-    return this.isDefModeValue;
+  constructor(public dialog: MatDialog) {}
+
+  openDialog() {
+    this.dialog.open(AuthorizationComponent, {
+      disableClose: true,
+      position: {
+        top: '45px',
+      },
+      width: 'auto',
+      maxWidth: '90vw',
+    });
   }
 
   @Input() userName = '';
