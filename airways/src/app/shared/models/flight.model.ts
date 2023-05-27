@@ -1,3 +1,5 @@
+import { IFlightSeatsModel } from './flight-seats.model';
+
 export interface IFlightModel {
   departureAirportCode: string;
   departureDateTime: string;
@@ -5,6 +7,6 @@ export interface IFlightModel {
   arrivalDateTime: string;
   numberRace: string;
   seatNumbers: string[];
-  freeSeats: number;
+  seats: IFlightSeatsModel;
   flightTime: number;
 }

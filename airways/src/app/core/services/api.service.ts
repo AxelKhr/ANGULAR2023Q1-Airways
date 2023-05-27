@@ -78,6 +78,15 @@ export class ApiService {
     );
   }
 
+  getCitizenships() {
+    return this.http.get<string[]>(
+      this.getApiUrl(API_DEF.API_URL_CITIZENSHIP),
+    ).pipe(
+      retry(API_DEF.API_NUMBER_OF_REPEATS),
+      catchError(this.handlerError),
+    );
+  }
+
   getFlights(request: IFlightsRequestModel) {
     return this.http.get<IFlightsResponseModel>(
       this.getApiUrl(API_DEF.API_URL_FLIGHTS),

@@ -1,7 +1,7 @@
 <form class="booking" (ngSubmit)="onSubmit()" [formGroup]="bookingForm">
   <div class="booking__title">
     <mat-icon svgIcon="passenger-ico"></mat-icon>
-    <span>Pasengers</span>
+    <span>Passengers</span>
   </div>
   <p class="booking__subtitle">
     Enter the passenger's names as they appear on document (passport or ID).
@@ -25,9 +25,4 @@
   </p>
 
   <app-contact-details></app-contact-details>
-
-  <div class="booking__footer">
-    <button mat-flat-button color="secondary" type="button">Back</button>
-    <button mat-flat-button color="primary" type="submit">Continue</button>
-  </div>
 </form>

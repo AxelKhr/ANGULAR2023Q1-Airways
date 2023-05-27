@@ -1,9 +1,11 @@
 <div class="container">
-  <div *ngIf="isBackgroundVisible$ | async" class="background">
-    <div></div>
+  <div class="container__background">
+    <div *ngIf="isBackgroundVisible$ | async" class="background">
+      <div></div>
+    </div>
   </div>
   <div class="header">
-    <div class="background">
+    <div *ngIf="isBackgroundVisible$ | async" class="background">
       <div></div>
     </div>
     <app-header></app-header>

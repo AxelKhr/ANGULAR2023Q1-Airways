@@ -16,7 +16,6 @@
 
 .race {
   max-width: 1128px;
-  margin-top: 24px;
   cursor: default;
   &__title {
     @include flex-center-vertical;
@@ -32,7 +31,7 @@
     }
     &__name-race {
       display: inline-block;
-      margin-left: 12px;
+      margin: 0 0 0 12px;
     }
   }
 

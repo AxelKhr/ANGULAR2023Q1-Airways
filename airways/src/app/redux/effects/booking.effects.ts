@@ -5,6 +5,7 @@ import {
   map, exhaustMap, catchError, tap, of,
 } from 'rxjs';
 import { MessageBarService } from 'src/app/core/services/message-bar.service';
+import { Router } from '@angular/router';
 import * as BookingActions from '../actions/booking.actions';
 
 @Injectable()
@@ -13,6 +14,7 @@ export class BookingEffects {
     private actions$: Actions,
     private apiService: ApiService,
     private messageBarService: MessageBarService,
+    private router: Router,
   ) { }
 
   // eslint-disable-next-line arrow-body-style
@@ -20,9 +22,14 @@ export class BookingEffects {
     return this.actions$.pipe(
       ofType(BookingActions.getFlights),
       exhaustMap(
-        ({ request }) => this.apiService.getFlights(request)
+        ({ request, options }) => this.apiService.getFlights(request)
           .pipe(
             map((response) => BookingActions.getFlightsSuccess({ response })),
+            tap(() => {
+              if (options.isGoToBooking) {
+                this.router.navigate(['booking']);
+              }
+            }),
             catchError((message) => of(BookingActions.getFlightsFailed({ message }))),
           ),
       ),

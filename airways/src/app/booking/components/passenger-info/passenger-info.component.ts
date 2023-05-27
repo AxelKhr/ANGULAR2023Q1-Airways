@@ -42,7 +42,7 @@ export class PassengerInfoComponent implements OnInit {
   constructor(
     private parent: FormGroupDirective,
     formBuilder: FormBuilder,
-    private store: Store
+    private store: Store,
   ) {
     this.passengerForm = formBuilder.group({
       passengerType: [''],

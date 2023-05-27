@@ -1,0 +1,17 @@
+<div class="dialog">
+  <div mat-dialog-content>
+    <span>login-dialog works!</span>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-flat-button color="primary" (click)="loginUser()">Login</button>
+    <button mat-flat-button color="primary" (click)="registrateUser()">
+      Registrate
+    </button>
+    <button mat-flat-button color="primary" (click)="closeDialog()">
+      Close
+    </button>
+  </div>
+  <div *ngIf="isAuthorization$ | async" class="spinner">
+    <mat-spinner diameter="50"></mat-spinner>
+  </div>
+</div>

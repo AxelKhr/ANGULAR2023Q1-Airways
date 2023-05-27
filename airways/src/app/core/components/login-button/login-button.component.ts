@@ -1,6 +1,6 @@
-import { Component, Input } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { AuthorizationComponent } from '../authorization/authorization.component';
+import {
+  Component, EventEmitter, Input, Output,
+} from '@angular/core';
 
 @Component({
   selector: 'app-login-button',
@@ -9,24 +9,43 @@ import { AuthorizationComponent } from '../authorization/authorization.component
 })
 export class LoginButtonComponent {
   @Input()
-  set isDefMode(value: boolean | null) {
-    this.isDefModeValue = value === null ? false : value;
+  set isDefMode(value: boolean) {
+    this.isDefModeValue = value;
   }
 
-  constructor(public dialog: MatDialog) {}
-
-  openDialog() {
-    this.dialog.open(AuthorizationComponent, {
-      disableClose: true,
-      position: {
-        top: '45px',
-      },
-      width: 'auto',
-      maxWidth: '90vw',
-    });
+  get isDefMode(): boolean {
+    return this.isDefModeValue;
   }
 
-  @Input() userName = '';
+  @Input()
+  set isLoggedIn(value: boolean) {
+    this.isLoggedInValue = value;
+  }
+
+  get isLoggedIn(): boolean {
+    return this.isLoggedInValue;
+  }
+
+  @Input()
+  set userName(value: string) {
+    this.userNameValue = value;
+  }
+
+  get userName() {
+    return this.userNameValue;
+  }
+
+  @Output() signIn = new EventEmitter();
 
   isDefModeValue = false;
+
+  isLoggedInValue = false;
+
+  userNameValue = '';
+
+  onClick() {
+    if (!this.isLoggedInValue) {
+      this.signIn.emit();
+    }
+  }
 }
