@@ -9,7 +9,7 @@ export class CurrencyConvertPipe implements PipeTransform {
   transform(
     value: number | string,
     currencyCode = 'EUR',
-    digitsInfo = '3.2-2',
+    digitsInfo = '1.2-2',
     locale = 'en-US',
   ): string | null {
     const curr = CURRENCY_DATA.find((el) => el.code === currencyCode)
