@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { passengerNameTip, passwordMatTip } from 'src/app/environment/constants/mat-tooltips';
+import { AppSelectors } from 'src/app/redux/selectors';
 import { selectDateFormat } from 'src/app/redux/selectors/settings.selectors';
 import { IUserProfileModel } from 'src/app/shared/models/user-profile.model';
 
@@ -22,16 +23,9 @@ export class SignUpComponent {
 
   dateFormat: Observable<string>;
 
-  countryCodes = [
-    {
-      country: 'Australia',
-      code: '+61',
-    },
-    {
-      country: 'Austria',
-      code: '+43',
-    },
-  ];
+  countryCodes$ = this.store.select(AppSelectors.general.selectCountryCodes);
+
+  citizenships$ = this.store.select(AppSelectors.general.selectCitizenships);
 
   signUpForm: FormGroup = new FormGroup({
     email: new FormControl('', [
