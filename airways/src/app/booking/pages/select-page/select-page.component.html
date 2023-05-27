@@ -4,13 +4,16 @@
     [airports$]="airports$"
     [request$]="flightRequest$"
     [routes$]="routesTo$"
+    (selectRoute)="onSelectRouteTo($event)"
   ></app-race>
   <app-race
+    *ngIf="request.roundTrip === 1"
     class="data__routes"
     [airports$]="airports$"
     [request$]="flightRequest$"
     [routes$]="routesFrom$"
     [isReturned]="true"
+    (selectRoute)="onSelectRouteFrom($event)"
   ></app-race>
 </div>
 <div class="control">
@@ -27,6 +30,7 @@
     color="primary"
     class="control__button"
     (click)="onClickContinue()"
+    [disabled]="!isContinue"
   >
     Continue
   </button>

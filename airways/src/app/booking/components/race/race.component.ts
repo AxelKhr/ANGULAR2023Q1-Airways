@@ -1,5 +1,5 @@
 import {
-  Component, Input, OnDestroy, OnInit,
+  Component, EventEmitter, Input, OnDestroy, OnInit, Output,
 } from '@angular/core';
 import { IAirportModel } from 'src/app/shared/models/airport.model';
 import { IFlightsRequestModel } from 'src/app/shared/models/flights-request.model';
@@ -31,6 +31,8 @@ export class RaceComponent implements OnInit, OnDestroy {
 
   @Input() isReturned = false;
 
+  @Output() selectRoute = new EventEmitter<IRouteModel | null>();
+
   routes: IRoute[] = [];
 
   routesSubscr!: Subscription;
@@ -39,7 +41,7 @@ export class RaceComponent implements OnInit, OnDestroy {
 
   requestSubscr!: Subscription;
 
-  hideCalendar = false;
+  isEdit = true;
 
   buttonText = 'Select';
 
@@ -203,7 +205,8 @@ export class RaceComponent implements OnInit, OnDestroy {
   }
 
   buttonClick(): void {
-    this.hideCalendar = !this.hideCalendar;
-    this.buttonText = this.hideCalendar ? 'Edit' : 'Select';
+    this.selectRoute.emit(this.isEdit ? this.routes[this.activeRouteInd] : null);
+    this.isEdit = !this.isEdit;
+    this.buttonText = this.isEdit ? 'Select' : 'Edit';
   }
 }

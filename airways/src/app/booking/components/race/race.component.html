@@ -16,7 +16,7 @@
     </p>
   </div>
 
-  <div class="race__calendar" *ngIf="!hideCalendar">
+  <div class="race__calendar" *ngIf="isEdit">
     <p-carousel
       [value]="routes"
       [numVisible]="5"
@@ -173,7 +173,7 @@
         <div class="price-param__price-warning">
           <div
             class="price-param__price-warning__seats"
-            *ngIf="!hideCalendar"
+            *ngIf="isEdit"
             [ngStyle]="{
               'background-color': getColor(
                 0.3,
@@ -187,7 +187,7 @@
             >
           </div>
           <div class="price-param__price-warning__price">
-            <span *ngIf="!hideCalendar">Price</span>
+            <span *ngIf="isEdit">Price</span>
             <span class="cost"
               >${{ routes[activeRouteInd].ticketsCost.adult.totalCost }}</span
             >
@@ -197,8 +197,8 @@
           <button
             mat-stroked-button
             [ngClass]="{
-              'mat-stroked-button': !hideCalendar,
-              'mat-stroked-button-edit': hideCalendar
+              'mat-stroked-button': isEdit,
+              'mat-stroked-button-edit': !isEdit
             }"
             (click)="buttonClick()"
           >

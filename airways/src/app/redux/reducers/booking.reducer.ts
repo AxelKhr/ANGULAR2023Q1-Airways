@@ -9,7 +9,10 @@ export const initialState: IBookingStateModel = {
   flightsRequest: null,
   isFlightsNewData: false,
   routes: [],
-  order: null,
+  orderRouteTo: null,
+  orderRouteFrom: null,
+  passengers: [],
+  contactDetails: null,
 };
 
 function getStep(url: string) {
@@ -40,5 +43,21 @@ export const bookingReducers = createReducer(
   on(BookingActions.getFlightsSuccess, (state, { response }): IBookingStateModel => ({
     ...state,
     routes: [...response.routes],
+  })),
+  on(BookingActions.setOrderRouteTo, (state, { route }): IBookingStateModel => ({
+    ...state,
+    orderRouteTo: route,
+  })),
+  on(BookingActions.setOrderRouteFrom, (state, { route }): IBookingStateModel => ({
+    ...state,
+    orderRouteFrom: route,
+  })),
+  on(BookingActions.setPassengers, (state, { passengers }): IBookingStateModel => ({
+    ...state,
+    passengers: [...passengers],
+  })),
+  on(BookingActions.setContactDetails, (state, { contactDetails }): IBookingStateModel => ({
+    ...state,
+    contactDetails,
   })),
 );

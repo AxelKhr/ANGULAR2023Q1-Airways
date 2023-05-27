@@ -18,6 +18,11 @@ export const selectAirports = createSelector(
   (state) => state.airports,
 );
 
+export const selectCountryCodes = createSelector(
+  selectGeneralState,
+  (state) => state.countryCodes,
+);
+
 export const selectCitizenships = createSelector(
   selectGeneralState,
   (state) => state.citizenships,

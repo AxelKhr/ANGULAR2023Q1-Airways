@@ -5,6 +5,7 @@ import { AppSelectors } from 'src/app/redux/selectors';
 import { Observable, Subscription, map } from 'rxjs';
 import { IFlightsRequestModel } from 'src/app/shared/models/flights-request.model';
 import { IRouteModel } from 'src/app/shared/models/route.model';
+import { AppActions } from 'src/app/redux/actions';
 
 @Component({
   selector: 'app-select-page',
@@ -22,11 +23,21 @@ export class SelectPageComponent implements OnInit, OnDestroy {
 
   request!: IFlightsRequestModel;
 
+  orderRouteToSubscr!: Subscription;
+
+  orderRouteTo: IRouteModel | null = null;
+
+  orderRouteFromSubscr!: Subscription;
+
+  orderRouteFrom: IRouteModel | null = null;
+
   isEnable = false;
 
   routesTo$!: Observable<IRouteModel[]>;
 
   routesFrom$!: Observable<IRouteModel[]>;
+
+  isContinue = false;
 
   constructor(private store: Store, private router: Router) {}
 
@@ -41,6 +52,20 @@ export class SelectPageComponent implements OnInit, OnDestroy {
         }
       },
     });
+
+    this.orderRouteToSubscr = this.store.select(AppSelectors.booking.selectOrderRouteTo)
+      // eslint-disable-next-line @ngrx/no-store-subscription
+      .subscribe((route) => {
+        this.orderRouteTo = route;
+        this.updateIsContinue();
+      });
+
+    this.orderRouteFromSubscr = this.store.select(AppSelectors.booking.selectOrderRouteFrom)
+      // eslint-disable-next-line @ngrx/no-store-subscription
+      .subscribe((route) => {
+        this.orderRouteFrom = route;
+        this.updateIsContinue();
+      });
 
     this.routesTo$ = this.routes$.pipe(
       map((routes) => routes.filter(
@@ -58,6 +83,20 @@ export class SelectPageComponent implements OnInit, OnDestroy {
     if (this.flightRequestSubscr) {
       this.flightRequestSubscr.unsubscribe();
     }
+    if (this.orderRouteToSubscr) {
+      this.orderRouteToSubscr.unsubscribe();
+    }
+    if (this.orderRouteFromSubscr) {
+      this.orderRouteFromSubscr.unsubscribe();
+    }
+  }
+
+  onSelectRouteTo(route: IRouteModel | null) {
+    this.store.dispatch(AppActions.booking.setOrderRouteTo({ route }));
+  }
+
+  onSelectRouteFrom(route: IRouteModel | null) {
+    this.store.dispatch(AppActions.booking.setOrderRouteFrom({ route }));
   }
 
   onClickBack() {
@@ -66,5 +105,10 @@ export class SelectPageComponent implements OnInit, OnDestroy {
 
   onClickContinue() {
     this.router.navigate(['booking', 'process']);
+  }
+
+  updateIsContinue() {
+    this.isContinue = (this.orderRouteTo !== null)
+      && ((this.request.roundTrip !== 1) || (this.orderRouteFrom !== null));
   }
 }

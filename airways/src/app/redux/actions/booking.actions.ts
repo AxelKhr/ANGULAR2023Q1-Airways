@@ -1,10 +1,13 @@
 import { createAction, props } from '@ngrx/store';
 import { IBookingStepModel } from 'src/app/booking/models/booking-step.model';
+import { IContactModel } from 'src/app/shared/models/contact.model';
 import {
   IFlightsRequestModel,
   IFlightsRequestOptionsModel,
 } from 'src/app/shared/models/flights-request.model';
 import { IFlightsResponseModel } from 'src/app/shared/models/flights-response.model';
+import { IPassengerModel } from 'src/app/shared/models/passenger.model';
+import { IRouteModel } from 'src/app/shared/models/route.model';
 
 export enum BookingActionTypes {
   setStep = '[Booking] set step',
@@ -12,6 +15,10 @@ export enum BookingActionTypes {
   getFlights = '[Booking] get flights',
   getFlightsSuccess = '[Booking] get flights success',
   getFlightsFailed = '[Booking] get flights failed',
+  setOrderRouteTo = '[Booking] add order route to',
+  setOrderRouteFrom = '[Booking] add order route from',
+  setPassengers = '[Booking] set passengers',
+  setContactDetails = '[Booking] set contact details',
 }
 
 export const setStep = createAction(
@@ -42,4 +49,24 @@ export const getFlightsSuccess = createAction(
 export const getFlightsFailed = createAction(
   BookingActionTypes.getFlightsFailed,
   props<{ message: string }>(),
+);
+
+export const setOrderRouteTo = createAction(
+  BookingActionTypes.setOrderRouteTo,
+  props<{ route: IRouteModel | null }>(),
+);
+
+export const setOrderRouteFrom = createAction(
+  BookingActionTypes.setOrderRouteFrom,
+  props<{ route: IRouteModel | null }>(),
+);
+
+export const setPassengers = createAction(
+  BookingActionTypes.setPassengers,
+  props<{ passengers: IPassengerModel[] }>(),
+);
+
+export const setContactDetails = createAction(
+  BookingActionTypes.setContactDetails,
+  props<{ contactDetails: IContactModel }>(),
 );

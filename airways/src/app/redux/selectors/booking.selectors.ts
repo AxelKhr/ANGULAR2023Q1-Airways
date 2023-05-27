@@ -17,3 +17,13 @@ export const selectFlightsRequest = createSelector(
   selectBookingState,
   (state) => state.flightsRequest,
 );
+
+export const selectOrderRouteTo = createSelector(
+  selectBookingState,
+  (state) => state.orderRouteTo,
+);
+
+export const selectOrderRouteFrom = createSelector(
+  selectBookingState,
+  (state) => state.orderRouteFrom,
+);
