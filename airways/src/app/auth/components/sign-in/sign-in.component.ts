@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { IUserLoginModel } from 'src/app/shared/models/user-login.model';
 
 @Component({
   selector: 'app-sign-in',
@@ -7,6 +8,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./sign-in.component.scss'],
 })
 export class SignInComponent {
+  @Output() signIn = new EventEmitter<IUserLoginModel>();
+
   isPasswordHidden = true;
 
   signInForm: FormGroup = new FormGroup({
@@ -30,6 +33,6 @@ export class SignInComponent {
   }
 
   onSubmit() {
-    console.log(this.signInForm.value);
+    this.signIn.emit(this.signInForm.value as IUserLoginModel);
   }
 }
