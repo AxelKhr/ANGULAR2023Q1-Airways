@@ -12,3 +12,8 @@ export const selectIsMainStyleInverse = createSelector(
   selectGeneralState,
   (state) => !state.isMainStyle,
 );
+
+export const selectAirports = createSelector(
+  selectGeneralState,
+  (state) => state.airports,
+);

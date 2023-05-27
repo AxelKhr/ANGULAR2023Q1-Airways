@@ -13,7 +13,7 @@ import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { reducers } from './redux/reducers';
 import { metaReducers } from './redux/meta-reducers';
-import { IconsModule } from './shared/icons.module';
+
 import { effects } from './redux/effects';
 
 @NgModule({

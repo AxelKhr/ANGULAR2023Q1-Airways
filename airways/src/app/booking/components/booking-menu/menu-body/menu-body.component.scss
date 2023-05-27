@@ -1,0 +1,35 @@
+.menu {
+  display: flex;
+  gap: 40px;
+  padding: 22px 0;
+  .destination {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: 0.15px;
+  }
+  .details {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    color: var(--app-color-neutral30);
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    .dot {
+      color: var(--app-color-secondary0);
+      font-size: 35px;
+    }
+    mat-icon {
+      width: 15px;
+      height: 14px;
+    }
+  }
+  .passengers {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+  }
+}

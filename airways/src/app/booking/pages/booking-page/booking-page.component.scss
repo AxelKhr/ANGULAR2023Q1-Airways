@@ -1,14 +1,13 @@
 .wrapper {
   padding: 0 var(--app-wrapper-padding);
 
-  &>.container {
+  & > .container {
     max-width: var(--max-width-content);
     margin: 0 auto;
   }
 }
 
 .menu {
-  height: 68px;
-
   background-color: var(--app-color-secondary100);
+  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.2);
 }
