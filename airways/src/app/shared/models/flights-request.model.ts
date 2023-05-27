@@ -9,3 +9,8 @@ export interface IFlightsRequestModel {
   countInfant: number;
   amountFlights?: number;
 }
+
+export interface IFlightsRequestOptionsModel {
+  isNewData: boolean;
+  isGoToBooking: boolean;
+}

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './auth/guards/auth.guard';
 import { NotfoundPageComponent } from './core/pages/notfound-page/notfound-page.component';
 
 const routes: Routes = [
@@ -14,6 +15,7 @@ const routes: Routes = [
   {
     path: 'listing',
     loadChildren: () => import('./listing/listing.module').then((m) => m.ListingModule),
+    canActivate: [AuthGuard],
   },
   {
     path: 'test',

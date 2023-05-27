@@ -1,6 +1,10 @@
 .wrapper {
   padding: 0 var(--app-wrapper-padding);
 
+  &.wrapper--content {
+    margin: 40px 0;
+  }
+
   & > .container {
     max-width: var(--max-width-content);
     margin: 0 auto;
