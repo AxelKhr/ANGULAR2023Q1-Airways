@@ -29,6 +29,11 @@ export const selectAirportNameByCode = (code: string) => createSelector(
   (airport) => (airport ? airport.name.replace(/International/g, '').replace(/Airport/g, '').trim() : code),
 );
 
+export const selectCityByCode = (code: string) => createSelector(
+  selectAirportByCode(code),
+  (airport) => (airport ? airport.city : code),
+);
+
 export const selectCountryCodes = createSelector(
   selectGeneralState,
   (state) => state.countryCodes,
