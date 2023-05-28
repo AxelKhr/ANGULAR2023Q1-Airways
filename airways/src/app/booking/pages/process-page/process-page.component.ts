@@ -1,5 +1,9 @@
 import {
-  AfterViewInit, Component, OnDestroy, OnInit, ViewChild,
+  AfterViewInit,
+  Component,
+  OnDestroy,
+  OnInit,
+  ViewChild,
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -27,12 +31,13 @@ export class ProcessPageComponent implements OnInit, OnDestroy, AfterViewInit {
   constructor(private store: Store, private router: Router) {}
 
   ngOnInit(): void {
-    this.flightRequestSubscr = this.store.select(AppSelectors.booking.selectFlightsRequest)
+    this.flightRequestSubscr = this.store
+      .select(AppSelectors.booking.selectFlightsRequest)
       // eslint-disable-next-line @ngrx/no-store-subscription
       .subscribe({
         next: (value) => {
           if (value === null) {
-            this.router.navigate(['/']);
+            // this.router.navigate(['/']);
           } else {
             this.request = value;
           }
@@ -51,8 +56,10 @@ export class ProcessPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngAfterViewInit(): void {
     if (this.bookingFormCmp) {
-      this.bookingFormStatusSubscr = this.bookingFormCmp.bookingForm.statusChanges
-        .subscribe((status) => { this.isFormValid = (status === 'VALID'); });
+      this.bookingFormStatusSubscr =
+        this.bookingFormCmp.bookingForm.statusChanges.subscribe((status) => {
+          this.isFormValid = status === 'VALID';
+        });
     }
   }
 

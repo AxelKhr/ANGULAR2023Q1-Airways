@@ -15,6 +15,7 @@ import { TimeFormatPipe } from './pipes/time-format.pipe';
 import { BookingFormComponent } from './components/booking-form/booking-form.component';
 import { PassengerInfoComponent } from './components/passenger-info/passenger-info.component';
 import { ContactDetailsComponent } from './components/contact-details/contact-details.component';
+// import { BindAutocompletesPipe } from '../search/pipe/bind-autocompletes.pipe';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { ContactDetailsComponent } from './components/contact-details/contact-de
     CarouselModule,
     FormsModule,
     ReactiveFormsModule,
+    // BindAutocompletesPipe,
   ],
 })
 export class BookingModule {}

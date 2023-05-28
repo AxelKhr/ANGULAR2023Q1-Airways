@@ -7,9 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import {
-  Observable, map, startWith, Subscription, EMPTY,
-} from 'rxjs';
+import { Observable, map, startWith, Subscription } from 'rxjs';
 import { AppActions } from 'src/app/redux/actions';
 import { AppSelectors } from 'src/app/redux/selectors';
 import { IAirportModel } from 'src/app/shared/models/airport.model';
@@ -76,35 +74,41 @@ export class SearchPageComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     // eslint-disable-next-line @ngrx/no-store-subscription
-    this.airportsSubscr = this.store.select(AppSelectors.general.selectAirports).subscribe(
-      (airports) => { this.options = [...airports]; },
+    this.airportsSubscr = this.store
+      .select(AppSelectors.general.selectAirports)
+      .subscribe((airports) => {
+        this.options = [...airports];
+      });
+
+    this.filteredFromOptions = this.searchForm.get('from')!.valueChanges.pipe(
+      startWith(''),
+      map((value) => {
+        const name = typeof value === 'string' ? value : Object.values(value).join(' ');
+        return name
+          ? this.filterAirportsAutocomplete(name as string)
+          : this.options.slice();
+      }),
     );
 
-    this.filteredFromOptions = this.searchForm.get('from')?.valueChanges
-      .pipe(
+    this.filteredToOptions = this.searchForm
+      .get('destination')!
+      .valueChanges.pipe(
         startWith(''),
         map((value) => {
           const name = typeof value === 'string' ? value : Object.values(value).join(' ');
           return name ? this.filterAirportsAutocomplete(name as string) : this.options.slice();
         }),
-      ) ?? EMPTY;
-
-    this.filteredToOptions = this.searchForm.get('destination')?.valueChanges
-      .pipe(
-        startWith(''),
-        map((value) => {
-          const name = typeof value === 'string' ? value : Object.values(value).join(' ');
-          return name ? this.filterAirportsAutocomplete(name as string) : this.options.slice();
-        }),
-      ) ?? EMPTY;
+      );
 
     this.passengersFormChangesSubscr = this.passengersForm.valueChanges.subscribe((el) => {
       this.passengerMessage = this.createPassengerMessage(el);
     });
 
-    this.searchFormIsRoundChangesSubscr = this.searchForm.get('isRound')?.valueChanges.subscribe(() => {
-      this.searchForm.get('dateEnd')?.updateValueAndValidity();
-    });
+    this.searchFormIsRoundChangesSubscr = this.searchForm
+      .get('isRound')
+      ?.valueChanges.subscribe(() => {
+        this.searchForm.get('dateEnd')?.updateValueAndValidity();
+      });
   }
 
   ngOnDestroy(): void {
@@ -123,7 +127,7 @@ export class SearchPageComponent implements OnInit, OnDestroy {
     const filterValue = value.toLowerCase();
     return this.options.filter((airport) => Object.values(airport).some(
       (el) => el.toString().toLowerCase().includes(filterValue)
-        || `${airport.city} ${airport.code}`.toLowerCase().includes(filterValue),
+          || `${airport.city} ${airport.code}`.toLowerCase().includes(filterValue),
     ));
   }
 
@@ -186,19 +190,21 @@ export class SearchPageComponent implements OnInit, OnDestroy {
   submit() {
     const request = this.searchForm.value as ISearchRequest;
     const flightsRequest: IFlightsRequestModel = {
-      departureAirportCode: (request.from) ? request.from.code : '',
-      arrivalAirportCode: (request.destination) ? request.destination.code : '',
-      departureDate: (request.dateStart) ? request.dateStart.toDateString() : '',
-      returnDate: (request.dateEnd) ? request.dateEnd.toDateString() : '',
-      roundTrip: (request.isRound) ? +request.isRound : 0,
+      departureAirportCode: request.from ? request.from.code : '',
+      arrivalAirportCode: request.destination ? request.destination.code : '',
+      departureDate: request.dateStart ? request.dateStart.toDateString() : '',
+      returnDate: request.dateEnd ? request.dateEnd.toDateString() : '',
+      roundTrip: request.isRound ? +request.isRound : 0,
       countAdult: request.passengers.adult,
       countChildren: request.passengers.child,
       countInfant: request.passengers.infant,
       amountFlights: 5,
     };
-    this.store.dispatch(AppActions.booking.getFlights(
-      flightsRequest,
-      { isNewData: true, isGoToBooking: true },
-    ));
+    this.store.dispatch(
+      AppActions.booking.getFlights(flightsRequest, {
+        isNewData: true,
+        isGoToBooking: true,
+      }),
+    );
   }
 }

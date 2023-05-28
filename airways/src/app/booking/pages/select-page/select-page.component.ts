@@ -45,7 +45,7 @@ export class SelectPageComponent implements OnInit, OnDestroy {
     this.flightRequestSubscr = this.flightRequest$.subscribe({
       next: (value) => {
         if (value === null) {
-          this.router.navigate(['/']);
+          // this.router.navigate(['/']);
         } else {
           this.isEnable = true;
           this.request = value;
@@ -53,14 +53,16 @@ export class SelectPageComponent implements OnInit, OnDestroy {
       },
     });
 
-    this.orderRouteToSubscr = this.store.select(AppSelectors.booking.selectOrderRouteTo)
+    this.orderRouteToSubscr = this.store
+      .select(AppSelectors.booking.selectOrderRouteTo)
       // eslint-disable-next-line @ngrx/no-store-subscription
       .subscribe((route) => {
         this.orderRouteTo = route;
         this.updateIsContinue();
       });
 
-    this.orderRouteFromSubscr = this.store.select(AppSelectors.booking.selectOrderRouteFrom)
+    this.orderRouteFromSubscr = this.store
+      .select(AppSelectors.booking.selectOrderRouteFrom)
       // eslint-disable-next-line @ngrx/no-store-subscription
       .subscribe((route) => {
         this.orderRouteFrom = route;
@@ -68,14 +70,20 @@ export class SelectPageComponent implements OnInit, OnDestroy {
       });
 
     this.routesTo$ = this.routes$.pipe(
-      map((routes) => routes.filter(
-        (route) => route.departureAirportCode === this.request.departureAirportCode,
-      )),
+      map((routes) =>
+        routes.filter(
+          (route) =>
+            route.departureAirportCode === this.request.departureAirportCode
+        )
+      )
     );
     this.routesFrom$ = this.routes$.pipe(
-      map((routes) => routes.filter(
-        (route) => route.departureAirportCode === this.request.arrivalAirportCode,
-      )),
+      map((routes) =>
+        routes.filter(
+          (route) =>
+            route.departureAirportCode === this.request.arrivalAirportCode
+        )
+      )
     );
   }
 
@@ -108,7 +116,8 @@ export class SelectPageComponent implements OnInit, OnDestroy {
   }
 
   updateIsContinue() {
-    this.isContinue = (this.orderRouteTo !== null)
-      && ((this.request.roundTrip !== 1) || (this.orderRouteFrom !== null));
+    this.isContinue =
+      this.orderRouteTo !== null &&
+      (this.request.roundTrip !== 1 || this.orderRouteFrom !== null);
   }
 }
