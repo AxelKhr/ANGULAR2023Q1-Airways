@@ -1,31 +1,55 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
-  FormBuilder,
   FormControl,
   FormGroup,
   ValidatorFn,
   Validators,
 } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { Observable, map, startWith, Subscription } from 'rxjs';
+import {
+  Observable,
+  Subscription,
+  delay,
+  map,
+  startWith,
+} from 'rxjs';
 import { AppActions } from 'src/app/redux/actions';
 import { AppSelectors } from 'src/app/redux/selectors';
-import { IAirportModel } from 'src/app/shared/models/airport.model';
-import { IFlightsRequestModel } from 'src/app/shared/models/flights-request.model';
-import { IPassengersQty, ISearchRequest } from '../../models/search.models';
+import { IPassengersQty, ISearchRequest } from 'src/app/search/models/search.models';
 import {
   endDateRequired,
   validateDestination,
   validatePassengers,
-} from '../../utils/searchValidators';
+} from 'src/app/search/utils/searchValidators';
+import { IAirportModel } from 'src/app/shared/models/airport.model';
+import { IFlightsRequestModel } from 'src/app/shared/models/flights-request.model';
 
 @Component({
-  selector: 'app-search-page',
-  templateUrl: './search-page.component.html',
-  styleUrls: ['./search-page.component.scss'],
+  selector: 'app-menu-dropdown',
+  templateUrl: './menu-dropdown.component.html',
+  styleUrls: ['./menu-dropdown.component.scss'],
 })
-export class SearchPageComponent implements OnInit, OnDestroy {
+export class MenuDropdownComponent implements OnInit, OnDestroy {
   currentDate = new Date();
+
+  airports$: Observable<IAirportModel[]> = this.store.select(
+    AppSelectors.general.selectAirports,
+  );
+
+  airports!: IAirportModel[];
+
+  flightInfo$: Observable<IFlightsRequestModel | null> = this.store.select(
+    AppSelectors.booking.selectFlightsRequest,
+  );
+
+  info!: IFlightsRequestModel;
+
+  passengersType = [
+    { type: 'adult', age: '14+ years' },
+    { type: 'child', age: '2-14 years' },
+    { type: 'infant', age: '0-2 years' },
+  ];
 
   passengerMessage = '1 Adult';
 
@@ -52,33 +76,30 @@ export class SearchPageComponent implements OnInit, OnDestroy {
     passengers: this.passengersForm,
   });
 
-  passengersType = [
-    { type: 'adult', age: '14+ years' },
-    { type: 'child', age: '2-14 years' },
-    { type: 'infant', age: '0-2 years' },
-  ];
-
-  airportsSubscr!: Subscription;
-
-  options: IAirportModel[] = [];
-
   filteredFromOptions!: Observable<IAirportModel[]>;
 
   filteredToOptions!: Observable<IAirportModel[]>;
 
-  passengersFormChangesSubscr!: Subscription;
+  subscriptions: Subscription[] = [];
 
-  searchFormIsRoundChangesSubscr!: Subscription | undefined;
-
-  constructor(private fb: FormBuilder, private store: Store) {}
+  constructor(private store: Store) {}
 
   ngOnInit(): void {
-    // eslint-disable-next-line @ngrx/no-store-subscription
-    this.airportsSubscr = this.store
-      .select(AppSelectors.general.selectAirports)
-      .subscribe((airports) => {
-        this.options = [...airports];
-      });
+    const airportsSubscription = this.airports$.subscribe((items) => {
+      this.airports = items;
+      this.preFillForms();
+    });
+
+    const infoSubscription = this.flightInfo$.subscribe((el) => {
+      if (el) {
+        this.info = el;
+        this.preFillForms();
+      }
+    });
+
+    const passengersFormSubscription = this.passengersForm.valueChanges.subscribe((el) => {
+      this.passengerMessage = this.createPassengerMessage(el);
+    });
 
     this.filteredFromOptions = this.searchForm.get('from')!.valueChanges.pipe(
       startWith(''),
@@ -86,7 +107,7 @@ export class SearchPageComponent implements OnInit, OnDestroy {
         const name = typeof value === 'string' ? value : Object.values(value).join(' ');
         return name
           ? this.filterAirportsAutocomplete(name as string)
-          : this.options.slice();
+          : this.airports.slice();
       }),
     );
 
@@ -96,46 +117,75 @@ export class SearchPageComponent implements OnInit, OnDestroy {
         startWith(''),
         map((value) => {
           const name = typeof value === 'string' ? value : Object.values(value).join(' ');
-          return name ? this.filterAirportsAutocomplete(name as string) : this.options.slice();
+          return name
+            ? this.filterAirportsAutocomplete(name as string)
+            : this.airports.slice();
         }),
       );
 
-    this.passengersFormChangesSubscr = this.passengersForm.valueChanges.subscribe((el) => {
-      this.passengerMessage = this.createPassengerMessage(el);
+    const changeFormSubscription = this.searchForm.valueChanges.pipe(delay(500)).subscribe((el) => {
+      if (this.searchForm.touched && this.searchForm.valid) {
+        console.log(el);
+        // this.submit(el)
+      }
     });
 
-    this.searchFormIsRoundChangesSubscr = this.searchForm
-      .get('isRound')
-      ?.valueChanges.subscribe(() => {
-        this.searchForm.get('dateEnd')?.updateValueAndValidity();
-      });
+    this.subscriptions.push(
+      airportsSubscription,
+      infoSubscription,
+      passengersFormSubscription,
+      changeFormSubscription,
+    );
   }
 
   ngOnDestroy(): void {
-    if (this.airportsSubscr) {
-      this.airportsSubscr.unsubscribe();
-    }
-    if (this.passengersFormChangesSubscr) {
-      this.passengersFormChangesSubscr.unsubscribe();
-    }
-    if (this.searchFormIsRoundChangesSubscr) {
-      this.searchFormIsRoundChangesSubscr.unsubscribe();
-    }
+    this.subscriptions.forEach((s) => s.unsubscribe());
   }
 
   private filterAirportsAutocomplete(value: string): IAirportModel[] {
     const filterValue = value.toLowerCase();
-    return this.options.filter((airport) => Object.values(airport).some(
+    return this.airports.filter((airport) => Object.values(airport).some(
       (el) => el.toString().toLowerCase().includes(filterValue)
           || `${airport.city} ${airport.code}`.toLowerCase().includes(filterValue),
     ));
   }
 
-  protected reverseDestinations() {
-    const tempFromValue = this.searchForm.get('from')?.value;
-    const tempToValue = this.searchForm.get('destination')?.value;
-    this.searchForm.get('from')?.setValue(tempToValue);
-    this.searchForm.get('destination')?.setValue(tempFromValue);
+  preFillForms() {
+    if (this.airports && this.info) {
+      const flyFrom = this.airports.find(
+        (el) => el.code === this.info.departureAirportCode,
+      );
+      const flyTo = this.airports.find(
+        (el) => el.code === this.info.arrivalAirportCode,
+      );
+
+      this.searchForm.controls['isRound'].setValue(this.info.roundTrip);
+      this.searchForm.controls['from'].setValue(flyFrom);
+      this.searchForm.controls['destination'].setValue(flyTo);
+      this.searchForm.controls['dateStart'].setValue(
+        new Date(this.info.departureDate),
+      );
+      if (this.info.returnDate) {
+        this.searchForm.controls['dateEnd'].setValue(
+          new Date(this.info.returnDate),
+        );
+      }
+      this.passengersForm.controls['adult'].setValue(this.info.countAdult);
+      this.passengersForm.controls['child'].setValue(this.info.countChildren);
+      this.passengersForm.controls['infant'].setValue(this.info.countInfant);
+
+      this.passengerMessage = this.createPassengerMessage(this.passengersForm.value);
+    }
+  }
+
+  dispalyShortAirport(airport: IAirportModel) {
+    if (airport && airport.city) {
+      return `${airport.city} ${airport.code}`;
+    }
+    if (airport) {
+      return String(airport);
+    }
+    return '';
   }
 
   changePassengerNumber(e: Event, category: string, operation: '+' | '-') {
@@ -177,18 +227,7 @@ export class SearchPageComponent implements OnInit, OnDestroy {
     return this.passengersForm.value[type] === 0 ? '0.5' : '1';
   }
 
-  dispalyShortAirport(airport: IAirportModel) {
-    if (airport && airport.city) {
-      return `${airport.city} ${airport.code}`;
-    }
-    if (airport) {
-      return String(airport);
-    }
-    return '';
-  }
-
-  submit() {
-    const request = this.searchForm.value as ISearchRequest;
+  submit(request: ISearchRequest) {
     const flightsRequest: IFlightsRequestModel = {
       departureAirportCode: request.from ? request.from.code : '',
       arrivalAirportCode: request.destination ? request.destination.code : '',

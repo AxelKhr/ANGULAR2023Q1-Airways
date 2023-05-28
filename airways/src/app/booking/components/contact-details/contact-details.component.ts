@@ -36,8 +36,6 @@ export class ContactDetailsComponent implements OnInit, OnDestroy {
         [
           Validators.required,
           Validators.pattern(/^[0-9]*$/),
-          Validators.minLength(8),
-          Validators.maxLength(8),
         ],
       ],
       email: ['', [Validators.required, Validators.pattern(/^\S+@\S+\.\S+$/)]],
