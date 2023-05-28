@@ -13,13 +13,9 @@ const routes: Routes = [
     loadChildren: () => import('./booking/booking.module').then((m) => m.BookingModule),
   },
   {
-    path: 'listing',
-    loadChildren: () => import('./listing/listing.module').then((m) => m.ListingModule),
-    canActivate: [AuthGuard],
-  },
-  {
     path: 'cart',
     loadChildren: () => import('./cart/cart.module').then((m) => m.CartModule),
+    // canActivate: [AuthGuard],
   },
   {
     path: 'test',
