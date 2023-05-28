@@ -1,0 +1,166 @@
+<div class="wrapper">
+  <div class="section-table">
+    <div class="section-table__title">
+      {{ isCart ? "Cart" : "My Shopping History" }}
+    </div>
+    <table mat-table [dataSource]="dataSource" matSort class="custom-header">
+      <ng-container matColumnDef="column1">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header="column1"
+          class="column1"
+        >
+          No.
+        </th>
+
+        <td mat-cell *matCellDef="let element" class="td">
+          <ng-container *ngFor="let route of element.routes">
+            <ng-container *ngFor="let flight of route.flights">
+              <div *ngIf="flight?.numberRace">{{ flight.numberRace }}</div>
+            </ng-container>
+          </ng-container>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="column2">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Flight</th>
+
+        <td mat-cell *matCellDef="let element" class="td">
+          <ng-container *ngFor="let route of element.routes">
+            <ng-container *ngFor="let flight of route.flights">
+              <div
+                *ngIf="
+                  flight?.departureAirportCode && flight?.arrivalAirportCode
+                "
+              >
+                {{ getAirportName(flight.departureAirportCode) }} -
+                {{ getAirportName(flight.arrivalAirportCode) }}
+              </div>
+            </ng-container>
+          </ng-container>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="column3" class="mat-column3">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Type trip</th>
+        <td mat-cell *matCellDef="let element">
+          <ng-container *ngIf="element.roundTrip === 1; else oneWayBlock"
+            >Round Trip</ng-container
+          >
+          <ng-template #oneWayBlock>One way</ng-template>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="column4" class="mat-column4">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Data & Time</th>
+        <td mat-cell *matCellDef="let element">
+          <div *ngFor="let route of element.routes">
+            <ng-container *ngFor="let flight of route.flights">
+              <div *ngIf="flight?.departureDateTime && flight?.arrivalDateTime">
+                {{ flight.departureDateTime | date : "d MMM, y" }},
+                {{ flight.departureDateTime | date : "HH:mm" }} -
+                {{ flight.arrivalDateTime | date : "HH:mm" }}
+              </div>
+            </ng-container>
+          </div>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="column5" class="mat-column5">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Passengers</th>
+
+        <td mat-cell *matCellDef="let element">
+          <ng-container *ngIf="element.passengers.length > 0">
+            <div
+              *ngFor="let passenger of getPassengerCounts(element.passengers)"
+            >
+              <div *ngIf="passenger[1] > 0">
+                {{ passenger[1] }} x {{ passenger[0] }}
+              </div>
+            </div>
+          </ng-container>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="column6" class="mat-column6">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Price</th>
+        <td mat-cell *matCellDef="let element">
+          {{ getTotalCost(element) }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="checkbox" *ngIf="isCart">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element">
+          <mat-checkbox (change)="toggleItemSelection(element)"></mat-checkbox>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="menu" *ngIf="isCart">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element; let rowIndex = index">
+          <button
+            mat-icon-button
+            [matMenuTriggerFor]="menu"
+            (click)="setSelectedIndex(rowIndex)"
+          >
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="editItem(selectedIndex)">
+              Edit
+            </button>
+            <button mat-menu-item (click)="deleteItem(selectedIndex)">
+              Delete
+            </button>
+          </mat-menu>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+    <div class="hr"></div>
+    <div *ngIf="isCart">
+      <div class="footer">
+        <div class="footer__left">
+          <button mat-button class="footer__button" (click)="addNewTrip()">
+            + Add new trip
+          </button>
+        </div>
+        <div *ngIf="!isPromoCodeValid()" class="footer__right footer__original-price">
+          Total <span>{{ getSelectedTotalCost() }}</span>
+        </div>
+
+        <div *ngIf="isPromoCodeValid()">
+          <span class="footer__discounted-price"
+            >Total <span>{{ getSelectedTotalCost() }}</span></span
+          >
+          <span class="footer__original-price"
+            >Total
+            <span>{{ getDiscountedPrice(getSelectedTotalCost()) }}</span></span
+          >
+        </div>
+      </div>
+      <div class="hr"></div>
+      <div class="promo">
+        <div class="promo__input-container">
+          <mat-form-field
+            class="promo__input-container__input"
+            [ngStyle]="{ 'border-color': 'red' }"
+          >
+            <input matInput #promoInput placeholder="Promo code" />
+            <button
+              mat-icon-button
+              class="promo__input-container__apply-button"
+              (click)="applyPromoCode(promoInput.value)"
+            >
+              <mat-icon>APPLY</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+        <div class="promo__example">cod10, cod20</div>
+        <div class="promo__selected-checkboxes">{{ selectedCount }} selected</div>
+        <button mat-button class="promo__payment-button" (click)="payment()">
+          Payment
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

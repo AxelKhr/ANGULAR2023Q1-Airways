@@ -20,6 +20,10 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { CdkMenuModule } from '@angular/cdk/menu';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatTableModule } from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
 
 @NgModule({
   exports: [
@@ -41,6 +45,10 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatAutocompleteModule,
     CdkMenuModule,
     MatSnackBarModule,
+    MatCheckboxModule,
+    MatPaginatorModule,
+    MatTableModule,
+    MatSortModule,
   ],
   providers: [
     MatIconRegistry,
