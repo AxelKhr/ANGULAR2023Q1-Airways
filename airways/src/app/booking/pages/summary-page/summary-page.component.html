@@ -4,20 +4,18 @@
     <span>Summary</span>
   </div>
   <div class="data__flights">
-    <div>
-      <app-summary-route
-        [flight]="route.flights[0]"
-        [passengers]="passengers"
-      ></app-summary-route>
-    </div>
-    <div>
-      <app-summary-fare
-        [passengers]="passengers"
-        [routes]="[route]"
-      ></app-summary-fare>
-    </div>
+    <app-summary-route
+      *ngFor="let flight of getFlights(routes)"
+      [flight]="flight"
+      [passengers]="passengers"
+    ></app-summary-route>
   </div>
-  <div class="data__fare"></div>
+  <div class="data__fare">
+    <app-summary-fare
+      [passengers]="passengers"
+      [routes]="routes"
+    ></app-summary-fare>
+  </div>
 </div>
 <div class="control">
   <button

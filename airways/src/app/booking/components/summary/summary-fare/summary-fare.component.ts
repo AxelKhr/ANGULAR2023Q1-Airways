@@ -40,6 +40,10 @@ export class SummaryFareComponent {
   currency$ = this.store.select(AppSelectors.settings.selectCurrency);
 
   constructor(private store: Store) {
+    this.clearFare();
+  }
+
+  clearFare() {
     this.fare = {
       adult: {
         count: 0,
@@ -64,21 +68,19 @@ export class SummaryFareComponent {
   }
 
   calcFare() {
+    this.clearFare();
     this.routesValue.forEach((r) => {
-      this.fare.adult.fare = +r.ticketsCost.adult.fare;
-      this.fare.adult.tax = +r.ticketsCost.adult.tax;
-      this.fare.adult.totalCost = +r.ticketsCost.adult.totalCost;
-      this.fare.child.fare = +r.ticketsCost.children.fare;
-      this.fare.child.tax = +r.ticketsCost.children.tax;
-      this.fare.child.totalCost = +r.ticketsCost.children.totalCost;
-      this.fare.infant.fare = +r.ticketsCost.infant.fare;
-      this.fare.infant.tax = +r.ticketsCost.infant.tax;
-      this.fare.infant.totalCost = +r.ticketsCost.infant.totalCost;
+      this.fare.adult.fare += +r.ticketsCost.adult.fare;
+      this.fare.adult.tax += +r.ticketsCost.adult.tax;
+      this.fare.adult.totalCost += +r.ticketsCost.adult.totalCost;
+      this.fare.child.fare += +r.ticketsCost.children.fare;
+      this.fare.child.tax += +r.ticketsCost.children.tax;
+      this.fare.child.totalCost += +r.ticketsCost.children.totalCost;
+      this.fare.infant.fare += +r.ticketsCost.infant.fare;
+      this.fare.infant.tax += +r.ticketsCost.infant.tax;
+      this.fare.infant.totalCost += +r.ticketsCost.infant.totalCost;
     });
 
-    this.fare.adult.count = 0;
-    this.fare.child.count = 0;
-    this.fare.infant.count = 0;
     this.passengersValue.forEach((el) => {
       if (el.type === 'adult') {
         this.fare.adult.count += 1;

@@ -35,6 +35,10 @@
     color: var(--app-color-neutral0);
 
     background-color: var(--app-color-neutral100);
+
+    .total__number {
+      color: var(--app-color-primary);
+    }
   }
 
 }

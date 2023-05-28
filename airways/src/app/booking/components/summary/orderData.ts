@@ -22,7 +22,7 @@ export const routeData: IRouteModel = JSON.parse(`{
           "freeSeats": 8,
           "flightTime": 140
       }
-  ],
+],
   "ticketsCost": {
       "adult": {
           "totalCost": "162.15",

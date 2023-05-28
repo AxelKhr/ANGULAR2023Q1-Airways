@@ -18,6 +18,8 @@
   </div>
   <div class="fare__total">
     <div>TOTAL:</div>
-    <div>{{ fare.total | currencyConvert : (currency$ | async) || "USD" }}</div>
+    <div class="total__number">
+      {{ fare.total | currencyConvert : (currency$ | async) || "USD" }}
+    </div>
   </div>
 </div>

@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { IFlightModel } from 'src/app/shared/models/flight.model';
+import { IRouteModel } from 'src/app/shared/models/route.model';
 import { routeData, passengersData } from '../../components/summary/orderData';
 
 @Component({
@@ -8,7 +10,7 @@ import { routeData, passengersData } from '../../components/summary/orderData';
   styleUrls: ['./summary-page.component.scss'],
 })
 export class SummaryPageComponent {
-  route = routeData;
+  routes: IRouteModel[] = [routeData, routeData, routeData];
 
   passengers = passengersData;
 
@@ -20,5 +22,13 @@ export class SummaryPageComponent {
 
   onClickContinue() {
     this.router.navigate(['booking', 'select']);
+  }
+
+  getFlights(routes: IRouteModel[]) {
+    const flights: IFlightModel[] = [];
+    routes.forEach((r) => {
+      flights.push(...r.flights);
+    });
+    return flights;
   }
 }
