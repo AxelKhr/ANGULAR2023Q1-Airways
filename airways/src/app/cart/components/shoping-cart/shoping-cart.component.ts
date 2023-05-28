@@ -1,9 +1,18 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { orderData, airports } from './data';
-import { IAirportModel } from 'src/app/shared/models/airport.model';
+import { MatSort, Sort } from '@angular/material/sort';
+import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { AppSelectors } from 'src/app/redux/selectors';
+import { orderData } from './data';
+import { IPassengerModel } from 'src/app/shared/models/passenger.model';
+import { IOrderModel } from 'src/app/shared/models/order.model';
+
+interface ICountEntry {
+  0: string;
+  1: number;
+}
 
 @Component({
   selector: 'app-shoping-cart',
@@ -24,59 +33,64 @@ export class ShopingCartComponent implements OnInit {
     'menu',
   ];
 
-  dataSource = new MatTableDataSource<any>();
+  dataSource = new MatTableDataSource<IOrderModel>();
 
-  db: any = orderData;
+  db: any | null = orderData;
 
-  airports: IAirportModel[] = airports;
-
-  selectedItems: any[] = [];
+  selectedItems: IOrderModel[] = [];
 
   promoCode: string = '';
 
   isCart = true;
 
-  invalidCode = false;
+  currency$ = this.store.select(AppSelectors.settings.selectCurrency);
 
   selectedCount = 0;
 
   selectedIndex = 0;
 
-  constructor(private router: Router, private route: ActivatedRoute) {}
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private store: Store
+  ) {}
 
   ngOnInit() {
-    this.isCart = this.route.snapshot.data['isCart'];
-    if (!this.isCart) {
-      this.displayedColumns = [
-        'column1',
-        'column2',
-        'column3',
-        'column4',
-        'column5',
-        'column6',
-      ];
-    }
-    this.dataSource = new MatTableDataSource(this.db);
-    this.dataSource.sort = this.sort;
-    this.dataSource.sortingDataAccessor = (item, property) => {
-      switch (property) {
-        case 'column1':
-          return item.routes[0]?.flights[0]?.numberRace || '';
-        case 'column3':
-          return item.roundTrip === 1 ? 'Round Trip' : 'One way';
-        case 'column4':
-          return item.routes[0]?.flights[0]?.departureDateTime || '';
-        case 'column5':
-          return item.passengers.length;
-        case 'column6':
-          return parseFloat(this.getTotalCost(item));
-        default:
-          return '';
+    if (this.db) {
+      this.isCart = this.route.snapshot.data['isCart'];
+      if (!this.isCart) {
+        this.displayedColumns = [
+          'column1',
+          'column2',
+          'column3',
+          'column4',
+          'column5',
+          'column6',
+        ];
       }
-    };
+
+      this.dataSource = new MatTableDataSource(this.db);
+      this.dataSource.sort = this.sort;
+      this.dataSource.sortingDataAccessor = (item, property) => {
+        switch (property) {
+          case 'column1':
+            return item.routes[0]?.flights[0]?.numberRace || '';
+          case 'column3':
+            return item.roundTrip === 1 ? 'Round Trip' : 'One way';
+          case 'column4':
+            return item.routes[0]?.flights[0]?.departureDateTime || '';
+          case 'column5':
+            return item.passengers.length;
+          case 'column6':
+            return parseFloat(this.getTotalCost(item));
+          default:
+            return '';
+        }
+      };
+    }
   }
 
-  getPassengerCounts(passengers: any[]): any[] {
+  getPassengerCounts(passengers: IPassengerModel[]): ICountEntry[] {
     const counts = {
       Adult: 0,
       Children: 0,
@@ -92,16 +106,14 @@ export class ShopingCartComponent implements OnInit {
         counts.Infant++;
       }
     });
-
     return Object.entries(counts);
   }
 
-  getTotalCost(element: any): string {
+  getTotalCost(element: IOrderModel): string {
     const routes = element.routes;
     const passengers = element.passengers;
 
     let totalCost = 0;
-
     for (const passenger of passengers) {
       for (const route of routes) {
         const ticketsCost = route.ticketsCost;
@@ -119,7 +131,7 @@ export class ShopingCartComponent implements OnInit {
     return totalCost.toFixed(2);
   }
 
-  toggleItemSelection(item: any) {
+  toggleItemSelection(item: IOrderModel): void {
     const index = this.selectedItems.indexOf(item);
     if (index === -1) {
       this.selectedItems.push(item);
@@ -154,12 +166,8 @@ export class ShopingCartComponent implements OnInit {
     return parseFloat(totalCost.toFixed(2));
   }
 
-  getAirportName(code: string): string {
-    const airport = airports.find((airport) => airport.code === code);
-    if (airport) {
-      return airport.city;
-    }
-    return '';
+  getAirportName(code: string): Observable<string> {
+    return this.store.select(AppSelectors.general.selectCityByCode(code));
   }
 
   getDiscountedPrice(totalCost: number): number {
@@ -177,19 +185,35 @@ export class ShopingCartComponent implements OnInit {
     return discountedPrice;
   }
 
+  sortData(event: Sort): void {
+    const data = this.dataSource.data.slice();
+
+    if (!event.active || event.direction === '') {
+      this.dataSource.data = data;
+      return;
+    }
+
+    this.dataSource.data = data.sort((a, b) => {
+      const valueA = this.dataSource.sortingDataAccessor(a, event.active);
+      const valueB = this.dataSource.sortingDataAccessor(b, event.active);
+
+      return (valueA < valueB ? -1 : 1) * (event.direction === 'asc' ? 1 : -1);
+    });
+  }
+
   isPromoCodeValid(): boolean {
     return this.promoCode === 'cod10' || this.promoCode === 'cod20';
   }
 
-  applyPromoCode(code: string) {
+  applyPromoCode(code: string): void {
     this.promoCode = code;
   }
 
-  updateSelectedCount() {
+  updateSelectedCount(): void {
     this.selectedCount = this.selectedItems.length;
   }
 
-  setSelectedIndex(index: number) {
+  setSelectedIndex(index: number): void {
     this.selectedIndex = index;
   }
 

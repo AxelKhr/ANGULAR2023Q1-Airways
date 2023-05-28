@@ -1,3 +1,4 @@
+/* eslint-disable */
 export const orderData = [
   {
       "_id": "645cbf3829d412e59ef4787c",
@@ -256,35 +257,3 @@ export const orderData = [
     ]
 },
   ]
-
-  export const airports = [
-    {
-      code: 'DUB',
-      name: 'Dublin Airport',
-      city: 'Dublin',
-      country: 'Ireland',
-      timezone: 1,
-    },
-    {
-      code: 'WAW',
-      name: 'Warsaw Chopin Airport',
-      city: 'Warsaw',
-      country: 'Poland',
-      timezone: 2,
-    },
-    {
-      code: 'SCL',
-      name: 'Comodoro Arturo Merino Benítez International Airport',
-      city: 'Santiago',
-      country: 'Chile',
-      timezone: -4,
-    },
-    {
-      code: 'YVR',
-      name: 'Vancouver International Airport',
-      city: 'Vancouver',
-      country: 'Canada',
-      timezone: -7,
-    },
-  
-  ];
