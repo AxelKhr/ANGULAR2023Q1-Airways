@@ -1,4 +1,24 @@
-<p>summary-page works!</p>
+<div class="data">
+  <div class="data__title">
+    <mat-icon svgIcon="summary"></mat-icon>
+    <span>Summary</span>
+  </div>
+  <div class="data__flights">
+    <div>
+      <app-summary-route
+        [flight]="route.flights[0]"
+        [passengers]="passengers"
+      ></app-summary-route>
+    </div>
+    <div>
+      <!-- <app-summary-fare
+        [passengers]="passengers"
+        [routes]="[route]"
+      ></app-summary-fare> -->
+    </div>
+  </div>
+  <div class="data__fare"></div>
+</div>
 <div class="control">
   <button
     mat-button

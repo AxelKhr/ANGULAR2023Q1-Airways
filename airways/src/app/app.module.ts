@@ -16,7 +16,9 @@ import { effects } from './redux/effects';
 import { AuthModule } from './auth/auth.module';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [
+    AppComponent,
+  ],
   imports: [
     CommonModule,
     BrowserModule,

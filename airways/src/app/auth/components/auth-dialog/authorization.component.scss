@@ -1,4 +1,4 @@
-@import "../../../../styles/responsive.scss";
+@import "src/styles/responsive.scss";
 
 .auth {
   width: 494px;
@@ -74,4 +74,19 @@
   &:hover {
     background-color: rgba(17, 57, 126, 0.5);
   }
+}
+
+.spinner {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 1;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+
+  background-color: var(--app-background-color-overlay);
 }

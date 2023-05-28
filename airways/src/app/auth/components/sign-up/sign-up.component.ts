@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { passengerNameTip } from 'src/app/environment/constants/mat-tooltips';
+import { passengerNameTip, passwordMatTip } from 'src/app/environment/constants/mat-tooltips';
+import { AppSelectors } from 'src/app/redux/selectors';
 import { selectDateFormat } from 'src/app/redux/selectors/settings.selectors';
-import { passwordMatTip } from '../../../../environment/constants/mat-tooltips';
+import { IUserProfileModel } from 'src/app/shared/models/user-profile.model';
 
 @Component({
   selector: 'app-sign-up',
@@ -12,6 +13,8 @@ import { passwordMatTip } from '../../../../environment/constants/mat-tooltips';
   styleUrls: ['./sign-up.component.scss'],
 })
 export class SignUpComponent {
+  @Output() signUp = new EventEmitter<IUserProfileModel>();
+
   userTip = passengerNameTip;
 
   passwordTip = passwordMatTip;
@@ -20,16 +23,9 @@ export class SignUpComponent {
 
   dateFormat: Observable<string>;
 
-  countryCodes = [
-    {
-      country: 'Australia',
-      code: '+61',
-    },
-    {
-      country: 'Austria',
-      code: '+43',
-    },
-  ];
+  countryCodes$ = this.store.select(AppSelectors.general.selectCountryCodes);
+
+  citizenships$ = this.store.select(AppSelectors.general.selectCitizenships);
 
   signUpForm: FormGroup = new FormGroup({
     email: new FormControl('', [
@@ -103,6 +99,6 @@ export class SignUpComponent {
   }
 
   onSubmit() {
-    console.log(this.signUpForm.value);
+    this.signUp.emit(this.signUpForm.value as IUserProfileModel);
   }
 }
