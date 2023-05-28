@@ -39,9 +39,7 @@ export class SummaryFareComponent {
 
   currency$ = this.store.select(AppSelectors.settings.selectCurrency);
 
-  constructor(private store: Store) {
-    this.clearFare();
-  }
+  constructor(private store: Store) {}
 
   clearFare() {
     this.fare = {

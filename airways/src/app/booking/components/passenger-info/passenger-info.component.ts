@@ -21,7 +21,7 @@ import { selectDateFormat } from 'src/app/redux/selectors/settings.selectors';
   ],
 })
 export class PassengerInfoComponent implements OnInit {
-  @Input() passengerType!: string;
+  @Input() type!: string;
 
   @Input() index!: number;
 
@@ -45,7 +45,7 @@ export class PassengerInfoComponent implements OnInit {
     private store: Store,
   ) {
     this.passengerForm = formBuilder.group({
-      passengerType: [''],
+      type: [''],
       firstName: [
         '',
         [Validators.required, Validators.pattern(/^[A-Za-z\s]*$/)],
@@ -66,12 +66,12 @@ export class PassengerInfoComponent implements OnInit {
   ngOnInit(): void {
     this.parentForm = this.parent.form;
     this.parentForm.addControl(`passenger${this.index}`, this.passengerForm);
-    this.passengerForm.controls['passengerType'].setValue(this.passengerType);
+    this.passengerForm.controls['type'].setValue(this.type);
     this.limitDatepicker();
   }
 
   limitDatepicker() {
-    const type = this.passengerType as 'child' | 'adult' | 'infant';
+    const type = this.type as 'child' | 'adult' | 'infant';
     this.maxDateValue = passengersAge[type].max;
     this.minDateValue = passengersAge[type].min;
   }

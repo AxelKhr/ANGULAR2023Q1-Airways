@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { AppSelectors } from 'src/app/redux/selectors';
 import { IFlightModel } from 'src/app/shared/models/flight.model';
 import { IRouteModel } from 'src/app/shared/models/route.model';
-import { routeData, passengersData } from '../../components/summary/orderData';
 
 @Component({
   selector: 'app-summary-page',
@@ -10,11 +11,11 @@ import { routeData, passengersData } from '../../components/summary/orderData';
   styleUrls: ['./summary-page.component.scss'],
 })
 export class SummaryPageComponent {
-  routes: IRouteModel[] = [routeData, routeData, routeData];
+  passengers$ = this.store.select(AppSelectors.booking.selectPassengers);
 
-  passengers = passengersData;
+  orderRoutes$ = this.store.select(AppSelectors.booking.selectOrderRoutes);
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private store: Store) {}
 
   onClickBack() {
     this.router.navigate(['booking', 'process']);
