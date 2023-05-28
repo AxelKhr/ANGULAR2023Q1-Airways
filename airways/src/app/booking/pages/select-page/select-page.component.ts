@@ -53,14 +53,16 @@ export class SelectPageComponent implements OnInit, OnDestroy {
       },
     });
 
-    this.orderRouteToSubscr = this.store.select(AppSelectors.booking.selectOrderRouteTo)
+    this.orderRouteToSubscr = this.store
+      .select(AppSelectors.booking.selectOrderRouteTo)
       // eslint-disable-next-line @ngrx/no-store-subscription
       .subscribe((route) => {
         this.orderRouteTo = route;
         this.updateIsContinue();
       });
 
-    this.orderRouteFromSubscr = this.store.select(AppSelectors.booking.selectOrderRouteFrom)
+    this.orderRouteFromSubscr = this.store
+      .select(AppSelectors.booking.selectOrderRouteFrom)
       // eslint-disable-next-line @ngrx/no-store-subscription
       .subscribe((route) => {
         this.orderRouteFrom = route;
@@ -108,7 +110,7 @@ export class SelectPageComponent implements OnInit, OnDestroy {
   }
 
   updateIsContinue() {
-    this.isContinue = (this.orderRouteTo !== null)
-      && ((this.request.roundTrip !== 1) || (this.orderRouteFrom !== null));
+    this.isContinue = this.orderRouteTo !== null
+      && (this.request.roundTrip !== 1 || this.orderRouteFrom !== null);
   }
 }

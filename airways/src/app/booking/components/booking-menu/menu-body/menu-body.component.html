@@ -1,0 +1,25 @@
+<div class="menu">
+  <div class="destination">
+    <span>{{ flightFrom }}</span>
+    <mat-icon svgIcon="return-flight-ico"></mat-icon>
+    <span>{{ flightTo }}</span>
+  </div>
+  <div class="details">
+    <span>{{ info.roundTrip === 1 ? "round" : "one-way" }}</span>
+    <span class="dot">·</span>
+    <span>
+      <span>{{ info.departureDate | date : "dd LLL" }}</span>
+      <span *ngIf="info.roundTrip === 1">
+        - {{ info.returnDate | date : "dd LLL" }}</span
+      >
+    </span>
+    <span class="dot">·</span>
+    <div class="passengers">
+      <span>{{ info.countAdult + info.countChildren + info.countInfant }}</span>
+      <mat-icon svgIcon="passenger-ico-grey"></mat-icon>
+    </div>
+  </div>
+  <button mat-button *ngIf="isFlightsStep$ | async" (click)="editClick.emit()" color="primary">
+    Edit
+  </button>
+</div>
