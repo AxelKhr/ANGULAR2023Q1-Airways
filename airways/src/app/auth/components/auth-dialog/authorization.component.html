@@ -1,0 +1,20 @@
+<div class="dialog">
+  <div mat-dialog-actions class="action">
+    <button class="action__close" mat-dialog-close mat-button>&#10006;</button>
+  </div>
+  <div mat-dialog-content class="auth">
+    <mat-tab-group class="sign-in-form" animationDuration="0ms">
+      <mat-tab label="Sign in">
+        <app-social-media></app-social-media>
+        <app-sign-in (signIn)="onSignIn($event)"></app-sign-in>
+      </mat-tab>
+      <mat-tab label="Sign up">
+        <app-social-media></app-social-media>
+        <app-sign-up (signUp)="onSignUp($event)"></app-sign-up>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+  <div *ngIf="isAuthorization$ | async" class="spinner">
+    <mat-spinner diameter="50"></mat-spinner>
+  </div>
+</div>

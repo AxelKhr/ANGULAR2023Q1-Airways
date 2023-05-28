@@ -59,7 +59,10 @@
                       class="date-content__race-price__price"
                       *ngIf="route.flights.length > 0"
                     >
-                      ${{ route.ticketsCost.adult.totalCost }}
+                      {{
+                        route.ticketsCost.adult.totalCost
+                          | currencyConvert : (currency$ | async) || "USD"
+                      }}
                     </span>
                     <img
                       src="../../../../assets/no-race.svg"
@@ -188,9 +191,10 @@
           </div>
           <div class="price-param__price-warning__price">
             <span *ngIf="isEdit">Price</span>
-            <span class="cost"
-              >${{ routes[activeRouteInd].ticketsCost.adult.totalCost }}</span
-            >
+            <span class="cost">{{
+              routes[activeRouteInd].ticketsCost.adult.totalCost
+                | currencyConvert : (currency$ | async) || "USD"
+            }}</span>
           </div>
         </div>
         <div class="price-param__button">

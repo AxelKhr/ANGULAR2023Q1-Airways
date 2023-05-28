@@ -12,6 +12,9 @@ import { TimeFormatPipe } from './pipes/time-format.pipe';
 import { BookingFormComponent } from './components/booking-form/booking-form.component';
 import { PassengerInfoComponent } from './components/passenger-info/passenger-info.component';
 import { ContactDetailsComponent } from './components/contact-details/contact-details.component';
+import { SummaryRouteComponent } from './components/summary/summary-route/summary-route.component';
+import { SummaryFareComponent } from './components/summary/summary-fare/summary-fare.component';
+import { FareTypeComponent } from './components/summary/fare-type/fare-type.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +27,9 @@ import { ContactDetailsComponent } from './components/contact-details/contact-de
     BookingFormComponent,
     PassengerInfoComponent,
     ContactDetailsComponent,
+    SummaryRouteComponent,
+    SummaryFareComponent,
+    FareTypeComponent,
   ],
   imports: [
     SharedModule,
