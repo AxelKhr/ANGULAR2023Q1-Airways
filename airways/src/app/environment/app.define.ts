@@ -9,7 +9,7 @@ export const SETTINGS_DEF: IAppSettingsModel = {
 
 export const API_DEF = {
   API_NUMBER_OF_REPEATS: 2,
-  API_URL_BASE: 'https://airways-backend.onrender.com',
+  API_URL_BASE: 'https://airways-backend-production.up.railway.app',
   API_URL_COUNTRY_CODES: 'country-codes',
   API_URL_AIRPORTS: 'airports',
   API_URL_CITIZENSHIP: 'citizenship',
