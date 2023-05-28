@@ -1,0 +1,14 @@
+@import "styles/themes.scss";
+@import './styles/vars.scss';
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+@import './styles/matMenu.scss';
+@import './styles/matSnackBar.scss';

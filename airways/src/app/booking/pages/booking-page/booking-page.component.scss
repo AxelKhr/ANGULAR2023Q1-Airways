@@ -1,0 +1,17 @@
+.wrapper {
+  padding: 0 var(--app-wrapper-padding);
+
+  &.wrapper--content {
+    margin: 40px 0;
+  }
+
+  & > .container {
+    max-width: var(--max-width-content);
+    margin: 0 auto;
+  }
+}
+
+.menu {
+  background-color: var(--app-color-secondary100);
+  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.2);
+}

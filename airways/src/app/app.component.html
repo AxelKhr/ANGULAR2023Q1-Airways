@@ -1,0 +1,19 @@
+<div class="container">
+  <div class="container__background">
+    <div *ngIf="isBackgroundVisible$ | async" class="background">
+      <div></div>
+    </div>
+  </div>
+  <div class="header">
+    <div *ngIf="isBackgroundVisible$ | async" class="background">
+      <div></div>
+    </div>
+    <app-header></app-header>
+  </div>
+  <div class="wrapper">
+    <div class="content">
+      <router-outlet></router-outlet>
+    </div>
+    <app-footer class="footer"></app-footer>
+  </div>
+</div>

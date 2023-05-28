@@ -1,0 +1,202 @@
+.wrapper {
+  padding: 0 var(--app-wrapper-padding);
+
+  &>.container {
+    max-width: var(--max-width-content);
+    margin: 0 auto;
+  }
+}
+
+:host ::ng-deep .mat-mdc-form-field-infix {
+  padding: 24px 0 8px 0 !important;
+}
+
+:host ::ng-deep {
+  & .mdc-notched-outline__notch {
+    padding-top: 13px !important;
+    border-top: 1.2px solid transparent;
+  }
+  & .mdc-text-field--focused .mdc-notched-outline__notch {
+    padding-top: 12px !important;
+    border-top-width: 2px;
+  }
+}
+
+.search {
+  max-width: 580px;
+  max-height: 390px;
+  margin: 62px 0;
+  padding: 24px;
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.85);
+  form {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    mat-radio-group {
+      display: flex;
+      gap: 62px;
+      margin-left: -10px;
+      margin-bottom: 16px;
+    }
+  }
+  &__bottom-block {
+    display: flex;
+    gap: 20px;
+    mat-form-field {
+      flex: 1;
+    }
+  }
+  &__switch-btn {
+    position: absolute;
+    top: 95px;
+    right: 25px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    background: url("../../../../assets/reverse-btn.svg");
+  }
+  &__btn {
+    width: 126px;
+    height: 60px;
+    margin-left: auto;
+  }
+}
+
+mat-form-field:not(.mat-focused) mat-hint {
+  display: none;
+}
+
+.passenger {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 180px;
+  max-width: 200px;
+  padding: 14px 20px 14px 16px;
+  font-size: 14px;
+  line-height: 20px;
+  background-color: var(--app-background-color-components);
+  color: var(--app-color-neutral30);
+
+  &__option {
+    display: flex;
+    justify-content: space-between;
+    flex: 1;
+    input {
+      max-width: 20px;
+      border: none;
+      outline: none;
+      font-size: 14px;
+      line-height: 16px;
+      text-align: center;
+      user-select: none;
+    }
+    button {
+      width: 30px;
+      height: 30px;
+      padding: 0;
+      border: none;
+      font-size: 20px;
+      line-height: 20px;
+      background-color: transparent;
+      cursor: pointer;
+    }
+  }
+  &__description {
+    display: flex;
+    flex-direction: column;
+  }
+  &__title {
+    font-size: 16px;
+    line-height: 24px;
+  }
+}
+
+.destination-option {
+  display: flex;
+  flex-direction: column;
+  max-width: 200px;
+  padding: 6px;
+
+  &__top {
+    font-size: 16px;
+    line-height: 24px;
+  }
+  &__bottom {
+    font-size: 14px;
+    line-height: 20px;
+    color: var(--app-color-neutral30);
+  }
+}
+::ng-deep .mat-mdc-autocomplete-panel::-webkit-scrollbar {
+  width: 12px;
+}
+
+::ng-deep .mat-mdc-autocomplete-panel::-webkit-scrollbar-thumb {
+  border: 4px solid var(--app-background-color-components);
+  border-radius: 100px;
+  background-color: rgb(17, 57, 126);
+  &:hover {
+    background-color: rgba(17, 57, 126, 0.5);
+  }
+}
+
+.passengers__btn {
+  box-sizing: border-box;
+  position: relative;
+  max-height: 56px;
+  max-width: 34.5%;
+  display: flex;
+  align-items: center;
+  flex: 1;
+  padding: 0;
+  font-size: 16px;
+  line-height: 24px;
+  border-radius: 4px;
+  border-color: var(--app-color-neutral30);
+  border-style: solid;
+  background-color: transparent;
+  border-width: 1.2px;
+  & .ico {
+    position: absolute;
+    width: 13px;
+    right: 24px;
+  }
+  &.error {
+    border-color: rgb(182, 55, 55);
+  }
+  span {
+    margin: 24px 36px 8px 14px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-transform: capitalize;
+  }
+  label {
+    position: absolute;
+    top: 6px;
+    left: 14px;
+    font-size: 12px;
+    line-height: 16px;
+    color: var(--app-color-neutral30);
+    &.error {
+      color: rgb(182, 55, 55);
+    }
+  }
+  &[aria-expanded="true"] {
+    border: 2px solid rgb(17, 57, 126);
+    & label {
+      color: rgb(17, 57, 126);
+      top: 5px;
+      left: 13px;
+    }
+    & span {
+      margin-left: 13px;
+    }
+    & .ico {
+      right: 23px;
+    }
+  }
+}

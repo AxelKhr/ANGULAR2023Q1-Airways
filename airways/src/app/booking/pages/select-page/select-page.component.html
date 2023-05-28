@@ -1,0 +1,37 @@
+<div *ngIf="isEnable" class="data">
+  <app-race
+    class="data__routes"
+    [airports$]="airports$"
+    [request$]="flightRequest$"
+    [routes$]="routesTo$"
+    (selectRoute)="onSelectRouteTo($event)"
+  ></app-race>
+  <app-race
+    *ngIf="request.roundTrip === 1"
+    class="data__routes"
+    [airports$]="airports$"
+    [request$]="flightRequest$"
+    [routes$]="routesFrom$"
+    [isReturned]="true"
+    (selectRoute)="onSelectRouteFrom($event)"
+  ></app-race>
+</div>
+<div class="control">
+  <button
+    mat-button
+    color="primary"
+    class="control__button"
+    (click)="onClickBack()"
+  >
+    Back
+  </button>
+  <button
+    mat-flat-button
+    color="primary"
+    class="control__button"
+    (click)="onClickContinue()"
+    [disabled]="!isContinue"
+  >
+    Continue
+  </button>
+</div>

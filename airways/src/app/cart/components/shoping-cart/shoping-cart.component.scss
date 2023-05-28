@@ -1,0 +1,226 @@
+.wrapper {
+  max-width: 1128px;
+  margin: 40px auto 0 auto;
+  overflow-x: auto;
+  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.2);
+  cursor: default;
+}
+
+.section-table {
+  padding-top: 33px;
+  background: var(--app-color-neutral100);
+  border-radius: 8px;
+  min-width: 1100px;
+  &__title {
+    margin: 0 0 27px 31px;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 28px;
+    color: var(--app-color-primary);
+  }
+}
+
+.custom-header th {
+  background-color: var(--app-background-color);
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 20px;
+  color: #000000;
+  border-bottom: none;
+}
+
+.mat-column-column1,
+.mat-column-column2,
+.mat-column-column3,
+.mat-column-column4,
+.mat-column-column5,
+.mat-column-column6 {
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 32px;
+  letter-spacing: 0.5px;
+  color: #000000;
+}
+
+.mat-column-column1 {
+  max-width: 110px;
+  color: var(--app-color-secondary0);
+  font-weight: 700;
+  line-height: 24px;
+}
+
+.mat-column-column2 {
+  max-width: 230px;
+}
+
+.mat-column-column3 {
+  max-width: 130px;
+}
+
+.mat-column-column4 {
+  max-width: 290px;
+}
+
+.mat-column-column5 {
+  max-width: 125px;
+}
+
+.mat-column-column6 {
+  max-width: 125px;
+  color: #7f8906;
+}
+
+.mat-column-checkbox {
+  width: 65px;
+}
+
+.mat-column-menu {
+  width: 55px;
+  color: var(--app-color-neutral30);
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 1060px;
+  height: 120px;
+  margin: 0 auto 0 auto;
+  &__button {
+    padding: 4px 8px;
+    width: 121px;
+    height: 28px;
+    background: #f4f6f9;
+    border-radius: 4px;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 20px;
+    letter-spacing: 0.1px;
+    color: var(--app-color-primary);
+  }
+  &__original-price,
+  &__discounted-price {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 20px;
+    color: #000000;
+    & span {
+      font-size: 30px;
+      line-height: 36px;
+      background: linear-gradient(90deg, #11397e 0%, #005abc 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      display: inline-block;
+      margin-left: 10px;
+    }
+  }
+
+  &__discounted-price {
+    font-size: 18px;
+    margin-right: 15px;
+    position: relative;
+    display: inline-block;
+    & span {
+      font-size: 22px;
+      display: inline-block;
+      background: linear-gradient(90deg, #831616 0%, #a52828 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      position: relative;
+      z-index: 1;
+      margin-left: 10px;
+    }
+  }
+
+  &__discounted-price:before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, #831616 0%, #a52828 100%);
+  }
+}
+
+.hr {
+  width: 100%;
+  height: 1px;
+  margin: 0 auto;
+  background: #e1e5eb;
+  transform: matrix(1, 0, 0, -1, 0, 0);
+}
+
+.promo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 1070px;
+  margin: 0 auto 0 auto;
+  padding: 30px 0;
+  &__input-container {
+    position: relative;
+    width: 374px;
+    margin-top: 20px;
+    &__input {
+      width: 100%;
+    }
+    &__apply-button {
+      position: absolute;
+      top: 14px;
+      right: 4px;
+      width: 64px;
+      height: 28px;
+      border-radius: 0;
+      margin: 0;
+      padding: 0;
+      & mat-icon {
+        font-size: 16px;
+        width: 100%;
+        border-radius: 0;
+        font-weight: 500;
+        line-height: 20px;
+        letter-spacing: 0.1px;
+        color: var(--app-color-primary);;
+        text-align: center;
+        padding: 4px 0;
+      }
+    }
+  }
+  &__example {
+    color: var(--app-color-neutral30);
+  }
+  &__selected-checkboxes {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 0.5px;
+    color: var(--app-color-neutral30);
+    margin-left: 280px;
+  }
+  &__payment-button {
+    padding: 12px 24px;
+    width: 126px;
+    height: 60px;
+    background: var(--app-color-primary);
+    border-radius: 4px;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 20px;
+    letter-spacing: 0.1px;
+    color: var(--app-color-neutral100);
+  }
+}
+
+.no-orders {
+  height: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--app-color-neutral30);
+  font-size: 28px;
+  padding-bottom: 30px;
+}

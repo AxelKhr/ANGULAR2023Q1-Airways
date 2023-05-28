@@ -1,0 +1,64 @@
+<div class="wrapper" [ngClass]="(isDefStyle$ | async) ? 'def' : 'alt'">
+  <div class="header">
+    <img
+      class="header__logo"
+      src="./assets/logo.svg"
+      alt="Logo"
+      width="114px"
+      height="40px"
+      (click)="onClickLogo()"
+    />
+    <div class="header__center">
+      <ng-container
+        *ngIf="isDefStyle$ | async; then headerStepper; else headerTitle"
+      ></ng-container>
+      <ng-template #headerTitle>
+        <p class="header__title">Book flights</p>
+      </ng-template>
+      <ng-template #headerStepper>
+        <app-booking-stepper
+          *ngIf="bookingStep$ | async"
+          [steps]="bookingStepsList"
+          [current]="bookingStep$ | async"
+        />
+      </ng-template>
+    </div>
+    <app-date-format
+      [isDefMode]="isDefStyle$ | async"
+      [format]="dateFormat$ | async"
+      (setFormatEvent)="onChangeFormat($event)"
+    ></app-date-format>
+    <app-currency-selector
+      [isDefMode]="isDefStyle$ | async"
+      [currency]="currency$ | async"
+      (setCurrencyEvent)="onChangeCurrency($event)"
+    ></app-currency-selector>
+    <div class="header__right">
+      <app-login-button
+        [isDefMode]="(isDefStyle$ | async) || false"
+        [isLoggedIn]="(isLoggedIn$ | async) || false"
+        [userName]="(userName$ | async) || ''"
+        [matMenuTriggerFor]="(isLoggedIn$ | async) ? menu : null"
+        (signIn)="loginUser()"
+      ></app-login-button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item>Account</button>
+        <button mat-menu-item (click)="logoutUser()">Logout</button>
+      </mat-menu>
+      <button
+        mat-icon-button
+        color="primary"
+        class="header__cart"
+        [ngClass]="(isDefStyle$ | async) ? 'def' : 'alt'"
+      >
+        <mat-icon
+          svgIcon="cart"
+          [matBadge]="orderCount"
+          matBadgeColor="warn"
+          matBadgeSize="medium"
+          [matBadgeHidden]="orderCount === 0"
+        />
+      </button>
+    </div>
+  </div>
+</div>

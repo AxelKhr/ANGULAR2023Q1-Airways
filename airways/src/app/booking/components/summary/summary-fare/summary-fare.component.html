@@ -1,0 +1,25 @@
+<div class="fare">
+  <div class="fare__details">
+    <app-fare-type
+      *ngIf="fare.adult.count"
+      [name]="'Adult'"
+      [fare]="fare.adult"
+    ></app-fare-type>
+    <app-fare-type
+      *ngIf="fare.child.count"
+      [name]="'Child'"
+      [fare]="fare.child"
+    ></app-fare-type>
+    <app-fare-type
+      *ngIf="fare.infant.count"
+      [name]="'Infant'"
+      [fare]="fare.infant"
+    ></app-fare-type>
+  </div>
+  <div class="fare__total">
+    <div>TOTAL:</div>
+    <div class="total__number">
+      {{ fare.total | currencyConvert : (currency$ | async) || "USD" }}
+    </div>
+  </div>
+</div>

@@ -1,0 +1,10 @@
+<button
+  mat-stroked-button
+  color="primary"
+  class="login"
+  [ngClass]="isDefModeValue ? 'def' : 'alt'"
+  (click)="onClick()"
+>
+  <mat-icon svgIcon="account" [ngClass]="isLoggedInValue ? 'user' : ''" />
+  <span>{{ isLoggedInValue ? userNameValue : "Sign in" }}</span>
+</button>

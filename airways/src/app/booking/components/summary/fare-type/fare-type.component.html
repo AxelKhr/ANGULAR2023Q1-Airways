@@ -1,0 +1,31 @@
+<div class="fare">
+  <div class="fare__total">
+    <div>{{ fareValue.count }} x {{ nameValue }} Fare</div>
+    <div>
+      {{
+        fareValue.totalCost * fareValue.count
+          | currencyConvert : (currency$ | async) || "USD"
+      }}
+    </div>
+  </div>
+  <div class="fare__details">
+    <div class="details__item">
+      <div>Fare</div>
+      <div>
+        {{
+          fareValue.fare * fareValue.count
+            | currencyConvert : (currency$ | async) || "USD"
+        }}
+      </div>
+    </div>
+    <div class="details__item">
+      <div>Tax & Service Charge</div>
+      <div>
+        {{
+          fareValue.tax * fareValue.count
+            | currencyConvert : (currency$ | async) || "USD"
+        }}
+      </div>
+    </div>
+  </div>
+</div>

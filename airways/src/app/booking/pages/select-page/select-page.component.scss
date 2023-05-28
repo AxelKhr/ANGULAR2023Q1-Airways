@@ -1,0 +1,19 @@
+.data {
+  margin-bottom: 40px;
+
+  &__routes {
+    display: block;
+    margin-bottom: 24px;
+  }
+}
+
+.control {
+  display: flex;
+  justify-content: flex-end;
+  gap: 40px;
+
+  &__button {
+    width: 126px;
+    height: 60px;
+  }
+}

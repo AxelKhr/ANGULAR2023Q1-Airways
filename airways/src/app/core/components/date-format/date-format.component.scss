@@ -1,0 +1,9 @@
+$inputWidth: 180px;
+
+.input {
+  width: $inputWidth;
+
+  mat-select {
+    width: $inputWidth - 30px;
+  }
+}
