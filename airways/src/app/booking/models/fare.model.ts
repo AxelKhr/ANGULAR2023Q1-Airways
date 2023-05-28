@@ -9,4 +9,5 @@ export interface IFareModel {
   adult: IFareByTypeModel;
   child: IFareByTypeModel;
   infant: IFareByTypeModel;
+  total: number;
 }

@@ -1,7 +1,44 @@
+@import "src/styles/responsive.scss";
+
 .fare {
   max-width: 550px;
+  overflow: hidden;
 
   border-radius: 8px;
   box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.2);
+
+  &__details {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    padding: 24px 40px 16px;
+    background-color: var(--app-color-neutral100);
+    @include media-mobile {
+      padding: 14px 20px;
+    }
+  }
+
+  &__total {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1px;
+    padding: 20px 40px;
+    @include media-mobile {
+      padding: 10px 20px;
+    }
+
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 24px;
+    letter-spacing: 0.5px;
+    color: var(--app-color-neutral0);
+
+    background-color: var(--app-color-neutral100);
+
+    .total__number {
+      color: var(--app-color-primary);
+    }
+  }
 
 }

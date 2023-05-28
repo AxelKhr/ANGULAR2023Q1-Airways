@@ -22,7 +22,7 @@ export const routeData: IRouteModel = JSON.parse(`{
           "freeSeats": 8,
           "flightTime": 140
       }
-  ],
+],
   "ticketsCost": {
       "adult": {
           "totalCost": "162.15",
@@ -50,7 +50,7 @@ export const passengersData: IPassengerModel[] = JSON.parse(`[
     "sex": "male",
     "needAssistance": true ,
     "baggage": "23 kg",
-    "type": "Children"
+    "type": "adult"
     },
     {
     "firstName": "John",
@@ -59,6 +59,6 @@ export const passengersData: IPassengerModel[] = JSON.parse(`[
     "sex": "male",
     "needAssistance": true ,
     "baggage": "23 kg",
-    "type": "Children"
+    "type": "child"
     }
 ]`);
