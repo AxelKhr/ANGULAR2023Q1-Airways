@@ -37,7 +37,7 @@ export class ProcessPageComponent implements OnInit, OnDestroy, AfterViewInit {
       .subscribe({
         next: (value) => {
           if (value === null) {
-            // this.router.navigate(['/']);
+            this.router.navigate(['/']);
           } else {
             this.request = value;
           }
@@ -56,10 +56,10 @@ export class ProcessPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngAfterViewInit(): void {
     if (this.bookingFormCmp) {
-      this.bookingFormStatusSubscr =
-        this.bookingFormCmp.bookingForm.statusChanges.subscribe((status) => {
-          this.isFormValid = status === 'VALID';
-        });
+      // eslint-disable-next-line max-len
+      this.bookingFormStatusSubscr = this.bookingFormCmp.bookingForm.statusChanges.subscribe((status) => {
+        this.isFormValid = status === 'VALID';
+      });
     }
   }
 

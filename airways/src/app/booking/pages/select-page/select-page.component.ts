@@ -45,7 +45,7 @@ export class SelectPageComponent implements OnInit, OnDestroy {
     this.flightRequestSubscr = this.flightRequest$.subscribe({
       next: (value) => {
         if (value === null) {
-          // this.router.navigate(['/']);
+          this.router.navigate(['/']);
         } else {
           this.isEnable = true;
           this.request = value;
@@ -70,20 +70,14 @@ export class SelectPageComponent implements OnInit, OnDestroy {
       });
 
     this.routesTo$ = this.routes$.pipe(
-      map((routes) =>
-        routes.filter(
-          (route) =>
-            route.departureAirportCode === this.request.departureAirportCode
-        )
-      )
+      map((routes) => routes.filter(
+        (route) => route.departureAirportCode === this.request.departureAirportCode,
+      )),
     );
     this.routesFrom$ = this.routes$.pipe(
-      map((routes) =>
-        routes.filter(
-          (route) =>
-            route.departureAirportCode === this.request.arrivalAirportCode
-        )
-      )
+      map((routes) => routes.filter(
+        (route) => route.departureAirportCode === this.request.arrivalAirportCode,
+      )),
     );
   }
 
@@ -116,8 +110,7 @@ export class SelectPageComponent implements OnInit, OnDestroy {
   }
 
   updateIsContinue() {
-    this.isContinue =
-      this.orderRouteTo !== null &&
-      (this.request.roundTrip !== 1 || this.orderRouteFrom !== null);
+    this.isContinue = this.orderRouteTo !== null
+      && (this.request.roundTrip !== 1 || this.orderRouteFrom !== null);
   }
 }

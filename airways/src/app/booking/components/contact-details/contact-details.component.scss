@@ -1,19 +1,33 @@
+@import '../../../../styles/responsive.scss';
+
 .contacts {
   display: flex;
   gap: 20px;
   margin-bottom: 40px;
   padding: 32px 0 10px 44px;
   background-color: var(--app-background-color-components);
+  @include media-tablet {
+    flex-direction: column;
+    padding: 15px;
+    gap: 0;
+  }
 
   &__phone {
     input::-webkit-outer-spin-button,
     input::-webkit-inner-spin-button {
       -webkit-appearance: none;
     }
+    @include media-tablet {
+
+    }
   }
   &__email {
     width: 37%;
     margin-left: 20px;
+    @include media-tablet {
+      margin-left: 0;
+      width: 100%;
+    }
   }
 }
 
