@@ -35,9 +35,16 @@
     ></app-currency-selector>
     <div class="header__right">
       <app-login-button
-        [isDefMode]="isDefStyle$ | async"
-        [userName]="''"
+        [isDefMode]="(isDefStyle$ | async) || false"
+        [isLoggedIn]="(isLoggedIn$ | async) || false"
+        [userName]="(userName$ | async) || ''"
+        [matMenuTriggerFor]="(isLoggedIn$ | async) ? menu : null"
+        (signIn)="loginUser()"
       ></app-login-button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item>Account</button>
+        <button mat-menu-item (click)="logoutUser()">Logout</button>
+      </mat-menu>
       <button
         mat-icon-button
         color="primary"

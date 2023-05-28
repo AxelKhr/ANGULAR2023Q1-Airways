@@ -8,11 +8,12 @@ export interface IGeneralStateModel {
   isMainStyle: boolean;
   countryCodes: ICountryCodeModel[];
   airports: IAirportModel[];
+  citizenships: string[];
 }
 
 export interface IAuthStateModel {
-  token: string;
-  userId: string;
+  isLoggedIn: boolean;
+  isAuthorization: boolean;
   userProfile: IUserProfileModel | null;
 }
 

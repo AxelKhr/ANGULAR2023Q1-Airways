@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { orderData, airports } from './data';
-import { IAirport } from 'src/app/search/models/search.models';
+import { IAirportModel } from 'src/app/shared/models/airport.model';
 
 @Component({
   selector: 'app-shoping-cart',
@@ -28,7 +28,7 @@ export class ShopingCartComponent implements OnInit {
 
   db: any = orderData;
 
-  airports: IAirport[] = airports;
+  airports: IAirportModel[] = airports;
 
   selectedItems: any[] = [];
 

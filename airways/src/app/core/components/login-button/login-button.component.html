@@ -3,7 +3,8 @@
   color="primary"
   class="login"
   [ngClass]="isDefModeValue ? 'def' : 'alt'"
+  (click)="onClick()"
 >
-  <mat-icon svgIcon="account" [ngClass]="userName.length > 0 ? 'user' : ''" />
-  <span>{{ userName.length > 0 ? userName : "Sign in" }}</span>
+  <mat-icon svgIcon="account" [ngClass]="isLoggedInValue ? 'user' : ''" />
+  <span>{{ isLoggedInValue ? userNameValue : "Sign in" }}</span>
 </button>

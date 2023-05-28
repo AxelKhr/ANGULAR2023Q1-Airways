@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import {
   ControlContainer,
   FormBuilder,
@@ -6,6 +6,10 @@ import {
   FormGroupDirective,
   Validators,
 } from '@angular/forms';
+import { Store } from '@ngrx/store';
+import { Subscription } from 'rxjs';
+import { AppSelectors } from 'src/app/redux/selectors';
+import { ICountryCodeModel } from 'src/app/shared/models/country-code.model';
 
 @Component({
   selector: 'app-contact-details',
@@ -15,29 +19,16 @@ import {
     { provide: ControlContainer, useExisting: FormGroupDirective },
   ],
 })
-export class ContactDetailsComponent implements OnInit {
+export class ContactDetailsComponent implements OnInit, OnDestroy {
   parentForm!: FormGroup;
 
   contactsForm: FormGroup;
 
-  countryCodes = [
-    {
-      country: 'Australia',
-      code: '+61',
-    },
-    {
-      country: 'Austria',
-      code: '+43',
-    },
-    {
-      country: 'Azerbaijan',
-      code: '+994',
-    },
-  ];
+  countryCodesSubscr!: Subscription;
 
-  selectedCode = this.countryCodes[0];
+  countryCodes: ICountryCodeModel[] = [];
 
-  constructor(private parent: FormGroupDirective, formBuilder: FormBuilder) {
+  constructor(private parent: FormGroupDirective, formBuilder: FormBuilder, private store: Store) {
     this.contactsForm = formBuilder.group({
       countryCode: [null, Validators.required],
       phoneNumber: [
@@ -56,6 +47,16 @@ export class ContactDetailsComponent implements OnInit {
   ngOnInit(): void {
     this.parentForm = this.parent.form;
     this.parentForm.addControl('contacts', this.contactsForm);
+
+    this.countryCodesSubscr = this.store.select(AppSelectors.general.selectCountryCodes)
+      // eslint-disable-next-line @ngrx/no-store-subscription
+      .subscribe((values) => { this.countryCodes = [...values]; });
+  }
+
+  ngOnDestroy(): void {
+    if (this.countryCodesSubscr) {
+      this.countryCodesSubscr.unsubscribe();
+    }
   }
 
   get countryCode() {

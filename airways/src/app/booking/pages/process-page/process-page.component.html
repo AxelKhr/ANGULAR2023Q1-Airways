@@ -1,4 +1,6 @@
-<p>process-page works!</p>
+<div class="data">
+  <app-booking-form></app-booking-form>
+</div>
 <div class="control">
   <button
     mat-button
@@ -13,6 +15,7 @@
     color="primary"
     class="control__button"
     (click)="onClickContinue()"
+    [disabled]="!isFormValid"
   >
     Continue
   </button>
