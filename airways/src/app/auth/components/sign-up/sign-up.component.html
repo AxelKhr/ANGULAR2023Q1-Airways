@@ -126,7 +126,7 @@
       <mat-label>Country code</mat-label>
       <mat-select formControlName="countryCode">
         <mat-option
-          *ngFor="let code of countryCodes"
+          *ngFor="let code of countryCodes$ | async"
           [value]="code"
           class="contacts__code-option"
         >
@@ -169,8 +169,8 @@
   >
     <mat-label>Citizenship</mat-label>
     <mat-select formControlName="citizenship">
-      <mat-option *ngFor="let info of countryCodes" [value]="info.country">
-        {{ info.country }}
+      <mat-option *ngFor="let value of citizenships$ | async" [value]="value">
+        {{ value }}
       </mat-option>
     </mat-select>
     <mat-error *ngIf="citizenship?.hasError('required')">

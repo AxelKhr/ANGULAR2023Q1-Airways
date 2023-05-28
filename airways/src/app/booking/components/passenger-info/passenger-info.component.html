@@ -1,7 +1,7 @@
 <div class="passenger" [formGroupName]="'passenger' + index">
   <div class="passenger__title">
     <span>{{ index + 1 }}. </span>
-    <span>{{ passengerType | titlecase }}</span>
+    <span>{{ type | titlecase }}</span>
   </div>
   <div class="passenger__main">
     <mat-form-field floatLabel="always">
@@ -93,7 +93,7 @@
       </mat-datepicker>
     </mat-form-field>
   </div>
-  <div class="passenger__footer" *ngIf="passengerType !== 'infant'">
+  <div class="passenger__footer" *ngIf="type !== 'infant'">
     <div class="checkbox-slide">
       <label class="switch">
         <input type="checkbox" formControlName="needAssistance" />

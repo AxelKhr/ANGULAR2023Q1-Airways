@@ -10,7 +10,7 @@
   <div class="booking__passengers" [formGroup]="passengersForm">
     <app-passenger-info
       *ngFor="let passenger of passengersArray; let ind = index"
-      [passengerType]="passenger"
+      [type]="passenger"
       [index]="ind"
     ></app-passenger-info>
   </div>

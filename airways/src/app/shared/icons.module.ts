@@ -25,6 +25,7 @@ export class IconsModule {
     this.matIconRegistry.addSvgIcon('arrow-down', this.setPath('./assets/arrow-down.svg'));
     this.matIconRegistry.addSvgIcon('step-complete', this.setPath('./assets/step-complete.svg'));
     this.matIconRegistry.addSvgIcon('step-edit', this.setPath('./assets/step-edit.svg'));
+    this.matIconRegistry.addSvgIcon('summary', this.setPath('./assets/summary.svg'));
     this.matIconRegistry.addSvgIcon('return-flight-ico', this.setPath('./assets/returnFlightIco.svg'));
   }
 

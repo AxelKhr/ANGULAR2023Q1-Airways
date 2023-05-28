@@ -1,3 +1,4 @@
+/* eslint-disable */
 export const jsonData = `{
   "departureAirportCode": "WAW",
   "arrivalAirportCode": "SCL",

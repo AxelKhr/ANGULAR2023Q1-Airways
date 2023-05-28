@@ -1,4 +1,5 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { IAirportModel } from 'src/app/shared/models/airport.model';
 import { IGeneralStateModel } from '../state.model';
 
 export const selectGeneralState =
@@ -17,6 +18,21 @@ export const selectIsMainStyleInverse = createSelector(
 export const selectAirports = createSelector(
   selectGeneralState,
   (state) => state.airports
+);
+
+export const selectAirportByCode = (code: string) => createSelector(
+  selectAirports,
+  (airports: IAirportModel[]) => airports.find((el) => el.code === code),
+);
+
+export const selectAirportNameByCode = (code: string) => createSelector(
+  selectAirportByCode(code),
+  (airport) => (airport ? airport.name.replace(/International/g, '').replace(/Airport/g, '').trim() : code),
+);
+
+export const selectCityByCode = (code: string) => createSelector(
+  selectAirportByCode(code),
+  (airport) => (airport ? airport.city : code),
 );
 
 export const selectCountryCodes = createSelector(

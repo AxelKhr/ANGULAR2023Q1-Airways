@@ -1,17 +1,27 @@
 import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { LoginDialogComponent } from '../components/login-dialog/login-dialog.component';
+import { AuthorizationComponent } from '../components/auth-dialog/authorization.component';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthDialogService {
-  dialogRef!: MatDialogRef<LoginDialogComponent>;
+  dialogRef!: MatDialogRef<AuthorizationComponent>;
 
   constructor(private dialog: MatDialog) { }
 
   open() {
-    this.dialogRef = this.dialog.open(LoginDialogComponent);
+    this.dialogRef = this.dialog.open(
+      AuthorizationComponent,
+      {
+        disableClose: true,
+        position: {
+          top: '45px',
+        },
+        width: 'auto',
+        maxWidth: '90vw',
+      },
+    );
   }
 
   close() {

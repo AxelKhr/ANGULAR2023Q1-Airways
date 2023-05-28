@@ -1,4 +1,22 @@
-<p>summary-page works!</p>
+<div class="data">
+  <div class="data__title">
+    <mat-icon svgIcon="summary"></mat-icon>
+    <span>Summary</span>
+  </div>
+  <div class="data__flights">
+    <app-summary-route
+      *ngFor="let flight of getFlights((orderRoutes$ | async) || [])"
+      [flight]="flight"
+      [passengers]="(passengers$ | async) || []"
+    ></app-summary-route>
+  </div>
+  <div class="data__fare">
+    <app-summary-fare
+      [passengers]="(passengers$ | async) || []"
+      [routes]="(orderRoutes$ | async) || []"
+    ></app-summary-fare>
+  </div>
+</div>
 <div class="control">
   <button
     mat-button

@@ -6,6 +6,8 @@ import { IFlightsRequestModel } from 'src/app/shared/models/flights-request.mode
 import { IRouteModel } from 'src/app/shared/models/route.model';
 import { Observable, Subscription, map } from 'rxjs';
 import { IFlightSeatsModel } from 'src/app/shared/models/flight-seats.model';
+import { Store } from '@ngrx/store';
+import { AppSelectors } from 'src/app/redux/selectors';
 
 interface IResponsiveOption {
   breakpoint: string;
@@ -61,6 +63,10 @@ export class RaceComponent implements OnInit, OnDestroy {
       numScroll: 1,
     },
   ];
+
+  currency$ = this.store.select(AppSelectors.settings.selectCurrency);
+
+  constructor(private store: Store) {}
 
   ngOnInit() {
     this.routesSubscr = this.routes$.subscribe(
