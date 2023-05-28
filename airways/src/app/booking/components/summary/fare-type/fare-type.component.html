@@ -1,0 +1,16 @@
+<div class="fare">
+  <div class="faree__total">
+    <div>{{ fare.count }} x {{ name }} Fare</div>
+    <div>{{ fare.totalCost * fare.count }}</div>
+  </div>
+  <div class="fare__details">
+    <div>
+      <div>Fare</div>
+      <div>{{ fare.fare * fare.count }}</div>
+    </div>
+    <div>
+      <div>Tax & Service Charge</div>
+      <div>{{ fare.tax * fare.count }}</div>
+    </div>
+  </div>
+</div>

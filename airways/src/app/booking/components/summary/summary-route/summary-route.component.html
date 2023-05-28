@@ -1,0 +1,28 @@
+<div class="route">
+  <div class="route__header">
+    <div class="header__title">
+      <div class="title__number">{{ flight.numberRace }}</div>
+      <div>
+        {{ getAirportName(flight.departureAirportCode) | async }} -
+        {{ getAirportName(flight.arrivalAirportCode) | async }}
+      </div>
+    </div>
+    <div class="header__date">
+      <div>{{ flight.departureDateTime | date : "EEEE, d MMM y" }}</div>
+      <div>
+        {{ flight.departureDateTime | date : "HH:mm" }} -
+        {{ flight.arrivalDateTime | date : "HH:mm" }}
+      </div>
+    </div>
+  </div>
+  <div class="route__passenger" *ngFor="let passenger of passengers">
+    <div>
+      {{ passenger.firstName.toUpperCase() }}
+      {{ passenger.lastName.toUpperCase() }}
+    </div>
+    <div class="passenger__details">
+      <div *ngIf="passenger.baggage">1 checked bag (total 23 kg) included</div>
+      <div>1 cabin bag + 1 personal item (max. 8 kg) included</div>
+    </div>
+  </div>
+</div>
