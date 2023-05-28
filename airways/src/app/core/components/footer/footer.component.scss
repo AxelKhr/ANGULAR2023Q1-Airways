@@ -1,7 +1,7 @@
 :host {
   display: block;
-  border-top: 1px solid #d0d9df;
-  background: #b4b4b4;
+  border-top: 1px solid var(--app-color-secondary40);
+  background-color: var(--app-color-neutral80);
 }
 
 .wrapper {
@@ -24,7 +24,7 @@
   font-size: 14px;
   line-height: 20px;
   letter-spacing: 0.25px;
-  color: #11397e;
+  color: var(--app-color-primary);
 }
 
 .developers {
@@ -43,7 +43,7 @@
     font-size: 16px;
     line-height: 20px;
     letter-spacing: 0.1px;
-    color: #11397e;
+    color: var(--app-color-primary);
     text-decoration: none;
     margin: 0 15px;
     @media (max-width: 500px) {
