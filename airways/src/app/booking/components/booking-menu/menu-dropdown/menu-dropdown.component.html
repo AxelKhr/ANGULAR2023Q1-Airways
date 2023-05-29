@@ -10,6 +10,7 @@
     <mat-autocomplete
       #autoFrom="matAutocomplete"
       [displayWith]="dispalyShortAirport"
+      (optionSelected)="submit()"
     >
       <mat-option
         *ngFor="
@@ -42,6 +43,7 @@
     <mat-autocomplete
       #autoTo="matAutocomplete"
       [displayWith]="dispalyShortAirport"
+      (optionSelected)="submit()"
     >
       <mat-option
         *ngFor="
@@ -70,16 +72,16 @@
     <mat-label>Dates</mat-label>
     <mat-date-range-input [rangePicker]="picker" [min]="currentDate">
       <input matStartDate placeholder="Departure" formControlName="dateStart" />
-      <input matEndDate placeholder="Arrive" formControlName="dateEnd" />
+      <input
+        matEndDate
+        placeholder="Arrive"
+        formControlName="dateEnd"
+        (dateChange)="submit()"
+      />
     </mat-date-range-input>
 
     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-date-range-picker #picker
-      ><mat-datepicker-actions>
-        <button mat-button matDatepickerCancel color="primary">Cancel</button>
-        <button mat-button matDatepickerApply color="primary">OK</button>
-      </mat-datepicker-actions></mat-date-range-picker
-    >
+    <mat-date-range-picker #picker></mat-date-range-picker>
   </mat-form-field>
 
   <ng-template #oneWayDatePicker>
@@ -91,6 +93,7 @@
         [matDatepicker]="picker"
         formControlName="dateStart"
         placeholder="Departure"
+        (dateChange)="submit()"
       />
       <mat-datepicker-toggle
         matIconSuffix
@@ -110,6 +113,7 @@
     [cdkMenuTriggerFor]="menu"
     [formGroup]="passengersForm"
     [ngClass]="{ error: passengersForm.invalid }"
+    (menuClosed)="submit()"
   >
     <label [ngClass]="{ error: passengersForm.invalid }">Passengers</label>
     <span>
@@ -119,7 +123,12 @@
   </button>
 
   <ng-template #menu>
-    <div class="passenger" cdkMenu [formGroup]="passengersForm">
+    <div
+      class="passenger"
+      cdkMenu
+      [formGroup]="passengersForm"
+      (closed)="submit()"
+    >
       <div
         *ngFor="let passengerCategory of passengersType"
         cdkMenuItem

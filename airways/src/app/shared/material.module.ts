@@ -34,7 +34,6 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { CUSTOM_DATE_FORMAT } from '../environment/constants/date-formats';
-// import { CUSTOM_DATE_FORMAT } from '../environment/constants/date-formats';
 
 @NgModule({
   exports: [
