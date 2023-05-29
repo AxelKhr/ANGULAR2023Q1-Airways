@@ -394,3 +394,9 @@ mat-grid-list {
 .rotate-180 {
   transform: rotate(180deg);
 }
+
+.loader {
+  display: flex;
+  justify-content: center;
+  margin-top: 80px;
+}

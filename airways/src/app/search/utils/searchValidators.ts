@@ -9,7 +9,11 @@ export function endDateRequired(control: FormControl) {
   if (!control.parent) {
     return null;
   }
-  if (control.parent?.get('isRound')?.value === 'true') {
+  // eslint-disable-next-line eqeqeq
+  if (
+    control.parent?.get('isRound')?.value === 'true'
+    || control.parent?.get('isRound')?.value === '1'
+  ) {
     return Validators.required(control);
   }
   return null;
