@@ -382,12 +382,15 @@ mat-grid-list {
   color: var(--app-color-secondary40);
 }
 
-
 .no-flights {
   @include flex-center;
   flex-grow: 1;
   font-size: 22px;
   height: 90px;
-  max-width:  1128px;
+  max-width: 1128px;
   color: var(--app-color-neutral30);
+}
+
+.rotate-180 {
+  transform: rotate(180deg);
 }
