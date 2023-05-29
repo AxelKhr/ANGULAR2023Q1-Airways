@@ -79,7 +79,7 @@
         formControlName="dateBirth"
         [max]="maxDateValue"
         [min]="minDateValue"
-        [placeholder]="(dateFormat | async) || 'DD/MM/YYYY'"
+        [placeholder]="(dateFormat$ | async) || 'DD/MM/YYYY'"
       />
       <mat-datepicker-toggle
         matIconSuffix
