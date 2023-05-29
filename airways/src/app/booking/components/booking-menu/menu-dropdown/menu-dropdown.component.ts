@@ -15,6 +15,7 @@ import {
   debounceTime,
   map,
   startWith,
+  take,
 } from 'rxjs';
 import { AppActions } from 'src/app/redux/actions';
 import { AppSelectors } from 'src/app/redux/selectors';
@@ -132,7 +133,7 @@ export class MenuDropdownComponent implements OnInit, OnDestroy {
       );
 
     // eslint-disable-next-line max-len
-    const changeFormSubscription = this.searchForm.valueChanges.pipe(debounceTime(800)).subscribe((el) => {
+    const changeFormSubscription = this.searchForm.valueChanges.pipe(debounceTime(800), take(1)).subscribe((el) => {
       if (this.searchForm.touched && this.searchForm.valid) {
         this.submit(el);
       }

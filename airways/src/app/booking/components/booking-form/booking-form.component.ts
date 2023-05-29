@@ -18,7 +18,7 @@ export class BookingFormComponent implements OnInit, OnDestroy {
 
   request!: IFlightsRequestModel | null;
 
-  passengers = { adult: 1, child: 0, infant: 0 };
+  passengers = { Adult: 1, Children: 0, Infant: 0 };
 
   passengersArray: string[] = [];
 
@@ -36,9 +36,9 @@ export class BookingFormComponent implements OnInit, OnDestroy {
       .subscribe((value) => { this.request = value; });
 
     if (this.request) {
-      this.passengers.adult = this.request.countAdult;
-      this.passengers.child = this.request.countChildren;
-      this.passengers.infant = this.request.countInfant;
+      this.passengers.Adult = this.request.countAdult;
+      this.passengers.Children = this.request.countChildren;
+      this.passengers.Infant = this.request.countInfant;
 
       this.passengersArray = Object.entries(this.passengers)
         .map((el) => new Array(el[1]).fill(el[0]))
@@ -63,6 +63,7 @@ export class BookingFormComponent implements OnInit, OnDestroy {
         const passengers = Object.values<IPassengerModel>(passengersObj);
         this.store.dispatch(AppActions.booking.setPassengers({ passengers }));
       }
+      console.log(passengersObj);
     }
   }
 }

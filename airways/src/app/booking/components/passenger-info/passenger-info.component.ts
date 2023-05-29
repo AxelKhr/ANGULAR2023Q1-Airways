@@ -23,6 +23,8 @@ import { selectDateFormat } from 'src/app/redux/selectors/settings.selectors';
     { provide: ControlContainer, useExisting: FormGroupDirective },
   ],
 })
+
+
 export class PassengerInfoComponent implements OnInit, OnDestroy {
   @Input() type!: string;
 
@@ -81,7 +83,7 @@ export class PassengerInfoComponent implements OnInit, OnDestroy {
   }
 
   limitDatepicker() {
-    const type = this.type as 'child' | 'adult' | 'infant';
+    const type = this.type as 'Children' | 'Adult' | 'Infant';
     this.maxDateValue = passengersAge[type].max;
     this.minDateValue = passengersAge[type].min;
   }
