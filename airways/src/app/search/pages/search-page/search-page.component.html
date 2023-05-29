@@ -98,7 +98,9 @@
                 formControlName="dateEnd"
               />
             </mat-date-range-input>
-            <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+            <mat-hint
+              >{{ dateFormat$ | async }} – {{ dateFormat$ | async }}</mat-hint
+            >
             <mat-datepicker-toggle
               matIconSuffix
               [for]="picker"
@@ -122,10 +124,11 @@
                 matInput
                 [min]="currentDate"
                 [matDatepicker]="picker"
+                appDatePickerFormat
                 formControlName="dateStart"
                 placeholder="Departure"
               />
-              <mat-hint>MM/DD/YYYY</mat-hint>
+              <mat-hint>{{ dateFormat$ | async }}</mat-hint>
               <mat-datepicker-toggle
                 matIconSuffix
                 [for]="picker"

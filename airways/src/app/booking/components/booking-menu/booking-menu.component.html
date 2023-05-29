@@ -1,0 +1,6 @@
+<div class="container">
+  <app-menu-body (editClick)="toggleDropdown()"></app-menu-body>
+  <app-menu-dropdown
+    *ngIf="isDropdownOpen && (isFlightsStep$ | async)"
+  ></app-menu-dropdown>
+</div>

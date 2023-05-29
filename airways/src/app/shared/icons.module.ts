@@ -20,11 +20,13 @@ export class IconsModule {
     this.matIconRegistry.addSvgIcon('wheelchair', this.setPath('./assets/wheelchair.svg'));
     this.matIconRegistry.addSvgIcon('luggage', this.setPath('./assets/luggage.svg'));
     this.matIconRegistry.addSvgIcon('passenger-ico', this.setPath('./assets/passenger-ico.svg'));
+    this.matIconRegistry.addSvgIcon('passenger-ico-grey', this.setPath('./assets/passenger-ico-grey.svg'));
     this.matIconRegistry.addSvgIcon('contact-ico', this.setPath('./assets/contact-ico.svg'));
     this.matIconRegistry.addSvgIcon('arrow-down', this.setPath('./assets/arrow-down.svg'));
     this.matIconRegistry.addSvgIcon('step-complete', this.setPath('./assets/step-complete.svg'));
     this.matIconRegistry.addSvgIcon('step-edit', this.setPath('./assets/step-edit.svg'));
     this.matIconRegistry.addSvgIcon('summary', this.setPath('./assets/summary.svg'));
+    this.matIconRegistry.addSvgIcon('return-flight-ico', this.setPath('./assets/returnFlightIco.svg'));
   }
 
   private setPath(url: string): SafeResourceUrl {

@@ -5,6 +5,4 @@ import { Component } from '@angular/core';
   templateUrl: './social-media.component.html',
   styleUrls: ['./social-media.component.scss'],
 })
-export class SocialMediaComponent {
-
-}
+export class SocialMediaComponent {}

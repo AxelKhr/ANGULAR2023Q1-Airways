@@ -1,3 +1,4 @@
+import { Moment } from 'moment';
 import { IAirportModel } from 'src/app/shared/models/airport.model';
 
 export interface IPassengersQty {
@@ -10,7 +11,7 @@ export interface ISearchRequest {
   isRound: string | null,
   from: IAirportModel | null;
   destination: IAirportModel | null;
-  dateStart: Date | null;
-  dateEnd: Date | null;
+  dateStart: Moment | null;
+  dateEnd: Moment | null;
   passengers: IPassengersQty;
 }
