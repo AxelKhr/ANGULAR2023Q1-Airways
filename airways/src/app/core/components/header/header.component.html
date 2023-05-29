@@ -1,39 +1,47 @@
 <div class="wrapper" [ngClass]="(isDefStyle$ | async) ? 'def' : 'alt'">
   <div class="header">
     <img
-      class="header__logo"
-      src="./assets/logo.svg"
-      alt="Logo"
-      width="114px"
-      height="40px"
-      (click)="onClickLogo()"
-    />
+  class="header__logo"
+  src="./assets/logo.svg"
+  alt="Logo"
+  width="114px"
+  height="40px"
+  *ngIf="!isSmallScreen || !(isDefStyle$ | async)"
+  (click)="onClickLogo()"
+/>
+
+
     <div class="header__center">
       <ng-container
         *ngIf="isDefStyle$ | async; then headerStepper; else headerTitle"
       ></ng-container>
+
       <ng-template #headerTitle>
-        <p class="header__title">Book flights</p>
+        <p class="header__title" *ngIf="!isSmallScreen">Book flights</p>
       </ng-template>
+
       <ng-template #headerStepper>
         <app-booking-stepper
           *ngIf="bookingStep$ | async"
           [steps]="bookingStepsList"
           [current]="bookingStep$ | async"
-        />
+        ></app-booking-stepper>
       </ng-template>
     </div>
-    <app-date-format
-      [isDefMode]="isDefStyle$ | async"
-      [format]="dateFormat$ | async"
-      (setFormatEvent)="onChangeFormat($event)"
-    ></app-date-format>
-    <app-currency-selector
-      [isDefMode]="isDefStyle$ | async"
-      [currency]="currency$ | async"
-      (setCurrencyEvent)="onChangeCurrency($event)"
-    ></app-currency-selector>
-    <div class="header__right">
+    <div
+      class="header__right"
+      [style.display]="isMobileScreen ? 'none' : 'flex'"
+    >
+      <app-date-format
+        [isDefMode]="isDefStyle$ | async"
+        [format]="dateFormat$ | async"
+        (setFormatEvent)="onChangeFormat($event)"
+      ></app-date-format>
+      <app-currency-selector
+        [isDefMode]="isDefStyle$ | async"
+        [currency]="currency$ | async"
+        (setCurrencyEvent)="onChangeCurrency($event)"
+      ></app-currency-selector>
       <app-login-button
         [isDefMode]="(isDefStyle$ | async) || false"
         [isLoggedIn]="(isLoggedIn$ | async) || false"
@@ -45,20 +53,77 @@
         <button mat-menu-item>Account</button>
         <button mat-menu-item (click)="logoutUser()">Logout</button>
       </mat-menu>
-      <button
-        mat-icon-button
-        color="primary"
-        class="header__cart"
-        [ngClass]="(isDefStyle$ | async) ? 'def' : 'alt'"
-      >
-        <mat-icon
-          svgIcon="cart"
-          [matBadge]="orderCount"
-          matBadgeColor="warn"
-          matBadgeSize="medium"
-          [matBadgeHidden]="orderCount === 0"
-        />
-      </button>
     </div>
+    <button
+      mat-icon-button
+      color="primary"
+      class="header__cart"
+      [ngClass]="(isDefStyle$ | async) ? 'def' : 'alt'"
+    >
+      <mat-icon
+        svgIcon="cart"
+        [matBadge]="orderCount"
+        matBadgeColor="warn"
+        matBadgeSize="medium"
+        [matBadgeHidden]="orderCount === 0"
+      ></mat-icon>
+    </button>
+    <button
+      mat-icon-button
+      *ngIf="isMobileScreen"
+      (click)="onMenuButtonClick()"
+      [matMenuTriggerFor]="menuButtonMenu"
+    >
+      <mat-icon>menu</mat-icon>
+    </button>
   </div>
+
+  <mat-menu
+  #menuButtonMenu="matMenu"
+  [overlapTrigger]="false"
+  (closed)="onMenuClosed()"
+  class="burger-menu"
+  >
+  <div class=".burger-menu light"  [ngClass]="{ 'burger-menu dark': !(isDefStyle$ | async) }">
+    <ng-container *ngIf="isMobileScreen">
+      <button mat-menu-item>
+        <app-date-format
+          [isDefMode]="isDefStyle$ | async"
+          [format]="dateFormat$ | async"
+          (setFormatEvent)="onChangeFormat($event)"
+          [isMenuOpen]="isMenuOpen"
+          (toggleMenu)="toggleMenu($event)"
+        ></app-date-format>
+      </button>
+
+      <button mat-menu-item>
+        <app-currency-selector
+          [isDefMode]="isDefStyle$ | async"
+          [currency]="currency$ | async"
+          (setCurrencyEvent)="onChangeCurrency($event)"
+          [cdkMenuTriggerFor]="menuButtonMenu"
+        ></app-currency-selector>
+      </button>
+
+      <button mat-menu-item (click)="toggleMenu($event)">
+        <app-login-button
+          [isDefMode]="(isDefStyle$ | async) || false"
+          [isLoggedIn]="(isLoggedIn$ | async) || false"
+          [userName]="(userName$ | async) || ''"
+          [matMenuTriggerFor]="(isLoggedIn$ | async) ? menu : null"
+          (signIn)="loginUser()"
+        ></app-login-button>
+      </button>
+      <mat-menu
+        #menu="matMenu"
+        [class.menu-open]="isMenuOpen"
+        (closed)="isMenuOpen = false"
+      >
+        <button mat-menu-item>Account</button>
+        <button mat-menu-item (click)="logoutUser()">Logout</button>
+      </mat-menu>
+    </ng-container>
+  </div>
+  </mat-menu>
+
 </div>
