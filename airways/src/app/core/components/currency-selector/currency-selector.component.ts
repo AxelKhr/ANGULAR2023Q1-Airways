@@ -1,6 +1,4 @@
-import {
-  Component, Input, Output, EventEmitter,
-} from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CURRENCY } from 'src/app/environment/constants/currency';
 
 @Component({
@@ -11,7 +9,7 @@ import { CURRENCY } from 'src/app/environment/constants/currency';
 export class CurrencySelectorComponent {
   @Input()
   set isDefMode(value: boolean | null) {
-    this.isDefModeValue = (value === null) ? false : value;
+    this.isDefModeValue = value === null ? false : value;
   }
 
   get isDefMode(): boolean {
@@ -37,8 +35,15 @@ export class CurrencySelectorComponent {
 
   currencySelected = '';
 
+  isMenuOpen = false;
+
   onClick(value: string) {
     this.currencySelected = value;
     this.setCurrencyEvent.emit(this.currencySelected);
+  }
+
+  toggleMenu(event: MouseEvent) {
+    event.stopPropagation();
+    this.isMenuOpen = !this.isMenuOpen;
   }
 }

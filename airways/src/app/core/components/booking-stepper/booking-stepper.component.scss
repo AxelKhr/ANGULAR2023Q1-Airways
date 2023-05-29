@@ -63,3 +63,15 @@
     }
   }
 }
+
+@media (max-width: 700px) {
+  .stepper {
+    flex-direction: column;
+    width: 170px;
+    align-items: start;
+    margin: 0 auto;
+    &__spacer {
+      display: none;
+    }
+  }
+}
