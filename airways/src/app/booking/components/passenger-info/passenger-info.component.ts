@@ -1,4 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  Component, Input, OnDestroy, OnInit,
+} from '@angular/core';
 import {
   ControlContainer,
   FormBuilder,
@@ -6,8 +8,9 @@ import {
   FormGroupDirective,
   Validators,
 } from '@angular/forms';
+import { DateAdapter } from '@angular/material/core';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { passengerNameTip } from 'src/app/environment/constants/mat-tooltips';
 import { passengersAge } from 'src/app/environment/constants/passengers-age';
 import { selectDateFormat } from 'src/app/redux/selectors/settings.selectors';
@@ -20,7 +23,9 @@ import { selectDateFormat } from 'src/app/redux/selectors/settings.selectors';
     { provide: ControlContainer, useExisting: FormGroupDirective },
   ],
 })
-export class PassengerInfoComponent implements OnInit {
+
+
+export class PassengerInfoComponent implements OnInit, OnDestroy {
   @Input() type!: string;
 
   @Input() index!: number;
@@ -31,7 +36,7 @@ export class PassengerInfoComponent implements OnInit {
 
   passengerTip = passengerNameTip;
 
-  dateFormat: Observable<string>;
+  dateFormat$ = this.store.select(selectDateFormat);
 
   currentDate = new Date();
 
@@ -39,10 +44,13 @@ export class PassengerInfoComponent implements OnInit {
 
   minDateValue!: Date | null;
 
+  dateFormatSubscr!: Subscription;
+
   constructor(
     private parent: FormGroupDirective,
     formBuilder: FormBuilder,
     private store: Store,
+    private adapter: DateAdapter<Date>,
   ) {
     this.passengerForm = formBuilder.group({
       type: [''],
@@ -60,7 +68,7 @@ export class PassengerInfoComponent implements OnInit {
       baggage: [false],
     });
 
-    this.dateFormat = store.select(selectDateFormat);
+    this.dateFormatSubscr = this.dateFormat$.subscribe(() => adapter.setLocale('en'));
   }
 
   ngOnInit(): void {
@@ -70,8 +78,12 @@ export class PassengerInfoComponent implements OnInit {
     this.limitDatepicker();
   }
 
+  ngOnDestroy(): void {
+    this.dateFormatSubscr.unsubscribe();
+  }
+
   limitDatepicker() {
-    const type = this.type as 'child' | 'adult' | 'infant';
+    const type = this.type as 'Children' | 'Adult' | 'Infant';
     this.maxDateValue = passengersAge[type].max;
     this.minDateValue = passengersAge[type].min;
   }

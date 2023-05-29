@@ -1,7 +1,16 @@
+/* eslint-disable no-param-reassign */
 import {
-  Component, ViewEncapsulation, Input, OnInit, Output, EventEmitter,
+  Component,
+  ViewEncapsulation,
+  Input,
+  OnInit,
+  Output,
+  EventEmitter,
+  Inject,
 } from '@angular/core';
+import { MAT_DATE_FORMATS } from '@angular/material/core';
 import { DATE_FORMATS } from 'src/app/environment/constants/date-formats';
+import { ICustomDateFormat } from 'src/app/shared/models/custom-date-format';
 
 @Component({
   selector: 'app-date-format',
@@ -12,7 +21,7 @@ import { DATE_FORMATS } from 'src/app/environment/constants/date-formats';
 export class DateFormatComponent implements OnInit {
   @Input()
   set isDefMode(value: boolean | null) {
-    this.isDefModeValue = (value === null) ? false : value;
+    this.isDefModeValue = value === null ? false : value;
     this.setStyle();
   }
 
@@ -45,8 +54,20 @@ export class DateFormatComponent implements OnInit {
 
   backgroundColor = '';
 
+  formats: ICustomDateFormat;
+
+  constructor(@Inject(MAT_DATE_FORMATS) formats: ICustomDateFormat) {
+    this.formats = formats;
+  }
+
   ngOnInit() {
     this.dateFormatValue = this.format;
+    this.setCustomFormat(this.dateFormatValue);
+  }
+
+  setCustomFormat(value: string) {
+    this.formats.display.dateInput = value;
+    this.formats.display.dateInput = value;
   }
 
   private setStyle() {
@@ -63,6 +84,7 @@ export class DateFormatComponent implements OnInit {
   }
 
   onChangeValue() {
+    this.setCustomFormat(this.dateFormatValue);
     this.setFormatEvent.emit(this.dateFormatValue);
   }
 }

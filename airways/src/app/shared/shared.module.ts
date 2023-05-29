@@ -12,11 +12,7 @@ import { BindAutocompletesPipe } from './pipe/bind-autocompletes.pipe';
     CurrencyConvertPipe,
     BindAutocompletesPipe,
   ],
-  imports: [
-    CommonModule,
-    MaterialModule,
-    IconsModule,
-  ],
+  imports: [CommonModule, MaterialModule, IconsModule],
   exports: [
     CommonModule,
     MaterialModule,

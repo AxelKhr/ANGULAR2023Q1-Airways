@@ -6,13 +6,16 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
+import { DateAdapter } from '@angular/material/core';
 import { Store } from '@ngrx/store';
+import { Moment } from 'moment';
 import {
   Observable,
   Subscription,
-  delay,
+  debounceTime,
   map,
   startWith,
+  take,
 } from 'rxjs';
 import { AppActions } from 'src/app/redux/actions';
 import { AppSelectors } from 'src/app/redux/selectors';
@@ -32,6 +35,8 @@ import { IFlightsRequestModel } from 'src/app/shared/models/flights-request.mode
 })
 export class MenuDropdownComponent implements OnInit, OnDestroy {
   currentDate = new Date();
+
+  dateFormat$ = this.store.select(AppSelectors.settings.selectDateFormat);
 
   airports$: Observable<IAirportModel[]> = this.store.select(
     AppSelectors.general.selectAirports,
@@ -69,8 +74,8 @@ export class MenuDropdownComponent implements OnInit, OnDestroy {
       Validators.required,
       validateDestination,
     ]),
-    dateStart: new FormControl<Date | null>(null, [Validators.required]),
-    dateEnd: new FormControl<Date | null>(null, {
+    dateStart: new FormControl<Moment | null>(null, [Validators.required]),
+    dateEnd: new FormControl<Moment | null>(null, {
       validators: endDateRequired as ValidatorFn,
     }),
     passengers: this.passengersForm,
@@ -82,7 +87,11 @@ export class MenuDropdownComponent implements OnInit, OnDestroy {
 
   subscriptions: Subscription[] = [];
 
-  constructor(private store: Store) {}
+  constructor(private store: Store, private adapter: DateAdapter<Date>) {
+    const dateFormatSubscr = this.dateFormat$.subscribe(() => adapter.setLocale('en'));
+
+    this.subscriptions.push(dateFormatSubscr);
+  }
 
   ngOnInit(): void {
     const airportsSubscription = this.airports$.subscribe((items) => {
@@ -123,10 +132,10 @@ export class MenuDropdownComponent implements OnInit, OnDestroy {
         }),
       );
 
-    const changeFormSubscription = this.searchForm.valueChanges.pipe(delay(500)).subscribe((el) => {
+    // eslint-disable-next-line max-len
+    const changeFormSubscription = this.searchForm.valueChanges.pipe(debounceTime(800), take(1)).subscribe((el) => {
       if (this.searchForm.touched && this.searchForm.valid) {
-        console.log(el);
-        // this.submit(el)
+        this.submit(el);
       }
     });
 
@@ -231,8 +240,8 @@ export class MenuDropdownComponent implements OnInit, OnDestroy {
     const flightsRequest: IFlightsRequestModel = {
       departureAirportCode: request.from ? request.from.code : '',
       arrivalAirportCode: request.destination ? request.destination.code : '',
-      departureDate: request.dateStart ? request.dateStart.toDateString() : '',
-      returnDate: request.dateEnd ? request.dateEnd.toDateString() : '',
+      departureDate: request.dateStart ? request.dateStart.toString() : '',
+      returnDate: request.dateEnd ? request.dateEnd.toString() : '',
       roundTrip: request.isRound ? +request.isRound : 0,
       countAdult: request.passengers.adult,
       countChildren: request.passengers.child,

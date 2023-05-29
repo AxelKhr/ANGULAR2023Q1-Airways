@@ -1,7 +1,7 @@
 <div class="passenger" [formGroupName]="'passenger' + index">
   <div class="passenger__title">
     <span>{{ index + 1 }}. </span>
-    <span>{{ type | titlecase }}</span>
+    <span>{{ type === 'Children' ? 'Child' : type }}</span>
   </div>
   <div class="passenger__main">
     <mat-form-field floatLabel="always">
@@ -79,7 +79,7 @@
         formControlName="dateBirth"
         [max]="maxDateValue"
         [min]="minDateValue"
-        [placeholder]="(dateFormat | async) || 'DD/MM/YYYY'"
+        [placeholder]="(dateFormat$ | async) || 'DD/MM/YYYY'"
       />
       <mat-datepicker-toggle
         matIconSuffix

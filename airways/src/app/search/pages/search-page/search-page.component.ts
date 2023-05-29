@@ -7,11 +7,15 @@ import {
   Validators,
 } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { Observable, map, startWith, Subscription } from 'rxjs';
+import {
+  Observable, map, startWith, Subscription,
+} from 'rxjs';
 import { AppActions } from 'src/app/redux/actions';
 import { AppSelectors } from 'src/app/redux/selectors';
 import { IAirportModel } from 'src/app/shared/models/airport.model';
 import { IFlightsRequestModel } from 'src/app/shared/models/flights-request.model';
+import { DateAdapter } from '@angular/material/core';
+import { Moment } from 'moment';
 import { IPassengersQty, ISearchRequest } from '../../models/search.models';
 import {
   endDateRequired,
@@ -26,6 +30,8 @@ import {
 })
 export class SearchPageComponent implements OnInit, OnDestroy {
   currentDate = new Date();
+
+  dateFormat$ = this.store.select(AppSelectors.settings.selectDateFormat);
 
   passengerMessage = '1 Adult';
 
@@ -45,8 +51,8 @@ export class SearchPageComponent implements OnInit, OnDestroy {
       Validators.required,
       validateDestination,
     ]),
-    dateStart: new FormControl<Date | null>(null, [Validators.required]),
-    dateEnd: new FormControl<Date | null>(null, {
+    dateStart: new FormControl<Moment | null>(null, [Validators.required]),
+    dateEnd: new FormControl<Moment | null>(null, {
       validators: endDateRequired as ValidatorFn,
     }),
     passengers: this.passengersForm,
@@ -68,9 +74,17 @@ export class SearchPageComponent implements OnInit, OnDestroy {
 
   passengersFormChangesSubscr!: Subscription;
 
+  dateFormatSubscr!: Subscription;
+
   searchFormIsRoundChangesSubscr!: Subscription | undefined;
 
-  constructor(private fb: FormBuilder, private store: Store) {}
+  constructor(
+    private fb: FormBuilder,
+    private store: Store,
+    private adapter: DateAdapter<Date>,
+  ) {
+    this.dateFormatSubscr = this.dateFormat$.subscribe(() => adapter.setLocale('en'));
+  }
 
   ngOnInit(): void {
     // eslint-disable-next-line @ngrx/no-store-subscription
@@ -96,7 +110,9 @@ export class SearchPageComponent implements OnInit, OnDestroy {
         startWith(''),
         map((value) => {
           const name = typeof value === 'string' ? value : Object.values(value).join(' ');
-          return name ? this.filterAirportsAutocomplete(name as string) : this.options.slice();
+          return name
+            ? this.filterAirportsAutocomplete(name as string)
+            : this.options.slice();
         }),
       );
 
@@ -120,6 +136,9 @@ export class SearchPageComponent implements OnInit, OnDestroy {
     }
     if (this.searchFormIsRoundChangesSubscr) {
       this.searchFormIsRoundChangesSubscr.unsubscribe();
+    }
+    if (this.dateFormatSubscr) {
+      this.dateFormatSubscr.unsubscribe();
     }
   }
 
@@ -192,8 +211,8 @@ export class SearchPageComponent implements OnInit, OnDestroy {
     const flightsRequest: IFlightsRequestModel = {
       departureAirportCode: request.from ? request.from.code : '',
       arrivalAirportCode: request.destination ? request.destination.code : '',
-      departureDate: request.dateStart ? request.dateStart.toDateString() : '',
-      returnDate: request.dateEnd ? request.dateEnd.toDateString() : '',
+      departureDate: request.dateStart ? request.dateStart.toString() : '',
+      returnDate: request.dateEnd ? request.dateEnd.toString() : '',
       roundTrip: request.isRound ? +request.isRound : 0,
       countAdult: request.passengers.adult,
       countChildren: request.passengers.child,
