@@ -17,4 +17,5 @@ export const API_DEF = {
   API_URL_USER_REGISTRATION: 'auth/registration',
   API_URL_USER_LOGIN: 'auth/login',
   API_URL_USER_CHECK: 'auth/check-auth',
+  API_URL_SAVE_ORDER: 'save-order',
 };
