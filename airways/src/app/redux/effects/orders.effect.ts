@@ -38,4 +38,25 @@ export class OrdersEffects {
       tap(({ message }) => this.messageBarService.openMessageBar(message, true)),
     );
   }, { dispatch: false });
+
+  // eslint-disable-next-line arrow-body-style
+  loadOrders$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(OrdersActions.ordersLoad),
+      exhaustMap(
+        () => this.apiService.loadOrders().pipe(
+          map((response) => OrdersActions.ordersLoadSuccess({ response })),
+          catchError((message) => of(OrdersActions.ordersLoadFailed({ message }))),
+        ),
+      ),
+    );
+  });
+
+  // eslint-disable-next-line arrow-body-style
+  loadOrdersFailed$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(OrdersActions.ordersLoadFailed),
+      tap(({ message }) => this.messageBarService.openMessageBar(message, true)),
+    );
+  }, { dispatch: false });
 }

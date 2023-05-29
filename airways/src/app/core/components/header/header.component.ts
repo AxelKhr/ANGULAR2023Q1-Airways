@@ -24,7 +24,7 @@ export class HeaderComponent {
 
   bookingStepsList = BOOKING_STEPS;
 
-  orderCount = 5;
+  orderCount$ = this.store.select(AppSelectors.orders.selectOrdersCount);
 
   isDefStyle$: Observable<boolean> = this.store
     .select((AppSelectors.general.selectIsMainStyleInverse));
@@ -60,5 +60,9 @@ export class HeaderComponent {
     setTimeout(() => {
       this.authService.logoutUser();
     }, 0);
+  }
+
+  onClickCart() {
+    this.router.navigate(['cart']);
   }
 }

@@ -16,6 +16,7 @@ import { IUserDataModel } from 'src/app/shared/models/user-data.model';
 import { IUserCheckModel } from 'src/app/shared/models/user-check.model';
 import { IOrderSaveModel } from 'src/app/shared/models/order-save.model';
 import * as Storage from 'src/app/core/storage/storage';
+import { IOrderModel } from 'src/app/shared/models/order.model';
 
 @Injectable({
   providedIn: 'root',
@@ -109,6 +110,23 @@ export class ApiService {
       return this.http.post(
         this.getApiUrl(API_DEF.API_URL_SAVE_ORDER),
         data,
+        {
+          headers: new HttpHeaders().append('Authorization', `Bearer ${userData.token}`),
+          params: new HttpParams().append('id', userData.userId),
+        },
+      ).pipe(
+        retry(API_DEF.API_NUMBER_OF_REPEATS),
+        catchError(this.handlerError),
+      );
+    }
+    return EMPTY;
+  }
+
+  loadOrders() {
+    const userData = Storage.loadUser();
+    if (userData) {
+      return this.http.get<IOrderModel[]>(
+        this.getApiUrl(API_DEF.API_URL_LOAD_ORDERS),
         {
           headers: new HttpHeaders().append('Authorization', `Bearer ${userData.token}`),
           params: new HttpParams().append('id', userData.userId),

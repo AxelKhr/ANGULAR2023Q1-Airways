@@ -50,13 +50,14 @@
         color="primary"
         class="header__cart"
         [ngClass]="(isDefStyle$ | async) ? 'def' : 'alt'"
+        (click)="onClickCart()"
       >
         <mat-icon
           svgIcon="cart"
-          [matBadge]="orderCount"
+          [matBadge]="(orderCount$ | async) || 0"
           matBadgeColor="warn"
           matBadgeSize="medium"
-          [matBadgeHidden]="orderCount === 0"
+          [matBadgeHidden]="((orderCount$ | async) || 0) === 0"
         />
       </button>
     </div>

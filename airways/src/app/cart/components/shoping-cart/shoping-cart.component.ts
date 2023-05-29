@@ -1,13 +1,13 @@
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort, Sort } from '@angular/material/sort';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppSelectors } from 'src/app/redux/selectors';
-import { orderData } from './data';
 import { IPassengerModel } from 'src/app/shared/models/passenger.model';
 import { IOrderModel } from 'src/app/shared/models/order.model';
+import { orderData } from './data';
 
 interface ICountEntry {
   0: string;
@@ -52,7 +52,7 @@ export class ShopingCartComponent implements OnInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private store: Store
+    private store: Store,
   ) {}
 
   ngOnInit() {

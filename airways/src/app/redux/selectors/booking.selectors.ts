@@ -59,6 +59,7 @@ export const selectOrderForSave = createSelector(
       const orderSave: IOrderSaveModel = {
         routes: orderRoutes,
         order: {
+          _id: '',
           departureAirportCode: state.flightsRequest.departureAirportCode,
           arrivalAirportCode: state.flightsRequest.arrivalAirportCode,
           departureDate: state.flightsRequest.departureDate,
