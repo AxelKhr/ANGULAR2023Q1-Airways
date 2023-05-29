@@ -28,7 +28,7 @@ export class DateFormatComponent implements OnInit {
   get isDefMode(): boolean {
     return this.isDefModeValue;
   }
-  
+
   @Input() isMenuOpen = false;
   @Output() toggleMenu = new EventEmitter<Event>();
 

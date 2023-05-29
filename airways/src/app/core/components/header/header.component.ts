@@ -17,7 +17,6 @@ import { AppSelectors } from 'src/app/redux/selectors';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent {
-
   @ViewChild('menuButtonMenu') menuButtonMenu!: MatMenuTrigger;
   @ViewChild('menu') menu!: MatMenuTrigger;
 
@@ -29,8 +28,9 @@ export class HeaderComponent {
 
   userName$ = this.store.select(AppSelectors.auth.selectUserName);
 
-  bookingStep$:
-  Observable<IBookingStepModel | null> = this.store.select(AppSelectors.booking.selectStep);
+  bookingStep$: Observable<IBookingStepModel | null> = this.store.select(
+    AppSelectors.booking.selectStep
+  );
 
   bookingStepsList = BOOKING_STEPS;
 
@@ -38,21 +38,25 @@ export class HeaderComponent {
 
   isMenuOpen = false;
 
-  isDefStyle$: Observable<boolean> = this.store
-    .select((AppSelectors.general.selectIsMainStyleInverse));
+  isDefStyle$: Observable<boolean> = this.store.select(
+    AppSelectors.general.selectIsMainStyleInverse
+  );
 
-  dateFormat$: Observable<string> = this.store.select((AppSelectors.settings.selectDateFormat));
+  dateFormat$: Observable<string> = this.store.select(
+    AppSelectors.settings.selectDateFormat
+  );
 
-  currency$: Observable<string> = this.store.select((AppSelectors.settings.selectCurrency));
+  currency$: Observable<string> = this.store.select(
+    AppSelectors.settings.selectCurrency
+  );
 
   constructor(
     private router: Router,
     private store: Store,
     private authService: AuthService,
     private authDialog: AuthDialogService,
-    private mediaMatcher: MediaMatcher,
-  ) { }
-
+    private mediaMatcher: MediaMatcher
+  ) {}
 
   ngOnInit() {
     this.checkScreenSize();
@@ -60,8 +64,11 @@ export class HeaderComponent {
 
   @HostListener('window:resize')
   checkScreenSize() {
-    this.isMobileScreen = this.mediaMatcher.matchMedia('(max-width: 1000px)').matches;
-    this.isSmallScreen = this.mediaMatcher.matchMedia('(max-width: 450px)').matches;
+    this.isMobileScreen = this.mediaMatcher.matchMedia(
+      '(max-width: 1000px)'
+    ).matches;
+    this.isSmallScreen =
+      this.mediaMatcher.matchMedia('(max-width: 450px)').matches;
   }
 
   onClickLogo() {
@@ -69,7 +76,9 @@ export class HeaderComponent {
   }
 
   onChangeFormat(value: string) {
-    this.store.dispatch(AppActions.settings.setDateFormat({ dateFormat: value }));
+    this.store.dispatch(
+      AppActions.settings.setDateFormat({ dateFormat: value })
+    );
   }
 
   onChangeCurrency(value: string) {
@@ -109,7 +118,4 @@ export class HeaderComponent {
       }
     }, 0);
   }
-
-
-  
 }

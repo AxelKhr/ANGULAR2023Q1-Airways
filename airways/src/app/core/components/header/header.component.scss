@@ -10,8 +10,6 @@
 
   &.def {
     background-color: var(--app-background-color-components);
-    // background-color: red;
-    z-index: 1000;
     .header {
       gap: 16px;
     }
@@ -22,7 +20,8 @@
     .header {
       gap: 40px;
       @media (max-width: 400px) {
-        gap: 10px;      }
+        gap: 10px;
+      }
     }
   }
 }
@@ -63,13 +62,12 @@
     &.def {
       color: var(--app-color-neutral10);
     }
-  
+
     &.alt {
       color: var(--app-color-neutral100);
     }
   }
 }
-
 
 .burger-menu {
   width: 100%;
