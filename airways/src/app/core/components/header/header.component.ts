@@ -97,13 +97,13 @@ export class HeaderComponent {
 
   onMenuButtonClick() {
     if (this.isMobileScreen) {
-      this.menuButtonMenu.openMenu();
+      this.menuButtonMenu.openMenu;
     }
   }
 
   onMenuClosed() {
     if (this.isMobileScreen) {
-      this.menuButtonMenu.closeMenu();
+      this.menuButtonMenu.closeMenu;
     }
   }
 
@@ -112,9 +112,9 @@ export class HeaderComponent {
     this.isMenuOpen = !this.isMenuOpen;
     setTimeout(() => {
       if (this.isMenuOpen) {
-        this.menu.openMenu();
+        this.menu.openMenu;
       } else {
-        this.menu.closeMenu();
+        this.menu.closeMenu;
       }
     }, 0);
   }
