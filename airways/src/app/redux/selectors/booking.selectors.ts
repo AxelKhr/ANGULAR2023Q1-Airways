@@ -59,11 +59,10 @@ export const selectOrderForSave = createSelector(
       const orderSave: IOrderSaveModel = {
         routes: orderRoutes,
         order: {
-          _id: '',
           departureAirportCode: state.flightsRequest.departureAirportCode,
           arrivalAirportCode: state.flightsRequest.arrivalAirportCode,
           departureDate: state.flightsRequest.departureDate,
-          returnDate: state.flightsRequest.returnDate || '',
+          returnDate: ((state.flightsRequest.roundTrip) ? state.flightsRequest.returnDate : state.flightsRequest.departureDate) || '',
           roundTrip: state.flightsRequest.roundTrip || 0,
           passengers: state.passengers,
           contactDetails: state.contactDetails,

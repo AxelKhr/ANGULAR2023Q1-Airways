@@ -2,7 +2,7 @@ import { IBookingStateModel } from '../booking/models/booking-state.model';
 import { IAirportModel } from '../shared/models/airport.model';
 import { IAppSettingsModel } from '../shared/models/app-settings.model';
 import { ICountryCodeModel } from '../shared/models/country-code.model';
-import { IOrderModel } from '../shared/models/order.model';
+import { ISavedOrderModel } from '../shared/models/order.model';
 import { IUserProfileModel } from '../shared/models/user-profile.model';
 
 export interface IGeneralStateModel {
@@ -19,7 +19,8 @@ export interface IAuthStateModel {
 }
 
 export interface IOrdersStateModel {
-  orders: IOrderModel[];
+  orders: ISavedOrderModel[];
+  ordersPayed: ISavedOrderModel[];
 }
 
 export interface StateModel {

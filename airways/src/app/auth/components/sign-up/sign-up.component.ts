@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { passengerNameTip, passwordMatTip } from 'src/app/environment/constants/mat-tooltips';
 import { AppSelectors } from 'src/app/redux/selectors';
 import { selectDateFormat } from 'src/app/redux/selectors/settings.selectors';
+import { ICountryCodeModel } from 'src/app/shared/models/country-code.model';
 import { IUserProfileModel } from 'src/app/shared/models/user-profile.model';
 
 @Component({
@@ -99,6 +100,8 @@ export class SignUpComponent {
   }
 
   onSubmit() {
-    this.signUp.emit(this.signUpForm.value as IUserProfileModel);
+    const profile = this.signUpForm.value as IUserProfileModel;
+    profile.countryCode = (this.countryCode?.value as ICountryCodeModel).country;
+    this.signUp.emit(profile);
   }
 }

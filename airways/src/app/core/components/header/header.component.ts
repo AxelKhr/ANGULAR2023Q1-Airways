@@ -56,6 +56,10 @@ export class HeaderComponent {
     this.authDialog.open();
   }
 
+  goToAccount() {
+    this.router.navigate(['cart', 'transactions']);
+  }
+
   logoutUser() {
     setTimeout(() => {
       this.authService.logoutUser();

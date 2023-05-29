@@ -3,7 +3,6 @@ import { IPassengerModel } from './passenger.model';
 import { IRouteModel } from './route.model';
 
 export interface IOrderModel {
-  _id: string;
   departureAirportCode: string;
   arrivalAirportCode: string;
   departureDate: string;
@@ -12,4 +11,8 @@ export interface IOrderModel {
   passengers: IPassengerModel[];
   contactDetails: IContactModel;
   routes: IRouteModel[];
+}
+
+export interface ISavedOrderModel extends IOrderModel {
+  _id: string;
 }

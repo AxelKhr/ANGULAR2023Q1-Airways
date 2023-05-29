@@ -42,7 +42,7 @@
         (signIn)="loginUser()"
       ></app-login-button>
       <mat-menu #menu="matMenu">
-        <button mat-menu-item>Account</button>
+        <button mat-menu-item (click)="goToAccount()">Account</button>
         <button mat-menu-item (click)="logoutUser()">Logout</button>
       </mat-menu>
       <button

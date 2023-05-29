@@ -12,3 +12,8 @@ export const selectOrdersList = createSelector(
   selectOrdersState,
   (state) => state.orders,
 );
+
+export const selectPayedOrdersList = createSelector(
+  selectOrdersState,
+  (state) => state.ordersPayed,
+);

@@ -32,11 +32,29 @@ export class SummaryPageComponent implements OnDestroy {
   }
 
   onClickAdd() {
-    this.orderSave();
+    this.ordersSubscr = this.store.select(AppSelectors.booking.selectOrderForSave)
+      // eslint-disable-next-line @ngrx/no-store-subscription
+      .subscribe({
+        next: (value) => {
+          if (value) {
+            this.store.dispatch(AppActions.orders.orderSave(value, true));
+          }
+        },
+      });
   }
 
   onClickBuy() {
-    this.router.navigate(['booking', 'select']);
+    this.ordersSubscr = this.store.select(AppSelectors.booking.selectOrderForSave)
+      // eslint-disable-next-line @ngrx/no-store-subscription
+      .subscribe({
+        next: (value) => {
+          if (value) {
+            this.store.dispatch(AppActions.orders.orderSaveAndBuy(value, '/'));
+          }
+        },
+      });
+
+    // this.router.navigate(['booking', 'select']);
   }
 
   getFlights(routes: IRouteModel[]) {
@@ -45,17 +63,5 @@ export class SummaryPageComponent implements OnDestroy {
       flights.push(...r.flights);
     });
     return flights;
-  }
-
-  orderSave() {
-    this.ordersSubscr = this.store.select(AppSelectors.booking.selectOrderForSave)
-      // eslint-disable-next-line @ngrx/no-store-subscription
-      .subscribe({
-        next: (value) => {
-          if (value) {
-            this.store.dispatch(AppActions.orders.orderSave({ data: value }));
-          }
-        },
-      });
   }
 }

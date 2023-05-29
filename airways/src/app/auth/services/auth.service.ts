@@ -112,7 +112,7 @@ export class AuthService implements OnDestroy {
   }
 
   authSuccess(userProfile: IUserProfileModel) {
-    this.store.dispatch(AppActions.auth.authorizationSuccess({ userProfile }));
     this.store.dispatch(AppActions.orders.ordersLoad());
+    this.store.dispatch(AppActions.auth.authorizationSuccess({ userProfile }));
   }
 }
