@@ -27,11 +27,19 @@
     Back
   </button>
   <button
+    mat-stroked-button
+    color="primary"
+    class="control__button"
+    (click)="onClickAdd()"
+  >
+    Add to order cart
+  </button>
+  <button
     mat-flat-button
     color="primary"
     class="control__button"
-    (click)="onClickContinue()"
+    (click)="onClickBuy()"
   >
-    Continue
+    Buy now
   </button>
 </div>

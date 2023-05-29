@@ -63,7 +63,6 @@ export class BookingFormComponent implements OnInit, OnDestroy {
         const passengers = Object.values<IPassengerModel>(passengersObj);
         this.store.dispatch(AppActions.booking.setPassengers({ passengers }));
       }
-      console.log(passengersObj);
     }
   }
 }

@@ -80,11 +80,11 @@ export class SummaryFareComponent {
     });
 
     this.passengersValue.forEach((el) => {
-      if (el.type === 'adult') {
+      if (el.type === 'Adult') {
         this.fare.adult.count += 1;
-      } else if (el.type === 'child') {
+      } else if (el.type === 'Children') {
         this.fare.child.count += 1;
-      } else if (el.type === 'infant') {
+      } else if (el.type === 'Infant') {
         this.fare.infant.count += 1;
       }
     });

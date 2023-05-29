@@ -218,15 +218,15 @@ export class ShopingCartComponent implements OnInit {
   }
 
   editItem(index: number) {
-    console.log(index);
+    // console.log(index);
   }
 
   deleteItem(index: number) {
-    console.log(index);
+    // console.log(index);
   }
 
   payment() {
-    console.log('payment');
+    // console.log('payment');
   }
 
   addNewTrip() {

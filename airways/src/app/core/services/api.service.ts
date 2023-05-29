@@ -3,7 +3,9 @@ import {
   HttpClient, HttpErrorResponse, HttpHeaders, HttpParams,
 } from '@angular/common/http';
 import { API_DEF } from 'src/app/environment/app.define';
-import { catchError, throwError, retry } from 'rxjs';
+import {
+  catchError, throwError, retry, EMPTY,
+} from 'rxjs';
 import { ICountryCodeModel } from 'src/app/shared/models/country-code.model';
 import { IAirportModel } from 'src/app/shared/models/airport.model';
 import { IFlightsRequestModel } from 'src/app/shared/models/flights-request.model';
@@ -12,6 +14,8 @@ import { IUserProfileModel } from 'src/app/shared/models/user-profile.model';
 import { IUserLoginModel } from 'src/app/shared/models/user-login.model';
 import { IUserDataModel } from 'src/app/shared/models/user-data.model';
 import { IUserCheckModel } from 'src/app/shared/models/user-check.model';
+import { IOrderSaveModel } from 'src/app/shared/models/order-save.model';
+import * as Storage from 'src/app/core/storage/storage';
 
 @Injectable({
   providedIn: 'root',
@@ -97,5 +101,23 @@ export class ApiService {
       retry(API_DEF.API_NUMBER_OF_REPEATS),
       catchError(this.handlerError),
     );
+  }
+
+  saveOrder(data: IOrderSaveModel) {
+    const userData = Storage.loadUser();
+    if (userData) {
+      return this.http.post(
+        this.getApiUrl(API_DEF.API_URL_SAVE_ORDER),
+        data,
+        {
+          headers: new HttpHeaders().append('Authorization', `Bearer ${userData.token}`),
+          params: new HttpParams().append('id', userData.userId),
+        },
+      ).pipe(
+        retry(API_DEF.API_NUMBER_OF_REPEATS),
+        catchError(this.handlerError),
+      );
+    }
+    return EMPTY;
   }
 }
