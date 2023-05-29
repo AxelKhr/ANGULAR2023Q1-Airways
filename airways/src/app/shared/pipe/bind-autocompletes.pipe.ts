@@ -10,7 +10,7 @@ export class BindAutocompletesPipe implements PipeTransform {
     selectedAirport: IAirportModel,
   ): IAirportModel[] | null {
     if (items) {
-      return items.filter((el) => el.code !== selectedAirport.code);
+      return items.filter((el) => el.code !== selectedAirport?.code);
     }
     return null;
   }

@@ -78,6 +78,14 @@ export class SearchPageComponent implements OnInit, OnDestroy {
 
   searchFormIsRoundChangesSubscr!: Subscription | undefined;
 
+  savedInfo$: Observable<IFlightsRequestModel | null> = this.store.select(
+    AppSelectors.booking.selectFlightsRequest,
+  );
+
+  savedInfo!: IFlightsRequestModel;
+
+  infoSubscr!: Subscription;
+
   constructor(
     private fb: FormBuilder,
     private store: Store,
@@ -87,11 +95,18 @@ export class SearchPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.infoSubscr = this.savedInfo$.subscribe((el) => {
+      if (el) {
+        this.savedInfo = el;
+        this.preFillForms();
+      }
+    });
     // eslint-disable-next-line @ngrx/no-store-subscription
     this.airportsSubscr = this.store
       .select(AppSelectors.general.selectAirports)
       .subscribe((airports) => {
         this.options = [...airports];
+        this.preFillForms();
       });
 
     this.filteredFromOptions = this.searchForm.get('from')!.valueChanges.pipe(
@@ -139,6 +154,9 @@ export class SearchPageComponent implements OnInit, OnDestroy {
     }
     if (this.dateFormatSubscr) {
       this.dateFormatSubscr.unsubscribe();
+    }
+    if (this.infoSubscr) {
+      this.infoSubscr.unsubscribe();
     }
   }
 
@@ -204,6 +222,24 @@ export class SearchPageComponent implements OnInit, OnDestroy {
       return String(airport);
     }
     return '';
+  }
+
+  preFillForms() {
+    if (this.options && this.savedInfo) {
+      this.searchForm.patchValue({
+        isRound: `${this.savedInfo.roundTrip}`,
+        from: this.options.find((el) => el.code === this.savedInfo.departureAirportCode),
+        destination: this.options.find((el) => el.code === this.savedInfo.arrivalAirportCode),
+        dateStart: new Date(this.savedInfo.departureDate),
+        dateEnd: this.savedInfo.returnDate ? new Date(this.savedInfo.returnDate) : null,
+      });
+      this.passengersForm.patchValue({
+        adult: this.savedInfo.countAdult,
+        child: this.savedInfo.countChildren,
+        infant: this.savedInfo.countInfant,
+      });
+    }
+    this.passengerMessage = this.createPassengerMessage(this.passengersForm.value);
   }
 
   submit() {
