@@ -17,10 +17,6 @@ const routes: Routes = [
     loadChildren: () => import('./cart/cart.module').then((m) => m.CartModule),
     canActivate: [AuthGuard],
   },
-  {
-    path: 'test',
-    loadChildren: () => import('./test/test.module').then((m) => m.TestModule),
-  },
   { path: '', redirectTo: 'main', pathMatch: 'full' },
   { path: '**', component: NotfoundPageComponent },
 ];
