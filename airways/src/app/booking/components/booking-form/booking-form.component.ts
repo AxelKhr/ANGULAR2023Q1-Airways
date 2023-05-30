@@ -28,6 +28,10 @@ export class BookingFormComponent implements OnInit, OnDestroy {
     passengers: this.passengersForm,
   });
 
+  contacts$ = this.store.select(AppSelectors.booking.selectContactDetails);
+
+  savedPassengers$ = this.store.select(AppSelectors.booking.selectPassengers);
+
   constructor(private store: Store) {}
 
   ngOnInit(): void {

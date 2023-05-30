@@ -51,6 +51,11 @@ export const selectPassengers = createSelector(
   (state) => state.passengers,
 );
 
+export const selectContactDetails = createSelector(
+  selectBookingState,
+  (state) => state.contactDetails,
+);
+
 export const selectOrderForSave = createSelector(
   selectBookingState,
   (state) => {
