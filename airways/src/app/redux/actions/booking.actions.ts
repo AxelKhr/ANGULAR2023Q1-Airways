@@ -19,6 +19,7 @@ export enum BookingActionTypes {
   setOrderRouteFrom = '[Booking] add order route from',
   setPassengers = '[Booking] set passengers',
   setContactDetails = '[Booking] set contact details',
+  clearBookingData = '[Booking] clear booking data',
 }
 
 export const setStep = createAction(
@@ -69,4 +70,8 @@ export const setPassengers = createAction(
 export const setContactDetails = createAction(
   BookingActionTypes.setContactDetails,
   props<{ contactDetails: IContactModel }>(),
+);
+
+export const clearBookingData = createAction(
+  BookingActionTypes.clearBookingData,
 );
