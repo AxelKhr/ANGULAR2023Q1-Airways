@@ -3,10 +3,16 @@
   [matMenuTriggerFor]="currencyMenu"
   class="trigger"
   [ngClass]="isDefModeValue ? 'def' : 'alt'"
+  (click)="toggleMenu($event)"
 >
   {{ currencySelected }}
 </button>
-<mat-menu #currencyMenu="matMenu" appMatMenuClass="menu--currency">
+
+<mat-menu
+  #currencyMenu="matMenu"
+  appMatMenuClass="menu--currency"
+  [class.menu-open]="isMenuOpen"
+>
   <button
     mat-menu-item
     class="list__item"

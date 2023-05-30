@@ -6,34 +6,41 @@
       alt="Logo"
       width="114px"
       height="40px"
+      *ngIf="!isSmallScreen || !(isDefStyle$ | async)"
       (click)="onClickLogo()"
     />
+
     <div class="header__center">
       <ng-container
         *ngIf="isDefStyle$ | async; then headerStepper; else headerTitle"
       ></ng-container>
+
       <ng-template #headerTitle>
-        <p class="header__title">Book flights</p>
+        <p class="header__title" *ngIf="!isSmallScreen">Book flights</p>
       </ng-template>
+
       <ng-template #headerStepper>
         <app-booking-stepper
           *ngIf="bookingStep$ | async"
           [steps]="bookingStepsList"
           [current]="bookingStep$ | async"
-        />
+        ></app-booking-stepper>
       </ng-template>
     </div>
-    <app-date-format
-      [isDefMode]="isDefStyle$ | async"
-      [format]="dateFormat$ | async"
-      (setFormatEvent)="onChangeFormat($event)"
-    ></app-date-format>
-    <app-currency-selector
-      [isDefMode]="isDefStyle$ | async"
-      [currency]="currency$ | async"
-      (setCurrencyEvent)="onChangeCurrency($event)"
-    ></app-currency-selector>
-    <div class="header__right">
+    <div
+      class="header__right"
+      [style.display]="isMobileScreen ? 'none' : 'flex'"
+    >
+      <app-date-format
+        [isDefMode]="isDefStyle$ | async"
+        [format]="dateFormat$ | async"
+        (setFormatEvent)="onChangeFormat($event)"
+      ></app-date-format>
+      <app-currency-selector
+        [isDefMode]="isDefStyle$ | async"
+        [currency]="currency$ | async"
+        (setCurrencyEvent)="onChangeCurrency($event)"
+      ></app-currency-selector>
       <app-login-button
         [isDefMode]="(isDefStyle$ | async) || false"
         [isLoggedIn]="(isLoggedIn$ | async) || false"
@@ -61,5 +68,5 @@
         />
       </button>
     </div>
-  </div>
+  </mat-menu>
 </div>

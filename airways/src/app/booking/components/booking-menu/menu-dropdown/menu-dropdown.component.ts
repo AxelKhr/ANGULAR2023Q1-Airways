@@ -12,14 +12,16 @@ import { Moment } from 'moment';
 import {
   Observable,
   Subscription,
-  debounceTime,
+  delay,
   map,
   startWith,
-  take,
 } from 'rxjs';
 import { AppActions } from 'src/app/redux/actions';
 import { AppSelectors } from 'src/app/redux/selectors';
-import { IPassengersQty, ISearchRequest } from 'src/app/search/models/search.models';
+import {
+  IPassengersQty,
+  ISearchRequest,
+} from 'src/app/search/models/search.models';
 import {
   endDateRequired,
   validateDestination,
@@ -133,11 +135,13 @@ export class MenuDropdownComponent implements OnInit, OnDestroy {
       );
 
     // eslint-disable-next-line max-len
-    const changeFormSubscription = this.searchForm.valueChanges.pipe(debounceTime(800), take(1)).subscribe((el) => {
-      if (this.searchForm.touched && this.searchForm.valid) {
-        this.submit(el);
-      }
-    });
+    const changeFormSubscription = this.searchForm.valueChanges
+      .pipe(delay(300))
+      .subscribe(() => {
+        if (this.searchForm.touched && this.searchForm.valid) {
+          // this.submit(this.searchForm.value);
+        }
+      });
 
     this.subscriptions.push(
       airportsSubscription,
@@ -183,7 +187,9 @@ export class MenuDropdownComponent implements OnInit, OnDestroy {
       this.passengersForm.controls['child'].setValue(this.info.countChildren);
       this.passengersForm.controls['infant'].setValue(this.info.countInfant);
 
-      this.passengerMessage = this.createPassengerMessage(this.passengersForm.value);
+      this.passengerMessage = this.createPassengerMessage(
+        this.passengersForm.value,
+      );
     }
   }
 
@@ -236,23 +242,26 @@ export class MenuDropdownComponent implements OnInit, OnDestroy {
     return this.passengersForm.value[type] === 0 ? '0.5' : '1';
   }
 
-  submit(request: ISearchRequest) {
-    const flightsRequest: IFlightsRequestModel = {
-      departureAirportCode: request.from ? request.from.code : '',
-      arrivalAirportCode: request.destination ? request.destination.code : '',
-      departureDate: request.dateStart ? request.dateStart.toString() : '',
-      returnDate: request.dateEnd ? request.dateEnd.toString() : '',
-      roundTrip: request.isRound ? +request.isRound : 0,
-      countAdult: request.passengers.adult,
-      countChildren: request.passengers.child,
-      countInfant: request.passengers.infant,
-      amountFlights: 5,
-    };
-    this.store.dispatch(
-      AppActions.booking.getFlights(flightsRequest, {
-        isNewData: true,
-        isGoToBooking: true,
-      }),
-    );
+  submit() {
+    if (this.searchForm.valid) {
+      const request: ISearchRequest = this.searchForm.value;
+      const flightsRequest: IFlightsRequestModel = {
+        departureAirportCode: request.from ? request.from.code : '',
+        arrivalAirportCode: request.destination ? request.destination.code : '',
+        departureDate: request.dateStart ? request.dateStart.toString() : '',
+        returnDate: request.dateEnd ? request.dateEnd.toString() : '',
+        roundTrip: request.isRound ? +request.isRound : 0,
+        countAdult: request.passengers.adult,
+        countChildren: request.passengers.child,
+        countInfant: request.passengers.infant,
+        amountFlights: 5,
+      };
+      this.store.dispatch(
+        AppActions.booking.getFlights(flightsRequest, {
+          isNewData: true,
+          isGoToBooking: true,
+        }),
+      );
+    }
   }
 }

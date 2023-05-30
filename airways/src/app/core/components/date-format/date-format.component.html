@@ -6,6 +6,7 @@
   [textColor]="fieldColor"
   [borderColor]="borderColor"
   [backgroundColor]="backgroundColor"
+  (click)="toggleMenu.emit($event)"
 >
   <mat-select [(value)]="dateFormatValue" (selectionChange)="onChangeValue()">
     <mat-option *ngFor="let format of dateFormats" [value]="format">

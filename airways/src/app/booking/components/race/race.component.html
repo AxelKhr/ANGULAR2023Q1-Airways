@@ -1,4 +1,4 @@
-<div class="race" *ngIf="routes.length > 0">
+<div class="race" *ngIf="routes.length > 0; else loader">
   <div class="race__title">
     <img
       class="race__title__logo"
@@ -221,3 +221,9 @@
     </div>
   </div>
 </div>
+
+<ng-template #loader>
+  <div class="loader">
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-template>
