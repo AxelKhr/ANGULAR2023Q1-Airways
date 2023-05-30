@@ -5,7 +5,7 @@ import {
 } from '@angular/common/http';
 import { API_DEF } from 'src/app/environment/app.define';
 import {
-  catchError, tap, EMPTY, Subscription,
+  catchError, tap, EMPTY, Subscription, switchMap,
 } from 'rxjs';
 import { IUserProfileModel } from 'src/app/shared/models/user-profile.model';
 import { IUserLoginModel } from 'src/app/shared/models/user-login.model';
@@ -51,9 +51,12 @@ export class AuthService implements OnDestroy {
       this.getApiUrl(API_DEF.API_URL_USER_REGISTRATION),
       userProfile,
     ).pipe(
-      tap(() => {
-        this.store.dispatch(AppActions.auth.authorizationStop());
-      }),
+      switchMap(() => this.loginUser(
+        {
+          email: userProfile.email,
+          password: userProfile.password,
+        },
+      )),
       catchError(this.handlerError.bind(this)),
     );
   }
@@ -112,6 +115,7 @@ export class AuthService implements OnDestroy {
   }
 
   authSuccess(userProfile: IUserProfileModel) {
+    this.messageService.openMessageBar('User is authorized');
     this.store.dispatch(AppActions.orders.ordersLoad());
     this.store.dispatch(AppActions.auth.authorizationSuccess({ userProfile }));
   }
