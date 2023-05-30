@@ -49,6 +49,16 @@ export const orderSaveFailed = createAction(
   props<{ message: string }>(),
 );
 
+export const orderSaveAndBuySuccess = createAction(
+  OrdersActionTypes.orderSaveAndBuySuccess,
+  props<{ ordersId: string[] }>(),
+);
+
+export const orderSaveAndBuyFailed = createAction(
+  OrdersActionTypes.orderSaveAndBuyFailed,
+  props<{ message: string }>(),
+);
+
 export const ordersLoad = createAction(
   OrdersActionTypes.ordersLoad,
 );

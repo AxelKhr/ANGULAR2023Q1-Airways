@@ -60,4 +60,14 @@ export const bookingReducers = createReducer(
     ...state,
     contactDetails,
   })),
+  on(BookingActions.clearBookingData, (state): IBookingStateModel => ({
+    ...state,
+    flightsRequest: null,
+    isFlightsNewData: false,
+    routes: [],
+    orderRouteTo: null,
+    orderRouteFrom: null,
+    passengers: [],
+    contactDetails: null,
+  })),
 );
