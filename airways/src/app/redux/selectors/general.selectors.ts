@@ -36,7 +36,11 @@ export const selectCityByCode = (code: string) => createSelector(
 
 export const selectCountryCodes = createSelector(
   selectGeneralState,
-  (state) => state.countryCodes,
+  (state) => {
+    const list = [...state.countryCodes];
+    list.sort((a, b) => ((a.country >= b.country) ? 1 : -1));
+    return list;
+  },
 );
 
 export const selectCitizenships = createSelector(
