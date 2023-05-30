@@ -1,4 +1,6 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component, EventEmitter, OnDestroy, OnInit, Output,
+} from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { IFlightsRequestModel } from 'src/app/shared/models/flights-request.model';
 import { Subscription } from 'rxjs';
@@ -14,7 +16,11 @@ import { AppActions } from 'src/app/redux/actions';
   styleUrls: ['./booking-form.component.scss'],
 })
 export class BookingFormComponent implements OnInit, OnDestroy {
+  @Output() formValidation = new EventEmitter(true);
+
   flightRequestSubscr!: Subscription;
+
+  validationSubscr!: Subscription;
 
   request!: IFlightsRequestModel | null;
 
@@ -48,11 +54,17 @@ export class BookingFormComponent implements OnInit, OnDestroy {
         .map((el) => new Array(el[1]).fill(el[0]))
         .flat();
     }
+
+    // eslint-disable-next-line max-len
+    this.validationSubscr = this.bookingForm.valueChanges.subscribe(() => this.formValidation.emit(this.bookingForm.valid));
   }
 
   ngOnDestroy(): void {
     if (this.flightRequestSubscr) {
       this.flightRequestSubscr.unsubscribe();
+    }
+    if (this.validationSubscr) {
+      this.validationSubscr.unsubscribe();
     }
   }
 
