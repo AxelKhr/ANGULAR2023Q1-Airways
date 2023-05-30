@@ -8,6 +8,7 @@ import {
 import { MessageBarService } from 'src/app/core/services/message-bar.service';
 import { Router } from '@angular/router';
 import * as OrdersActions from '../actions/orders.actions';
+import * as BookingActions from '../actions/booking.actions';
 
 @Injectable()
 export class OrdersEffects {
@@ -25,7 +26,6 @@ export class OrdersEffects {
         ({ data, isGoToCart }) => this.apiService.saveOrder(data)
           .pipe(
             map(() => OrdersActions.orderSaveSuccess()),
-            map(() => OrdersActions.ordersLoad()),
             tap(() => {
               if (isGoToCart) {
                 this.router.navigate(['cart']);
@@ -34,6 +34,13 @@ export class OrdersEffects {
             catchError((message) => of(OrdersActions.orderSaveFailed({ message }))),
           ),
       ),
+    );
+  });
+
+  saveOrderSuccess$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(OrdersActions.orderSaveSuccess),
+      map(() => BookingActions.clearBookingData()),
     );
   });
 
@@ -139,7 +146,7 @@ export class OrdersEffects {
             exhaustMap(
               (ordersId) => this.apiService.payOrder([ordersId])
                 .pipe(
-                  map(() => OrdersActions.orderPaySuccess({ ordersId: [ordersId] })),
+                  map(() => OrdersActions.orderSaveAndBuySuccess({ ordersId: [ordersId] })),
                   tap(() => {
                     if (routePath) {
                       this.router.navigateByUrl(routePath);
@@ -151,6 +158,14 @@ export class OrdersEffects {
             catchError((message) => of(OrdersActions.orderSaveFailed({ message }))),
           ),
       ),
+    );
+  });
+
+  saveOrderAndBuySuccess$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(OrdersActions.orderSaveAndBuySuccess),
+      map(() => BookingActions.clearBookingData()),
+      tap(() => this.messageBarService.openMessageBar('Purchased successfully', false)),
     );
   });
 }

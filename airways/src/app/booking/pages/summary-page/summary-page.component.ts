@@ -53,8 +53,6 @@ export class SummaryPageComponent implements OnDestroy {
           }
         },
       });
-
-    // this.router.navigate(['booking', 'select']);
   }
 
   getFlights(routes: IRouteModel[]) {
