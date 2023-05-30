@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   Component,
   OnDestroy,
   OnInit,
@@ -17,7 +16,7 @@ import { BookingFormComponent } from '../../components/booking-form/booking-form
   templateUrl: './process-page.component.html',
   styleUrls: ['./process-page.component.scss'],
 })
-export class ProcessPageComponent implements OnInit, OnDestroy, AfterViewInit {
+export class ProcessPageComponent implements OnInit, OnDestroy {
   @ViewChild(BookingFormComponent) bookingFormCmp!: BookingFormComponent;
 
   flightRequestSubscr!: Subscription;
@@ -54,13 +53,8 @@ export class ProcessPageComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  ngAfterViewInit(): void {
-    if (this.bookingFormCmp) {
-      // eslint-disable-next-line max-len
-      this.bookingFormStatusSubscr = this.bookingFormCmp.bookingForm.statusChanges.subscribe((status) => {
-        this.isFormValid = status === 'VALID';
-      });
-    }
+  checkFormValidation(value: boolean) {
+    this.isFormValid = value;
   }
 
   onClickBack() {
