@@ -1,4 +1,6 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import {
+  Component, OnInit, OnDestroy, Input,
+} from '@angular/core';
 import {
   ControlContainer,
   FormBuilder,
@@ -9,6 +11,7 @@ import {
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { AppSelectors } from 'src/app/redux/selectors';
+import { IContactModel } from 'src/app/shared/models/contact.model';
 import { ICountryCodeModel } from 'src/app/shared/models/country-code.model';
 
 @Component({
@@ -20,6 +23,12 @@ import { ICountryCodeModel } from 'src/app/shared/models/country-code.model';
   ],
 })
 export class ContactDetailsComponent implements OnInit, OnDestroy {
+  @Input() set contacts(value: IContactModel | null) {
+    if (value) {
+      this.preFillForm(value);
+    }
+  }
+
   parentForm!: FormGroup;
 
   contactsForm: FormGroup;
@@ -56,6 +65,17 @@ export class ContactDetailsComponent implements OnInit, OnDestroy {
       this.countryCodesSubscr.unsubscribe();
     }
   }
+
+  preFillForm(savedData: IContactModel) {
+    this.contactsForm.patchValue({
+      countryCode: savedData.countryCode,
+      phoneNumber: savedData.phoneNumber,
+      email: savedData.email,
+
+    });
+  }
+
+  // findCountryCode
 
   get countryCode() {
     return this.contactsForm.get('countryCode');

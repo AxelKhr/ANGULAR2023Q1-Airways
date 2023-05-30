@@ -12,6 +12,7 @@
       *ngFor="let passenger of passengersArray; let ind = index"
       [type]="passenger"
       [index]="ind"
+      [savedPassengers]="savedPassengers$ | async"
     ></app-passenger-info>
   </div>
 
@@ -24,5 +25,5 @@
     regarding your flight.
   </p>
 
-  <app-contact-details></app-contact-details>
+  <app-contact-details [contacts]="contacts$ | async"></app-contact-details>
 </form>

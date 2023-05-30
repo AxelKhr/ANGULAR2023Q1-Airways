@@ -14,6 +14,7 @@ import { Subscription } from 'rxjs';
 import { passengerNameTip } from 'src/app/environment/constants/mat-tooltips';
 import { passengersAge } from 'src/app/environment/constants/passengers-age';
 import { selectDateFormat } from 'src/app/redux/selectors/settings.selectors';
+import { IPassengerModel } from 'src/app/shared/models/passenger.model';
 
 @Component({
   selector: 'app-passenger-info',
@@ -28,6 +29,12 @@ export class PassengerInfoComponent implements OnInit, OnDestroy {
   @Input() type!: string;
 
   @Input() index!: number;
+
+  @Input() set savedPassengers(passengers: IPassengerModel[] | null) {
+    if (passengers && passengers.length > 0) {
+      this.preFillForm(passengers[this.index]);
+    }
+  }
 
   parentForm!: FormGroup;
 
@@ -79,6 +86,18 @@ export class PassengerInfoComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.dateFormatSubscr.unsubscribe();
+  }
+
+  preFillForm(passenger: IPassengerModel) {
+    this.passengerForm.patchValue({
+      type: passenger.type,
+      firstName: passenger.firstName,
+      lastName: passenger.lastName,
+      sex: passenger.sex,
+      dateBirth: new Date(passenger.dateBirth),
+      needAssistance: passenger.needAssistance,
+      baggage: passenger.baggage,
+    });
   }
 
   limitDatepicker() {
