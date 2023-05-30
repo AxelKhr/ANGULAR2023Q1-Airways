@@ -1,13 +1,16 @@
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
+/* eslint-disable no-underscore-dangle */
+import {
+  Component, OnInit, OnDestroy, ViewChild,
+} from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort, Sort } from '@angular/material/sort';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppSelectors } from 'src/app/redux/selectors';
-import { orderData } from './data';
 import { IPassengerModel } from 'src/app/shared/models/passenger.model';
-import { IOrderModel } from 'src/app/shared/models/order.model';
+import { ISavedOrderModel } from 'src/app/shared/models/order.model';
+import { AppActions } from 'src/app/redux/actions';
 
 interface ICountEntry {
   0: string;
@@ -19,7 +22,7 @@ interface ICountEntry {
   templateUrl: './shoping-cart.component.html',
   styleUrls: ['./shoping-cart.component.scss'],
 })
-export class ShopingCartComponent implements OnInit {
+export class ShopingCartComponent implements OnInit, OnDestroy {
   @ViewChild(MatSort, { static: true }) sort!: MatSort;
 
   displayedColumns: string[] = [
@@ -33,13 +36,14 @@ export class ShopingCartComponent implements OnInit {
     'menu',
   ];
 
-  dataSource = new MatTableDataSource<IOrderModel>();
+  dataSource = new MatTableDataSource<ISavedOrderModel>();
 
-  db: any | null = orderData;
+  // db: ISavedOrderModel[] | null = null;
+  db: ISavedOrderModel[] = [];
 
-  selectedItems: IOrderModel[] = [];
+  selectedItems: ISavedOrderModel[] = [];
 
-  promoCode: string = '';
+  promoCode = '';
 
   isCart = true;
 
@@ -49,44 +53,73 @@ export class ShopingCartComponent implements OnInit {
 
   selectedIndex = 0;
 
+  ordersSubscr!: Subscription;
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private store: Store
+    private store: Store,
   ) {}
 
   ngOnInit() {
-    if (this.db) {
-      this.isCart = this.route.snapshot.data['isCart'];
-      if (!this.isCart) {
-        this.displayedColumns = [
-          'column1',
-          'column2',
-          'column3',
-          'column4',
-          'column5',
-          'column6',
-        ];
-      }
+    this.isCart = this.route.snapshot.data['isCart'];
 
-      this.dataSource = new MatTableDataSource(this.db);
-      this.dataSource.sort = this.sort;
-      this.dataSource.sortingDataAccessor = (item, property) => {
-        switch (property) {
-          case 'column1':
-            return item.routes[0]?.flights[0]?.numberRace || '';
-          case 'column3':
-            return item.roundTrip === 1 ? 'Round Trip' : 'One way';
-          case 'column4':
-            return item.routes[0]?.flights[0]?.departureDateTime || '';
-          case 'column5':
-            return item.passengers.length;
-          case 'column6':
-            return parseFloat(this.getTotalCost(item));
-          default:
-            return '';
-        }
-      };
+    this.dataSource = new MatTableDataSource(this.db);
+
+    if (this.isCart) {
+      this.ordersSubscr = this.store.select(AppSelectors.orders.selectOrdersList)
+        // eslint-disable-next-line @ngrx/no-store-subscription
+        .subscribe({
+          next: (value) => {
+            this.db = [...value];
+            this.dataSource.data = this.db;
+          },
+        });
+    } else {
+      this.store.dispatch(AppActions.orders.ordersPayedLoad());
+      this.ordersSubscr = this.store.select(AppSelectors.orders.selectPayedOrdersList)
+        // eslint-disable-next-line @ngrx/no-store-subscription
+        .subscribe({
+          next: (value) => {
+            this.db = [...value];
+            this.dataSource.data = this.db;
+          },
+        });
+    }
+
+    if (!this.isCart) {
+      this.displayedColumns = [
+        'column1',
+        'column2',
+        'column3',
+        'column4',
+        'column5',
+        'column6',
+      ];
+    }
+
+    this.dataSource.sort = this.sort;
+    this.dataSource.sortingDataAccessor = (item, property) => {
+      switch (property) {
+        case 'column1':
+          return item.routes[0]?.flights[0]?.numberRace || '';
+        case 'column3':
+          return item.roundTrip === 1 ? 'Round Trip' : 'One way';
+        case 'column4':
+          return item.routes[0]?.flights[0]?.departureDateTime || '';
+        case 'column5':
+          return item.passengers.length;
+        case 'column6':
+          return parseFloat(this.getTotalCost(item));
+        default:
+          return '';
+      }
+    };
+  }
+
+  ngOnDestroy(): void {
+    if (this.ordersSubscr) {
+      this.ordersSubscr.unsubscribe();
     }
   }
 
@@ -109,14 +142,14 @@ export class ShopingCartComponent implements OnInit {
     return Object.entries(counts);
   }
 
-  getTotalCost(element: IOrderModel): string {
-    const routes = element.routes;
-    const passengers = element.passengers;
+  getTotalCost(element: ISavedOrderModel): string {
+    const { routes } = element;
+    const { passengers } = element;
 
     let totalCost = 0;
     for (const passenger of passengers) {
       for (const route of routes) {
-        const ticketsCost = route.ticketsCost;
+        const { ticketsCost } = route;
 
         if (passenger.type === 'Adult') {
           totalCost += parseFloat(ticketsCost.adult.totalCost);
@@ -131,7 +164,7 @@ export class ShopingCartComponent implements OnInit {
     return totalCost.toFixed(2);
   }
 
-  toggleItemSelection(item: IOrderModel): void {
+  toggleItemSelection(item: ISavedOrderModel): void {
     const index = this.selectedItems.indexOf(item);
     if (index === -1) {
       this.selectedItems.push(item);
@@ -145,12 +178,12 @@ export class ShopingCartComponent implements OnInit {
     let totalCost = 0;
 
     for (const item of this.selectedItems) {
-      const routes = item.routes;
-      const passengers = item.passengers;
+      const { routes } = item;
+      const { passengers } = item;
 
       for (const passenger of passengers) {
         for (const route of routes) {
-          const ticketsCost = route.ticketsCost;
+          const { ticketsCost } = route;
 
           if (passenger.type === 'Adult') {
             totalCost += parseFloat(ticketsCost.adult.totalCost);
@@ -218,15 +251,19 @@ export class ShopingCartComponent implements OnInit {
   }
 
   editItem(index: number) {
-    // console.log(index);
+    // (index);
   }
 
   deleteItem(index: number) {
-    // console.log(index);
+    const order = this.dataSource.data[index];
+    this.store.dispatch(AppActions.orders.orderDelete({ orderId: order._id }));
   }
 
   payment() {
-    // console.log('payment');
+    if (this.selectedItems.length > 0) {
+      const ordersId = this.selectedItems.map((el) => el._id);
+      this.store.dispatch(AppActions.orders.orderPay({ ordersId }));
+    }
   }
 
   addNewTrip() {

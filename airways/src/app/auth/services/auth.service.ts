@@ -1,3 +1,4 @@
+/* eslint-disable @ngrx/avoid-dispatching-multiple-actions-sequentially */
 import { Injectable, OnDestroy } from '@angular/core';
 import {
   HttpClient, HttpErrorResponse, HttpHeaders, HttpParams,
@@ -68,9 +69,7 @@ export class AuthService implements OnDestroy {
           token: userData.token,
           userId: userData.userId,
         });
-        this.store.dispatch(AppActions.auth.authorizationSuccess({
-          userProfile: userData.userProfile,
-        }));
+        this.authSuccess(userData.userProfile);
       }),
       catchError(this.handlerError.bind(this)),
     );
@@ -78,6 +77,7 @@ export class AuthService implements OnDestroy {
 
   logoutUser() {
     this.store.dispatch(AppActions.auth.userLogout());
+    this.store.dispatch(AppActions.orders.ordersClearList());
   }
 
   checkUserRequest() {
@@ -95,9 +95,7 @@ export class AuthService implements OnDestroy {
           if ((typeof response === 'boolean') && (response === false)) {
             this.store.dispatch(AppActions.auth.authorizationStop());
           } else {
-            this.store.dispatch(AppActions.auth.authorizationSuccess({
-              userProfile: response as IUserProfileModel,
-            }));
+            this.authSuccess(response as IUserProfileModel);
           }
         }),
         catchError(() => {
@@ -111,5 +109,10 @@ export class AuthService implements OnDestroy {
 
   checkUser() {
     this.checkUserSubscr = this.checkUserRequest().subscribe();
+  }
+
+  authSuccess(userProfile: IUserProfileModel) {
+    this.store.dispatch(AppActions.orders.ordersLoad());
+    this.store.dispatch(AppActions.auth.authorizationSuccess({ userProfile }));
   }
 }

@@ -24,7 +24,6 @@ import { selectDateFormat } from 'src/app/redux/selectors/settings.selectors';
   ],
 })
 
-
 export class PassengerInfoComponent implements OnInit, OnDestroy {
   @Input() type!: string;
 

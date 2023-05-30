@@ -12,3 +12,7 @@ export interface IOrderModel {
   contactDetails: IContactModel;
   routes: IRouteModel[];
 }
+
+export interface ISavedOrderModel extends IOrderModel {
+  _id: string;
+}

@@ -3,15 +3,16 @@
     <div class="section-table__title">
       {{ isCart ? "Cart" : "My Shopping History" }}
     </div>
-    <ng-container *ngIf="db !== null; else noOrders">
-      <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)" class="custom-header">
+    <ng-container *ngIf="db.length !== 0; else noOrders">
+      <table
+        mat-table
+        [dataSource]="dataSource"
+        matSort
+        (matSortChange)="sortData($event)"
+        class="custom-header"
+      >
         <ng-container matColumnDef="column1">
-          <th
-            mat-header-cell
-            *matHeaderCellDef
-            mat-sort-header
-            class="column1"
-          >
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="column1">
             No.
           </th>
 

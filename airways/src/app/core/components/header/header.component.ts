@@ -34,7 +34,7 @@ export class HeaderComponent {
 
   bookingStepsList = BOOKING_STEPS;
 
-  orderCount = 5;
+  orderCount$ = this.store.select(AppSelectors.orders.selectOrdersCount);
 
   isMenuOpen = false;
 
@@ -89,6 +89,10 @@ export class HeaderComponent {
     this.authDialog.open();
   }
 
+  goToAccount() {
+    this.router.navigate(['cart', 'transactions']);
+  }
+
   logoutUser() {
     setTimeout(() => {
       this.authService.logoutUser();
@@ -117,5 +121,9 @@ export class HeaderComponent {
         this.menu.closeMenu;
       }
     }, 0);
+  }
+
+  onClickCart() {
+    this.router.navigate(['cart']);
   }
 }
